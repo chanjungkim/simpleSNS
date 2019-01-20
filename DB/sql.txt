@@ -1,0 +1,16 @@
+DROP DATABASE SimpleSNS;
+CREATE DATABASE SimpleSNS;
+USE SimpleSNS;
+
+CREATE TABLE member (
+p_key BIGINT UNSIGNED PRIMARY KEY,
+user_id VARCHAR(64) NOT NULL UNIQUE KEY,
+password VARCHAR(20) NOT NULL,
+nickname VARCHAR(12) NOT NULL,
+device_id VARCHAR(100),
+login_method INT NOT NULL,
+token VARCHAR(32) NOT NULL,
+gender INT,
+profile VARCHAR(50),
+recent_date DATETIME NOT NULL
+);
