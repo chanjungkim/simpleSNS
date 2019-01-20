@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Simple SNS</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_search">search</string>
+    <string name="title_plus">plus</string>
+    <string name="title_like">like</string>
+    <string name="title_profile">profile</string>
+
 </resources>
