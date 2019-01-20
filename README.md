@@ -28,4 +28,6 @@ MariaDB 등의 세팅리뷰, Node.js, 안드로이드 자바코드에 대한 코
 		- Server: Node.js
 		- Database : MariaDB 
     
+### History ###
+    
 2019.01.13 WeWork에서 시작.
