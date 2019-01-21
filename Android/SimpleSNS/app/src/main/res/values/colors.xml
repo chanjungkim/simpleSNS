@@ -6,4 +6,15 @@
 
     <color name="colorGreen">#ff669900</color>
     <color name="colorGray">#ccc</color>
+
+    <color name="grey">#bfbfbf</color>
+    <color name="white">#fff</color>
+    <color name="black">#000000</color>
+    <color name="link_blue">#4d94ff</color>
+    <color name="darkRed">#cc0000</color>
+    <color name="colordarkRed">#cc0000</color>
+
+    <color name="color_light">#FAFAFA</color>
+    <color name="color_dark">#424242</color>
+
 </resources>

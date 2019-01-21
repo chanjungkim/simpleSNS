@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    
+    <LinearLayout
+        android:layout_margin="@dimen/space_x_small"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_light"
+        android:gravity="center_vertical"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:civ_circle_background_color="@color/black"
+            />
+        
+        <TextView
+            android:layout_marginStart="@dimen/space_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="simpleSNS"
+            />
+
+
+        <!-- 메뉴 셀렉터 자리 -->
+
+
+    </LinearLayout>
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:background="@color/colorGray"
+        >
+
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_margin="@dimen/space_x_small"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="36dp">
+
+        <!-- 하트 -->
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
+        <!-- 댓글달기 -->
+        <ImageView
+            android:layout_marginStart="@dimen/space_small"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
+        <!-- 공유 -->
+        <ImageView
+            android:layout_marginStart="@dimen/space_small"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
+    </LinearLayout>
+
+   <!-- 하단 부는 나중에.. -->
+
+</LinearLayout>
