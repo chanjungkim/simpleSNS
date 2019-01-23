@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.simplesns.simplesns.Fragment.HomeFragment;
+import org.simplesns.simplesns.Fragment.ProfileFragment;
 import org.simplesns.simplesns.Fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_profile:
-
+                    replaceFragment(ProfileFragment.newInstance());
                     return true;
             }
             return false;
