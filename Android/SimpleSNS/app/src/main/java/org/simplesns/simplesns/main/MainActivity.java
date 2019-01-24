@@ -1,4 +1,4 @@
-package org.simplesns.simplesns;
+package org.simplesns.simplesns.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
-import org.simplesns.simplesns.Fragment.HomeFragment;
-import org.simplesns.simplesns.Fragment.ProfileFragment;
-import org.simplesns.simplesns.Fragment.SearchFragment;
+import org.simplesns.simplesns.main.Fragment.HomeFragment;
+import org.simplesns.simplesns.main.Fragment.ProfileFragment;
+import org.simplesns.simplesns.main.Fragment.SearchFragment;
+import org.simplesns.simplesns.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.navigation);
+        mTextMessage = findViewById(R.id.message);
+        BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.navigation);
         bottomNavigationViewEx.enableAnimation(false);
         bottomNavigationViewEx.enableItemShiftingMode(false);
         bottomNavigationViewEx.enableShiftingMode(false);
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(SearchFragment.newInstance());
                     return true;
                 case R.id.navigation_plus:
-                    
+
                     return true;
                 case R.id.navigation_like:
 
@@ -64,7 +65,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_main, fragment).commit();
     }
-
-
 }
 

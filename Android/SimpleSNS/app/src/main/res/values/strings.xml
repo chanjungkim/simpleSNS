@@ -6,4 +6,15 @@
     <string name="title_like">like</string>
     <string name="title_profile">profile</string>
 
+    <!-- BottomNavigation -->
+    <string name="home">home</string>
+    <string name="favorite">favorite</string>
+    <string name="search">search</string>
+    <string name="profile">profile</string>
+    <string name="add">add</string>
+
+    <!-- LoginActivity -->
+    <string name="username">username or email</string>
+    <string name="password">password</string>
+    <string name="log_in">Log in</string>
 </resources>

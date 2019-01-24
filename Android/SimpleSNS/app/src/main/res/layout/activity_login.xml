@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo_imageview_loginactivity"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:src="@drawable/insta_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        />
+    <EditText
+        android:id="@+id/username_edittext_loginactivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/logo_imageview_loginactivity"
+        android:hint="@string/username"
+        android:background="#5999"
+        android:padding="13dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <EditText
+        android:id="@+id/password_edittext_loginactivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/username_edittext_loginactivity"
+        android:layout_centerHorizontal="true"
+        android:background="#5999"
+        android:padding="13dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/password" />
+
+    <Button
+        android:id="@+id/login_button_loginactivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/password_edittext_loginactivity"
+        android:layout_centerHorizontal="true"
+        android:text="@string/log_in" />
+
+
+    <TextView
+        android:id="@+id/alt_textview_loginactivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인 상세정보를 잊으셨나요? 로그인 도움말 보기"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/login_button_loginactivity"
+        android:layout_marginBottom="50dp"
+        />
+
+    <TextView
+        android:id="@+id/and_textview_loginactivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="또는"
+        android:layout_below="@id/alt_textview_loginactivity"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/and_textview_loginactivity"
+        android:text="Facebook으로 로그인"
+        android:background="#0FFF"
+        />
+</RelativeLayout>

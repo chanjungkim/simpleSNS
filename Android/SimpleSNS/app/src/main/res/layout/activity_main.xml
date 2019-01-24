@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
-    <include layout="@layout/layout_toolbar" />
+    <include layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/fl_main"
@@ -16,19 +16,16 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         >
-
     </FrameLayout>
 
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
-        app:itemIconTint="@color/selector_item_primary_color"
+        app:itemIconTint="@color/black"
         app:menu="@menu/navigation">
-
     </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
-
 </LinearLayout>

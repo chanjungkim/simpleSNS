@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.Adapter;
+package org.simplesns.simplesns.main.Adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder>{
-
-
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -25,7 +23,6 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.HomeViewHolde
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder {
-
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
         }

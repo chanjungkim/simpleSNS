@@ -27,9 +27,7 @@
             android:text="simpleSNS"
             />
 
-
         <!-- 메뉴 셀렉터 자리 -->
-
 
     </LinearLayout>
     
@@ -38,7 +36,6 @@
         android:layout_height="360dp"
         android:background="@color/colorGray"
         >
-
 
     </FrameLayout>
 
@@ -74,5 +71,4 @@
     </LinearLayout>
 
    <!-- 하단 부는 나중에.. -->
-
 </LinearLayout>
