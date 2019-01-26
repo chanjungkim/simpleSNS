@@ -39,7 +39,7 @@
             android:id="@+id/iv_home_feed_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/ic_launcher"
+            android:background="@color/color_light"
              />
 
     </FrameLayout>
@@ -55,7 +55,7 @@
             android:id="@+id/iv_like"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/ic_like" />
+            android:src="@drawable/baseline_favorite_border_24" />
 
         <!-- 댓글달기 -->
         <ImageView
@@ -63,7 +63,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="@dimen/space_small"
-            android:src="@drawable/ic_plus" />
+            android:src="@drawable/baseline_chat_bubble_outline_24" />
 
         <!-- 공유 -->
         <ImageView
@@ -71,7 +71,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="@dimen/space_small"
-            android:src="@drawable/ic_profile" />
+            android:src="@drawable/baseline_send_24" />
 
     </LinearLayout>
 

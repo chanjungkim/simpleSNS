@@ -1,22 +1,20 @@
 package org.simplesns.simplesns.main.Adapter;
 
-import org.simplesns.simplesns.*;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.GlideContext;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.main.Model.Data;
 
 import java.util.ArrayList;
@@ -45,7 +43,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder Holder, int i) {
-        Holder.tv_user_name.setText(dataArrayList.get(i).getUser().getUsername());
+        try{
+            Holder.tv_user_name.setText(dataArrayList.get(i).getUser().getUsername());
+        }catch (NullPointerException e){
+            Log.d(TAG, "No User Data");
+            e.printStackTrace();
+            return;
+        }
 
         RequestOptions requestOptions = new RequestOptions()
                 .skipMemoryCache(true)
@@ -62,10 +66,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 .load(dataArrayList.get(i).getImages().getUrl())
                 .apply(requestOptions)
                 .into(Holder.iv_home_feed_img);
-
-
-
-
     }
 
     @Override
@@ -86,8 +86,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             tv_user_name = itemView.findViewById(R.id.tv_user_name);
             iv_home_profile_photo = itemView.findViewById(R.id.iv_home_profile_photo);
             iv_home_feed_img = itemView.findViewById(R.id.iv_home_feed_img);
-
         }
     }
-
 }
