@@ -1,74 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical">
-    
+
     <LinearLayout
-        android:layout_margin="@dimen/space_x_small"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/color_light"
-        android:gravity="center_vertical"
-        >
+        android:layout_margin="@dimen/space_x_small"
+        android:gravity="center_vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_home_profile_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_launcher_foreground"
-            app:civ_circle_background_color="@color/black"
-            />
-        
+            app:civ_circle_background_color="@color/black" />
+
         <TextView
-            android:layout_marginStart="@dimen/space_small"
+            android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="simpleSNS"
-            />
+            android:layout_marginStart="@dimen/space_small"
+            android:text="simpleSNS" />
 
         <!-- 메뉴 셀렉터 자리 -->
 
     </LinearLayout>
-    
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="360dp"
-        android:background="@color/colorGray"
-        >
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_home_feed_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/ic_launcher"
+             />
 
     </FrameLayout>
 
     <LinearLayout
-        android:layout_margin="@dimen/space_x_small"
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="36dp">
+        android:layout_height="36dp"
+        android:layout_margin="@dimen/space_x_small"
+        android:gravity="center_vertical">
 
         <!-- 하트 -->
         <ImageView
+            android:id="@+id/iv_like"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@mipmap/ic_launcher"
-            />
+            android:src="@drawable/ic_like" />
 
         <!-- 댓글달기 -->
         <ImageView
-            android:layout_marginStart="@dimen/space_small"
+            android:id="@+id/iv_comment"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@mipmap/ic_launcher"
-            />
+            android:layout_marginStart="@dimen/space_small"
+            android:src="@drawable/ic_plus" />
 
         <!-- 공유 -->
         <ImageView
-            android:layout_marginStart="@dimen/space_small"
+            android:id="@+id/iv_share"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@mipmap/ic_launcher"
-            />
+            android:layout_marginStart="@dimen/space_small"
+            android:src="@drawable/ic_profile" />
 
     </LinearLayout>
 
-   <!-- 하단 부는 나중에.. -->
+    <!-- 하단 부는 나중에.. -->
 </LinearLayout>

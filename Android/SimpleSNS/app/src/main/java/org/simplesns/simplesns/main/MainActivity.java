@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.main.Fragment.HomeFragment;
 import org.simplesns.simplesns.main.Fragment.ProfileFragment;
 import org.simplesns.simplesns.main.Fragment.SearchFragment;
-import org.simplesns.simplesns.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationViewEx.enableShiftingMode(false);
         bottomNavigationViewEx.setTextVisibility(false);
         bottomNavigationViewEx.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        replaceFragment(HomeFragment.newInstance());
     }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
