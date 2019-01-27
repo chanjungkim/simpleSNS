@@ -28,8 +28,7 @@ Simple SNS 필수 기능 위주로 개발
     - targetSdk: 28
     - AppName: Simple SNS
     - 기본 Package: org.simplesns
-
-[컨벤션(헤이딜러)](https://github.com/PRNDcompany/android-style-guide)
+    - [컨벤션(헤이딜러)](https://github.com/PRNDcompany/android-style-guide)
 
 2. Server
     - OS: Ubuntu
