@@ -32,9 +32,9 @@ Simple SNS 필수 기능 위주로 개발
 
 2. Server
     - OS: Ubuntu
-		- Cloud Service: AWS(IaaS)
-		- Server: Node.js
-		- Database : MariaDB 
+    - Cloud Service: AWS(IaaS)
+    - Server: Node.js
+    - Database : MariaDB 
     
 
 ### History ###
