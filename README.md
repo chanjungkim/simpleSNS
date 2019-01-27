@@ -23,14 +23,20 @@ Simple SNS 필수 기능 위주로 개발
 		
 개발 환경
 1. Client(Android App)
+    - Android Studio 3.2 & 3.3
+    - minSdk: 19
+    - targetSdk: 28
     - AppName: Simple SNS
 		- 기본 Package: org.simplesns
+[컨벤션(헤이딜러)](https://github.com/PRNDcompany/android-style-guide)
+
 2. Server
     - OS: Ubuntu
 		- Cloud Service: AWS(IaaS)
 		- Server: Node.js
 		- Database : MariaDB 
     
+
 ### History ###
     
 2019.01.13 WeWork에서 시작.
