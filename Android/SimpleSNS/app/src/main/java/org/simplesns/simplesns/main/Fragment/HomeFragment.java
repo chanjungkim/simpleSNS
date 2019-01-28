@@ -94,6 +94,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     @Override public void onRefresh() {
+        Log.d(TAG, "Refreshing...");
         new Handler().postDelayed(() -> swipeLayout.setRefreshing(false), 2000);
     }
 }
