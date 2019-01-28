@@ -33,7 +33,7 @@ Now you are ready for the nexts.
 #### Node.js ####
 
 Apprently, `Node.js` folder has the Node.js project file for server side.
-Once you installed `npm`, then you can simply start this project by `npm start` in `SimpleSNS` folder.
+Once you installed `npm`, then you can simply start this project by `npm start` in `Node.js/SimpleSNS` folder.
 
 #### Android ####
 
