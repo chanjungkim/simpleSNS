@@ -1,34 +1,19 @@
 # SimpleSNS
 
-### 장소 ###
+We started this `open source` project from 2019.01.13 at WeWork, Gangnam, Seoul.
 
-강남역 6번출구 Wework	
+Our goal was each and everyone has the ability to develop a simple(just core functions) social network android application and learning working together.
+And also learning how to set AWS, MariaDB, technics of Java and its improvement.	
+	
+### Environment ###
 
-### 시간 ###
-
-매주 일요일 11시~1시
-
-### 스터디 목표 ###
-
-스터디멤버 전원이 SNS 앱개발을 혼자서도 할 수 있게 하고, 협업하는 방법을 배운다.	
-
-(AWS 세팅, MariaDB, Java 기술 습득 및 향상)	
-
-### 스터디 방법 ###
-
-MariaDB 등의 세팅리뷰, Node.js, 안드로이드 자바코드에 대한 코드리뷰 시행			
-개발 대상
-
-Simple SNS 필수 기능 위주로 개발
-		
-개발 환경
 1. Client(Android App)
     - Android Studio 3.2 & 3.3
     - minSdk: 19
     - targetSdk: 28
     - AppName: Simple SNS
-    - 기본 Package: org.simplesns
-    - [컨벤션(헤이딜러)](https://github.com/PRNDcompany/android-style-guide)
+    - Fundamental Package: org.simplesns
+    - [Convention(HEYDEALER)](https://github.com/PRNDcompany/android-style-guide)
 
 2. Server
     - OS: Ubuntu
@@ -36,7 +21,6 @@ Simple SNS 필수 기능 위주로 개발
     - Server: Node.js
     - Database : MariaDB 
     
+### Our channel(Discord) ###
 
-### History ###
-    
-2019.01.13 WeWork에서 시작.
+https://discord.gg/JV9Wk6R
