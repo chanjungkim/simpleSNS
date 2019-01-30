@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,15 @@ import org.simplesns.simplesns.R;
 public class ProfileFragment extends Fragment {
     TextView tv_profile;
     ImageView iv_profile_photo;
+    ImageView button_baduk;
+    ImageView button_line;
+    ImageView button_tag;
+
+    ProfileBadukFragment profileBadukFragment;
+    ProfileLineFragment profileLineFragment;
+    ProfileTagFragment profileTagFragment;
+    FragmentManager fragmentManager;
+
     public static ProfileFragment newInstance() {
 
         // TODO Parameters
@@ -31,6 +41,37 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         tv_profile = (TextView) view.findViewById(R.id.tv_profile);
+        button_baduk = (ImageView) view.findViewById(R.id.button_baduk);
+        button_line = (ImageView) view.findViewById(R.id.button_line);
+        button_tag = (ImageView) view.findViewById(R.id.button_tag);
+
+        profileBadukFragment = new ProfileBadukFragment();
+        profileLineFragment = new ProfileLineFragment();
+        profileTagFragment = new ProfileTagFragment();
+
+        fragmentManager = getActivity().getSupportFragmentManager();
+
+        button_baduk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileBadukFragment).commit();
+            }
+        });
+
+        button_line.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileLineFragment).commit();
+            }
+        });
+
+        button_tag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileTagFragment).commit();
+            }
+        });
+
 
         // make a round shape profile photo
         iv_profile_photo = (ImageView) view.findViewById(R.id.iv_profile_photo);
