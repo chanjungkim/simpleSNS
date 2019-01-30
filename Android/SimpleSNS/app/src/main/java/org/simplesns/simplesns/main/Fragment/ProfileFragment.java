@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.main.Fragment;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,11 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.simplesns.simplesns.ProfileChangeActivity;
 import org.simplesns.simplesns.R;
 
 public class ProfileFragment extends Fragment {
-    TextView tv_profile;
-    ImageView iv_profile_photo;
+    TextView tv_profile_change;             // 프로필 내용 수정 관련
+    ImageView iv_profile_photo;             // 프로필 이미지 수정 관련
     public static ProfileFragment newInstance() {
 
         // TODO Parameters
@@ -30,7 +32,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        tv_profile = (TextView) view.findViewById(R.id.tv_profile);
+        tv_profile_change = (TextView) view.findViewById(R.id.tv_profile_change);
 
         // make a round shape profile photo
         iv_profile_photo = (ImageView) view.findViewById(R.id.iv_profile_photo);
@@ -46,11 +48,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        tv_profile.setOnClickListener(new View.OnClickListener() {
+        tv_profile_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
-                Toast.makeText(getActivity(),"TODO : 회원정보 바꾸기 화면 구성", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), ProfileChangeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.getContext().startActivity(intent);
             }
         });
         return view;

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="org.simplesns.simplesns.main.MainActivity">
 
-    <include layout="@layout/toolbar" />
+    <!--<include layout="@layout/toolbar" />-->
 
     <FrameLayout
         android:id="@+id/fl_main"
