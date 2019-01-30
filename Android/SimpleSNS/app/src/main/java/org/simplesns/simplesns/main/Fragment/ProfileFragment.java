@@ -50,6 +50,7 @@ public class ProfileFragment extends Fragment {
         profileTagFragment = new ProfileTagFragment();
 
         fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileBadukFragment).commit();
 
         button_baduk.setOnClickListener(new View.OnClickListener() {
             @Override
