@@ -1,12 +1,11 @@
-package org.simplesns.simplesns.main.Model;
+package org.simplesns.simplesns.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Images {
+public class FeedImageItem {
 
     // 썸네일 이미지(작은사각형) , 일반 이미지 구분 필요? ..
-
     @SerializedName("url")
     @Expose
     private String url;

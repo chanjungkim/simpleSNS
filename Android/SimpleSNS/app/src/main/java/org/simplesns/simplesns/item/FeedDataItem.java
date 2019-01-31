@@ -1,15 +1,15 @@
-package org.simplesns.simplesns.main.Model;
+package org.simplesns.simplesns.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Data {
+public class FeedDataItem {
 
     @SerializedName("comments")
     @Expose
-    private Comments comments;
+    private FeedCommentItem comments;
 
     @SerializedName("comment_count")
     @Expose
@@ -17,7 +17,7 @@ public class Data {
 
     @SerializedName("caption")
     @Expose
-    private Caption caption;
+    private FeedDescriptionItem caption;
 
     @SerializedName("like_count")
     @Expose
@@ -25,7 +25,7 @@ public class Data {
 
     @SerializedName("user")
     @Expose
-    private User user;
+    private UserItem user;
 
     @SerializedName("created_time")
     @Expose
@@ -33,7 +33,7 @@ public class Data {
 
     @SerializedName("images")
     @Expose
-    private Images images;
+    private FeedImageItem images;
 
     // 현재는 이미지 뿐이지만 추후 비디오를 넣을수도 있으니..?
     @SerializedName("type")
@@ -50,13 +50,13 @@ public class Data {
 
     @SerializedName("location")
     @Expose
-    private Location location;
+    private FeedLocationItem location;
 
-    public Comments getComments() {
+    public FeedCommentItem getComments() {
         return comments;
     }
 
-    public void setComments(Comments comments) {
+    public void setComments(FeedCommentItem comments) {
         this.comments = comments;
     }
 
@@ -68,11 +68,11 @@ public class Data {
         this.comment_count = comment_count;
     }
 
-    public Caption getCaption() {
+    public FeedDescriptionItem getCaption() {
         return caption;
     }
 
-    public void setCaption(Caption caption) {
+    public void setCaption(FeedDescriptionItem caption) {
         this.caption = caption;
     }
 
@@ -84,11 +84,11 @@ public class Data {
         this.like_count = like_count;
     }
 
-    public User getUser() {
+    public UserItem getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserItem user) {
         this.user = user;
     }
 
@@ -100,11 +100,11 @@ public class Data {
         this.createdTime = createdTime;
     }
 
-    public Images getImages() {
+    public FeedImageItem getImages() {
         return images;
     }
 
-    public void setImages(Images images) {
+    public void setImages(FeedImageItem images) {
         this.images = images;
     }
 
@@ -132,11 +132,11 @@ public class Data {
         this.id = id;
     }
 
-    public Location getLocation() {
+    public FeedLocationItem getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(FeedLocationItem location) {
         this.location = location;
     }
 

@@ -1,6 +1,5 @@
-package org.simplesns.simplesns.main.Fragment;
+package org.simplesns.simplesns.activity.main.home;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -15,10 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.main.Adapter.HomeAdapter;
-import org.simplesns.simplesns.main.Model.Data;
-import org.simplesns.simplesns.main.Model.Images;
-import org.simplesns.simplesns.main.Model.User;
+import org.simplesns.simplesns.activity.main.home.adapter.HomeAdapter;
+import org.simplesns.simplesns.item.FeedDataItem;
+import org.simplesns.simplesns.item.FeedImageItem;
+import org.simplesns.simplesns.item.UserItem;
 
 import java.util.ArrayList;
 
@@ -73,13 +72,13 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void insertDummyData() {
         Log.d(TAG, "insertDummyData()");
 
-        ArrayList<Data> feedData = new ArrayList<>();
+        ArrayList<FeedDataItem> feedData = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            Data data = new Data();
-            Images images = new Images();
+            FeedDataItem data = new FeedDataItem();
+            FeedImageItem images = new FeedImageItem();
             images.setUrl("https://source.unsplash.com/random");
-            data.setUser(new User(null,
+            data.setUser(new UserItem(null,
                     "TestID::" + i,
                     null,
                     "https://picsum.photos/200/300/?random",

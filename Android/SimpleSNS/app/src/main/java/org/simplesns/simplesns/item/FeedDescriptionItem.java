@@ -1,9 +1,12 @@
-package org.simplesns.simplesns.main.Model;
+package org.simplesns.simplesns.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Comments {
+/**
+ * 게시글 하단에 생성되는 Description 부분을 지칭
+ */
+public class FeedDescriptionItem {
 
     @SerializedName("created_time")
     @Expose
@@ -13,7 +16,7 @@ public class Comments {
     private String text;
     @SerializedName("user")
     @Expose
-    private User user;
+    private UserItem user;
     @SerializedName("id")
     @Expose
     private String id;
@@ -34,11 +37,11 @@ public class Comments {
         this.text = text;
     }
 
-    public User getUser() {
+    public UserItem getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserItem user) {
         this.user = user;
     }
 

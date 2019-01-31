@@ -1,10 +1,11 @@
-package org.simplesns.simplesns;
+package org.simplesns.simplesns.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import org.simplesns.simplesns.R;
 
 public class SplashActivity extends Activity {
     /** Duration of wait **/
