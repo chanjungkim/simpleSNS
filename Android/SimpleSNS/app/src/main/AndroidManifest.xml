@@ -21,5 +21,6 @@
         </activity>
         <activity android:name="org.simplesns.simplesns.LoginActivity"/>
         <activity android:name="org.simplesns.simplesns.main.MainActivity"/>
+        <activity android:name="org.simplesns.simplesns.main.Activity.ImageRegisterActivity"/>
     </application>
 </manifest>

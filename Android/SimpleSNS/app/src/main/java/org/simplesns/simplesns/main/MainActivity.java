@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.main.Activity.ImageRegisterActivity;
 import org.simplesns.simplesns.main.Fragment.HomeFragment;
 import org.simplesns.simplesns.main.Fragment.ProfileFragment;
 import org.simplesns.simplesns.main.Fragment.SearchFragment;
@@ -49,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(SearchFragment.newInstance());
                     return true;
                 case R.id.navigation_plus:
-
+                    Intent image_reister_intent = new Intent (MainActivity.this, ImageRegisterActivity.class);
+                    startActivity(image_reister_intent);
                     return true;
                 case R.id.navigation_like:
 
