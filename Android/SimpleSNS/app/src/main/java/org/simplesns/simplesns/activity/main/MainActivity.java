@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.lib.UIlib;
 import org.simplesns.simplesns.activity.main.camera.ImageRegisterActivity;
 import org.simplesns.simplesns.activity.main.home.HomeFragment;
 import org.simplesns.simplesns.activity.main.profile.ProfileFragment;
 import org.simplesns.simplesns.activity.main.search.SearchFragment;
-import org.simplesns.simplesns.lib.UIlib;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationViewEx.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         replaceFragment(HomeFragment.newInstance());
     }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
@@ -66,11 +67,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_main, fragment).commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-            super.onBackPressed();
     }
 }
 
