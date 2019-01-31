@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.activity.main.profile;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,12 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.simplesns.simplesns.ProfileChangeActivity;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.profile.fragment.ProfileBadukFragment;
 import org.simplesns.simplesns.activity.main.profile.fragment.ProfileLineFragment;
 import org.simplesns.simplesns.activity.main.profile.fragment.ProfileTagFragment;
 
 public class ProfileFragment extends Fragment {
+TextView tv_profile_change;             // 프로필 내용 수정 관련
+ImageView iv_profile_photo;             // 프로필 이미지 수정 관련
     TextView tv_profile;
     ImageView iv_profile_photo;
     ImageView button_baduk;
@@ -29,7 +33,6 @@ public class ProfileFragment extends Fragment {
     ProfileLineFragment profileLineFragment;
     ProfileTagFragment profileTagFragment;
     FragmentManager fragmentManager;
-
     public static ProfileFragment newInstance() {
 
         // TODO Parameters
@@ -43,6 +46,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        tv_profile_change = (TextView) view.findViewById(R.id.tv_profile_change);
         tv_profile = (TextView) view.findViewById(R.id.tv_profile);
         button_baduk = (ImageView) view.findViewById(R.id.button_baduk);
         button_line = (ImageView) view.findViewById(R.id.button_line);
@@ -53,29 +57,28 @@ public class ProfileFragment extends Fragment {
         profileTagFragment = new ProfileTagFragment();
 
         fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileBadukFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.profile_container, profileBadukFragment).commit();
 
         button_baduk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileBadukFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.profile_container, profileBadukFragment).commit();
             }
         });
 
         button_line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileLineFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.profile_container, profileLineFragment).commit();
             }
         });
 
         button_tag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileTagFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.profile_container, profileTagFragment).commit();
             }
         });
-
 
         // make a round shape profile photo
         iv_profile_photo = (ImageView) view.findViewById(R.id.iv_profile_photo);
@@ -91,11 +94,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        tv_profile.setOnClickListener(new View.OnClickListener() {
+        tv_profile_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
-                Toast.makeText(getActivity(),"TODO : 회원정보 바꾸기 화면 구성", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), ProfileChangeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.getContext().startActivity(intent);
             }
         });
         return view;
