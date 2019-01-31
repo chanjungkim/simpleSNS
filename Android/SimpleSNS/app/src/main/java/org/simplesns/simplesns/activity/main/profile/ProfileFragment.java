@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.main.Fragment;
+package org.simplesns.simplesns.activity.main.profile;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.main.profile.fragment.ProfileBadukFragment;
+import org.simplesns.simplesns.activity.main.profile.fragment.ProfileLineFragment;
+import org.simplesns.simplesns.activity.main.profile.fragment.ProfileTagFragment;
 
 public class ProfileFragment extends Fragment {
     TextView tv_profile;

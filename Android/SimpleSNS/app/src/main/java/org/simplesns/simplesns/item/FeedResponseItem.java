@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.main.Model;
+package org.simplesns.simplesns.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- *  REST API Query 에 대한 서버로부터 Response 정의
+ *  REST API Query 에 대한 서버로부터 FeedResponseItem 정의
  */
-public class Response {
+public class FeedResponseItem {
 
     /**
      * @param code  응답코드
@@ -16,8 +16,7 @@ public class Response {
      * @param error_msg  에러 메세지
      * @param data Feed 나 Comment 요청시 List 로 받음.
      */
-
-    public Response(String code, String error_type, String error_msg, List<Data> data) {
+    public FeedResponseItem(String code, String error_type, String error_msg, List<FeedDataItem> data) {
         this.code = code;
         this.error_type = error_type;
         this.error_msg = error_msg;
@@ -37,7 +36,7 @@ public class Response {
 
     @SerializedName("data")
     @Expose
-    private List<Data> data = null;
+    private List<FeedDataItem> data = null;
 
 
 

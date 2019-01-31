@@ -1,9 +1,9 @@
-package org.simplesns.simplesns.main.Model;
+package org.simplesns.simplesns.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class UserItem {
 
     /**
      * @param id
@@ -15,7 +15,7 @@ public class User {
      * @param follows
      * @param followed_by
      */
-    public User(String id, String username, String full_name, String profilePicture, String bio, int feed_count, int follows, int followed_by) {
+    public UserItem(String id, String username, String full_name, String profilePicture, String bio, int feed_count, int follows, int followed_by) {
         this.id = id;
         this.username = username;
         this.full_name = full_name;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    tools:context="org.simplesns.simplesns.LoginActivity">
+    tools:context="org.simplesns.simplesns.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/logo_imageview_loginactivity"

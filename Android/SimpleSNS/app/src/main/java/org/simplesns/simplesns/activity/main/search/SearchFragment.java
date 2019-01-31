@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.main.Fragment;
+package org.simplesns.simplesns.activity.main.search;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

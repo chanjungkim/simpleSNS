@@ -1,9 +1,9 @@
-package org.simplesns.simplesns.main.Model;
+package org.simplesns.simplesns.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Location {
+public class FeedLocationItem {
 
     @SerializedName("latitude")
     @Expose

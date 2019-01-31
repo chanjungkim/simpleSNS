@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.main.Adapter;
+package org.simplesns.simplesns.activity.main.home.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.main.Model.Data;
+import org.simplesns.simplesns.item.FeedDataItem;
 
 import java.util.ArrayList;
 
@@ -23,13 +23,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     private static final String TAG = "HomeAdapter";
     private Context context;
-    private ArrayList<Data> dataArrayList = new ArrayList<>();
+    private ArrayList<FeedDataItem> dataArrayList = new ArrayList<>();
 
     public HomeAdapter(Context context) {
         this.context = context;
     }
 
-    public void addItem(ArrayList<Data> data) {
+    public void addItem(ArrayList<FeedDataItem> data) {
         this.dataArrayList = data;
         notifyDataSetChanged();
     }
@@ -46,7 +46,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         try{
             Holder.tv_user_name.setText(dataArrayList.get(i).getUser().getUsername());
         }catch (NullPointerException e){
-            Log.d(TAG, "No User Data");
+            Log.d(TAG, "No UserItem FeedDataItem");
             e.printStackTrace();
             return;
         }

@@ -1,4 +1,4 @@
-package org.simplesns.simplesns;
+package org.simplesns.simplesns.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.simplesns.simplesns.main.MainActivity;
+import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
     static String TAG = LoginActivity.class.getSimpleName();

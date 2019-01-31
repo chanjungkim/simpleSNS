@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.main.Activity;
+package org.simplesns.simplesns.activity.main.camera;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,5 +11,4 @@ public class ImageRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_register);
     }
-
 }
