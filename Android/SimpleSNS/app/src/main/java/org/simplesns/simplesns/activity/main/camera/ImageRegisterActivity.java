@@ -5,11 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.activity.main.camera.Fragment.CameraFragment;
-import org.simplesns.simplesns.activity.main.camera.Fragment.GalleryFragment;
 import org.simplesns.simplesns.activity.main.camera.adapter.ImageRegisterAdapter;
-
-import java.util.ArrayList;
 
 public class ImageRegisterActivity extends AppCompatActivity {
     @Override

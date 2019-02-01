@@ -1,13 +1,11 @@
 package org.simplesns.simplesns.activity.main.camera.adapter;
 
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
-import org.simplesns.simplesns.activity.main.camera.Fragment.CameraFragment;
-import org.simplesns.simplesns.activity.main.camera.Fragment.GalleryFragment;
+import org.simplesns.simplesns.activity.main.camera.fragment.CameraFragment;
+import org.simplesns.simplesns.activity.main.camera.fragment.GalleryFragment;
 
 import java.util.ArrayList;
 

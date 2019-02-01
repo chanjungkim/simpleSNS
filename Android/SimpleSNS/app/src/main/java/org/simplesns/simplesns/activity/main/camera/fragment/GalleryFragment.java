@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.activity.main.camera.Fragment;
+package org.simplesns.simplesns.activity.main.camera.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

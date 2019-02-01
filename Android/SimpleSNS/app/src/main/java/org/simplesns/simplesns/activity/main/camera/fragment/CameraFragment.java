@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.activity.main.camera.Fragment;
+package org.simplesns.simplesns.activity.main.camera.fragment;
 /*
  * Copyright 2017 The Android Open Source Project
  *
