@@ -114,4 +114,18 @@ public class UserItem {
     public void setFollowed_by(int followed_by) {
         this.followed_by = followed_by;
     }
+
+    @Override
+    public String toString() {
+        return "UserItem{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", full_name='" + full_name + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", bio='" + bio + '\'' +
+                ", feed_count=" + feed_count +
+                ", follows=" + follows +
+                ", followed_by=" + followed_by +
+                '}';
+    }
 }

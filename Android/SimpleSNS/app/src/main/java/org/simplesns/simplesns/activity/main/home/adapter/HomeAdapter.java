@@ -15,22 +15,23 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.item.FeedDataItem;
+import org.simplesns.simplesns.item.FeedItem;
 
 import java.util.ArrayList;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
+    private static final String TAG = HomeAdapter.class.getSimpleName();
 
-    private static final String TAG = "HomeAdapter";
     private Context context;
-    private ArrayList<FeedDataItem> dataArrayList = new ArrayList<>();
+    private ArrayList<FeedItem> dataArrayList = new ArrayList<>();
 
     public HomeAdapter(Context context) {
         this.context = context;
     }
 
-    public void addItem(ArrayList<FeedDataItem> data) {
+    public void addItem(ArrayList<FeedItem> data) {
         this.dataArrayList = data;
+        Log.d(TAG, "data: " + data.toString());
         notifyDataSetChanged();
     }
 
@@ -46,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         try{
             Holder.tv_user_name.setText(dataArrayList.get(i).getUser().getUsername());
         }catch (NullPointerException e){
-            Log.d(TAG, "No UserItem FeedDataItem");
+            Log.d(TAG, "No UserItem FeedItem");
             e.printStackTrace();
             return;
         }
@@ -75,11 +76,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder {
-
         TextView tv_user_name;
         ImageView iv_home_profile_photo;
         ImageView iv_home_feed_img;
-
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);

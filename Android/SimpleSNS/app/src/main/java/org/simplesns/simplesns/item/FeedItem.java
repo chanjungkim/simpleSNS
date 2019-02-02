@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class FeedDataItem {
+public class FeedItem {
 
     @SerializedName("comments")
     @Expose
@@ -140,4 +140,20 @@ public class FeedDataItem {
         this.location = location;
     }
 
+    @Override
+    public String toString() {
+        return "FeedItem{" +
+                "comments=" + comments +
+                ", comment_count=" + comment_count +
+                ", caption=" + caption +
+                ", like_count=" + like_count +
+                ", user=" + user +
+                ", createdTime='" + createdTime + '\'' +
+                ", images=" + images +
+                ", type='" + type + '\'' +
+                ", tags=" + tags +
+                ", id='" + id + '\'' +
+                ", location=" + location +
+                '}';
+    }
 }

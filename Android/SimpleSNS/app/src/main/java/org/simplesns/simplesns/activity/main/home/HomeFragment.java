@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.home.adapter.HomeAdapter;
-import org.simplesns.simplesns.item.FeedDataItem;
+import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.item.FeedImageItem;
 import org.simplesns.simplesns.item.UserItem;
 
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        swipeLayout = view.findViewById(R.id.swipe_container);
+        swipeLayout = view.findViewById(R.id.home_swipe_container);
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -72,13 +72,13 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void insertDummyData() {
         Log.d(TAG, "insertDummyData()");
 
-        ArrayList<FeedDataItem> feedData = new ArrayList<>();
+        ArrayList<FeedItem> feedList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            FeedDataItem data = new FeedDataItem();
+            FeedItem feedItem = new FeedItem();
             FeedImageItem images = new FeedImageItem();
             images.setUrl("https://source.unsplash.com/random");
-            data.setUser(new UserItem(null,
+            feedItem.setUser(new UserItem(null,
                     "TestID::" + i,
                     null,
                     "https://picsum.photos/200/300/?random",
@@ -86,10 +86,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     0,
                     0,
                     0));
-            data.setImages(images);
-            feedData.add(data);
+            feedItem.setImages(images);
+            feedList.add(feedItem);
         }
-        homeAdapter.addItem(feedData);
+        homeAdapter.addItem(feedList);
     }
 
     @Override public void onRefresh() {

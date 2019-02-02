@@ -16,7 +16,7 @@ public class FeedResponseItem {
      * @param error_msg  에러 메세지
      * @param data Feed 나 Comment 요청시 List 로 받음.
      */
-    public FeedResponseItem(String code, String error_type, String error_msg, List<FeedDataItem> data) {
+    public FeedResponseItem(String code, String error_type, String error_msg, List<FeedItem> data) {
         this.code = code;
         this.error_type = error_type;
         this.error_msg = error_msg;
@@ -36,7 +36,7 @@ public class FeedResponseItem {
 
     @SerializedName("data")
     @Expose
-    private List<FeedDataItem> data = null;
+    private List<FeedItem> data = null;
 
 
 

@@ -23,4 +23,11 @@
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+
+    <!-- Favprote -->
+    <string-array name="favorite_titles">
+        <item>Following</item>
+        <item>My Post</item>
+    </string-array>
+
 </resources>

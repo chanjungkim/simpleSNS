@@ -1,17 +1,29 @@
 package org.simplesns.simplesns.activity.main;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.main.favorite.FavoriteFragment;
 import org.simplesns.simplesns.lib.UIlib;
 import org.simplesns.simplesns.activity.main.camera.ImageRegisterActivity;
 import org.simplesns.simplesns.activity.main.home.HomeFragment;
@@ -19,54 +31,78 @@ import org.simplesns.simplesns.activity.main.profile.ProfileFragment;
 import org.simplesns.simplesns.activity.main.search.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
+    private static String TAG = MainActivity.class.getSimpleName();
 
     private TextView mTextMessage;
+    private BottomNavigationViewEx bottomNavigationViewEx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UIlib.getInstance(this).setImmersiveMode();
+        UIlib.getInstance(this).setHideNavigation(true);
+        UIlib.getInstance(this).setStatusBarColor(getResources().getColor(R.color.grey));
+
         setContentView(R.layout.activity_main);
 
+        Toast.makeText(this, "Sign-in Success.", Toast.LENGTH_SHORT).show();
+
         mTextMessage = findViewById(R.id.message);
-        BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.navigation);
-        bottomNavigationViewEx.enableAnimation(false);
-        bottomNavigationViewEx.enableItemShiftingMode(false);
-        bottomNavigationViewEx.enableShiftingMode(false);
-        bottomNavigationViewEx.setTextVisibility(false);
-        bottomNavigationViewEx.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bottomNavigationViewEx = findViewById(R.id.navigation);
+        bottomNavigationViewEx.enableAnimation(false)
+                .enableAnimation(false)
+                .enableItemShiftingMode(false) // Enable the shifting mode for each item. It will have a shifting animation for item if true. Otherwise the item text is always shown. Default true when item count > 3.
+                .enableShiftingMode(false) // Enable the shifting mode for navigation. It will has a shift animation if true. Otherwise all items are the same width. Default true when item count > 3.
+                .setIconSize(35) // Set all item ImageView size(dp).
+                .setIconsMarginTop(0) // set margin top for all icons.
+                .setTextVisibility(false) // Hide Text.
+                .setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         replaceFragment(HomeFragment.newInstance());
+        changeItemColor(0);
     }
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        replaceFragment(HomeFragment.newInstance());
-                        return true;
-                    case R.id.navigation_search:
-                        replaceFragment(SearchFragment.newInstance());
-                        return true;
-                    case R.id.navigation_plus:
-                        Intent image_reister_intent = new Intent (MainActivity.this, ImageRegisterActivity.class);
-                        startActivity(image_reister_intent);
-                        return true;
-                    case R.id.navigation_like:
 
-                        return true;
-                    case R.id.navigation_profile:
-                        replaceFragment(ProfileFragment.newInstance());
-                        return true;
-                }
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                replaceFragment(HomeFragment.newInstance());
+                changeItemColor(0);
                 return false;
-            };
+            case R.id.navigation_search:
+                replaceFragment(SearchFragment.newInstance());
+                changeItemColor(1);
+                return false;
+            case R.id.navigation_plus:
+                Intent imageResisterIntent = new Intent(MainActivity.this, ImageRegisterActivity.class);
+                startActivity(imageResisterIntent);
+                return false;
+            case R.id.navigation_like:
+                replaceFragment(FavoriteFragment.newInstance());
+                changeItemColor(3);
+                return false;
+            case R.id.navigation_profile:
+                replaceFragment(ProfileFragment.newInstance());
+                changeItemColor(4);
+                return false;
+        }
+        return false;
+    };
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_main, fragment).commit();
+    }
+
+    private void changeItemColor(int position) {
+        Log.d(TAG, "position: " + position);
+        Log.d(TAG, "currentItem: " + bottomNavigationViewEx.getCurrentItem());
+        for (int i = 0; i < 5; i++) {
+            ImageViewCompat.setImageTintList(bottomNavigationViewEx.getIconAt(i), ColorStateList.valueOf(Color.parseColor("#ffbfbfbf")));
+        }
+        ImageViewCompat.setImageTintList(bottomNavigationViewEx.getIconAt(position), ColorStateList.valueOf(Color.parseColor("#ff000000")));
     }
 }
 

@@ -8,15 +8,11 @@
     android:orientation="vertical"
     tools:context=".activity.main.MainActivity">
 
-    <include layout="@layout/toolbar" />
-
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-    </FrameLayout>
+        android:layout_weight="1" />
 
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
@@ -25,7 +21,6 @@
         android:layout_height="?actionBarSize"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
-        app:itemIconTint="@color/black"
-        app:menu="@menu/navigation">
-    </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
+        app:itemIconTint="@color/grey"
+        app:menu="@menu/navigation" />
 </LinearLayout>
