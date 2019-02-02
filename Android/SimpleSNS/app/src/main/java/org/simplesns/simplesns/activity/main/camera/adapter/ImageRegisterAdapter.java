@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.activity.main.camera.adapter;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,12 +13,19 @@ import java.util.ArrayList;
 
 public class ImageRegisterAdapter extends FragmentPagerAdapter {
     ArrayList<Fragment> irPageFragments;    // image register
+    private String [] tab_titles = new String []{"gallery" ,"camera"};
 
     public ImageRegisterAdapter(FragmentManager fm) {
         super(fm);
         irPageFragments = new ArrayList<>();
         irPageFragments.add(new GalleryFragment());
         irPageFragments.add(new CameraFragment());
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tab_titles[position];
     }
 
     @Override

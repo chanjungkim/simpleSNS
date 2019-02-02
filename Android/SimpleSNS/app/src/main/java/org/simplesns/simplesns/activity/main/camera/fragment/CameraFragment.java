@@ -84,7 +84,7 @@ public class CameraFragment extends Fragment
      * Conversion from screen rotation to JPEG orientation.
      */
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
-    private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final int REQUEST_CAMERA_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
 
     static {
@@ -95,9 +95,18 @@ public class CameraFragment extends Fragment
     }
 
     /**
+     * Permissions required to take a picture.
+     */
+    private static final String[] CAMERA_PERMISSIONS = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+
+    /**
      * Tag for the {@link Log}.
      */
-    private static final String TAG = "Camera2BasicFragment";
+    private static final String TAG = "CameraActivity";
 
     /**
      * Camera state: Showing camera preview.
@@ -468,26 +477,52 @@ public class CameraFragment extends Fragment
     }
 
     private void requestCameraPermission() {
-        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+        if (shouldShowRationale()) {
             new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
         } else {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            requestPermissions(CAMERA_PERMISSIONS, REQUEST_CAMERA_PERMISSIONS);
         }
+    }
+
+    /**
+     * Gets whether you should show UI with rationale for requesting the permissions.
+     *
+     * @return True if the UI should be shown.
+     */
+    private boolean shouldShowRationale() {
+        for (String permission : CAMERA_PERMISSIONS) {
+            if (shouldShowRequestPermissionRationale(permission)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                ErrorDialog.newInstance(getString(R.string.request_permission))
-                        .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+        if (requestCode == REQUEST_CAMERA_PERMISSIONS) {
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    showMissingPermissionError();
+                    return;
+                }
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
+    /**
+     * Shows that this app really needs the permission and finishes the app.
+     */
+    private void showMissingPermissionError() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            Toast.makeText(activity, R.string.request_permission, Toast.LENGTH_SHORT).show();
+            activity.finish();
+        }
+    }
     /**
      * Sets up member variables related to camera.
      *
@@ -607,8 +642,15 @@ public class CameraFragment extends Fragment
      * Opens the camera specified by {@link CameraFragment#mCameraId}.
      */
     private void openCamera(int width, int height) {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+        boolean open_flag = true;
+        for (String permission : CAMERA_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(getActivity(), permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                open_flag = false;
+            }
+        }
+
+        if (!open_flag) {
             requestCameraPermission();
             return;
         }
@@ -1023,8 +1065,8 @@ public class CameraFragment extends Fragment
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    REQUEST_CAMERA_PERMISSION);
+                            parent.requestPermissions(CAMERA_PERMISSIONS,
+                                    REQUEST_CAMERA_PERMISSIONS);
                         }
                     })
                     .setNegativeButton(android.R.string.cancel,
