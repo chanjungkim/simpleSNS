@@ -9,5 +9,4 @@
     <dimen name="space_s_large">18dp</dimen>
     <dimen name="space_large">20dp</dimen>
     <dimen name="space_x_large">24dp</dimen>
-    <dimen name="toolbar_height">56dp</dimen>
 </resources>
