@@ -24,6 +24,12 @@
     <string name="request_permission">This app needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 
+    <!-- ImagePostActivity -->
+    <string name="image_post_title_hint">문구입력...</string>
+    <string name="image_post_add_location">위치 추가</string>
+    <string name="image_post_person_tag">사람 태그하기</string>
+    <string name="image_post_other_media">다른 미디어에 게시</string>
+
     <!-- Favprote -->
     <string-array name="favorite_titles">
         <item>Following</item>

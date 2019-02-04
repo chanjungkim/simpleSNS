@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.simplesns.simplesns.R;
 
 public class ImageModifyActivity extends AppCompatActivity {
+    String file_path;
     Toolbar toolbar;
     ImageView mainView;
 
@@ -35,10 +36,10 @@ public class ImageModifyActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_keyboard_backspace_black_24dp);
 
         Intent image_modify_intent = getIntent();
-        String temp = image_modify_intent.getExtras().getString("file_path");
-        Toast.makeText(this, "image path = "+temp,Toast.LENGTH_SHORT).show();   // 디버깅용, 지울것
+        file_path = image_modify_intent.getExtras().getString("file_path");
+        Toast.makeText(this, "image path = "+file_path,Toast.LENGTH_SHORT).show();   // 디버깅용, 지울것
 
-        Bitmap bmp = BitmapFactory.decodeFile(temp);
+        Bitmap bmp = BitmapFactory.decodeFile(file_path);
         Matrix matrix = new Matrix();    // portrait 모드에서만 촬영
         matrix.postRotate(90);          // 코린이 : 왜 돌려야하는지??
         Bitmap newBmp = Bitmap.createBitmap(bmp, 0, 0,bmp.getWidth(), bmp.getHeight(),matrix, true);
@@ -48,7 +49,7 @@ public class ImageModifyActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.image_modify_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.image_modify_menu, menu);
         return true;
     }
 
@@ -58,6 +59,11 @@ public class ImageModifyActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.ic_next :
+                Intent image_post_intent = new Intent(ImageModifyActivity.this, ImagePostActivity.class);
+                image_post_intent.putExtra("file_path", file_path);
+                startActivity(image_post_intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

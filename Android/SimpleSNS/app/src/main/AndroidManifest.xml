@@ -30,5 +30,6 @@
         <activity android:name=".activity.main.MainActivity"/>
         <activity android:name=".activity.main.camera.ImageRegisterActivity"/>
         <activity android:name=".activity.main.camera.ImageModifyActivity"/>
+        <activity android:name=".activity.main.camera.ImagePostActivity"/>
     </application>
 </manifest>
