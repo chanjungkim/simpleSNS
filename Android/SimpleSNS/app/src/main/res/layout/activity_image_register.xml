@@ -24,6 +24,5 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
-        app:tabIndicatorFullWidth="true"
-        />
+        app:tabIndicatorFullWidth="true"/>
 </RelativeLayout>

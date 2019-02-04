@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -62,6 +63,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.main.camera.ImageModifyActivity;
 import org.simplesns.simplesns.activity.main.camera.customview.AutoFitTextureView;
 
 import java.io.File;
@@ -888,6 +890,10 @@ public class CameraFragment extends Fragment
                     Log.d(TAG, mFile.toString());
                     // to do
                     unlockFocus();
+
+                    Intent cameraIntent = new Intent(getActivity(), ImageModifyActivity.class);
+                    cameraIntent.putExtra("file_path",mFile.getAbsoluteFile().toString());
+                    startActivity(cameraIntent);
                 }
             };
 

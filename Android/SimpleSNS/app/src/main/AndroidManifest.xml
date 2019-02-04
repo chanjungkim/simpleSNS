@@ -29,5 +29,6 @@
         <activity android:name="org.simplesns.simplesns.activity.LoginActivity"/>
         <activity android:name=".activity.main.MainActivity"/>
         <activity android:name=".activity.main.camera.ImageRegisterActivity"/>
+        <activity android:name=".activity.main.camera.ImageModifyActivity"/>
     </application>
 </manifest>
