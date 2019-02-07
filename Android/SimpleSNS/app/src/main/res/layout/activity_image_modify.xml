@@ -24,28 +24,59 @@
             android:scaleType="centerCrop"
             android:src="@drawable/lena"/>
 
-        <RelativeLayout
-            android:id="@+id/image_modify_menu"
+        <TabHost
+            android:id="@+id/image_modify_tabs"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp">
 
-            <ImageButton
-                android:id="@+id/image_modify_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@color/white"
-                android:src="@drawable/button_circle"/>
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true">
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/color_filter_menu_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/image_modify_filter"/>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/shape_modify_menu_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/image_modify_shape"/>
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </FrameLayout>
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"/>
+
+            </RelativeLayout>
+        </TabHost>
+
     </LinearLayout>
 
-    <TabHost
-        android:id="@+id/image_modify_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        />
+
 </RelativeLayout>

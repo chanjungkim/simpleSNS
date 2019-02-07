@@ -29,6 +29,10 @@
     <string name="request_permission">This app needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 
+    <!-- ImageModifyActivity -->
+    <string name="image_modify_filter">필터</string>
+    <string name="image_modify_shape">수정</string>
+
     <!-- ImagePostActivity -->
     <string name="image_post_title_hint">문구입력...</string>
     <string name="image_post_add_location">위치 추가</string>

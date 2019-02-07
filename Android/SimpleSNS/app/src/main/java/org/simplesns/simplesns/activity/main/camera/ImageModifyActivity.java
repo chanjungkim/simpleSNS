@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
@@ -18,6 +19,7 @@ public class ImageModifyActivity extends AppCompatActivity {
     String file_path;
     Toolbar toolbar;
     ImageView mainView;
+    TabHost tabHost;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,12 +28,25 @@ public class ImageModifyActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.image_modify_toolbar);
         mainView = (ImageView) findViewById (R.id.image_modify_view);
+        tabHost = (TabHost) findViewById (R.id.image_modify_tabs);
+        tabHost.setup();
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_keyboard_backspace_black_24dp);
+
+        TabHost.TabSpec ts1 = tabHost.newTabSpec("Tab Spec 1") ;
+        ts1.setContent(R.id.color_filter_menu_list) ;
+        ts1.setIndicator(this.getString(R.string.image_modify_filter)) ;
+        tabHost.addTab(ts1)  ;
+
+        // 두 번째 Tab. (탭 표시 텍스트:"TAB 2"), (페이지 뷰:"content2")
+        TabHost.TabSpec ts2 = tabHost.newTabSpec("Tab Spec 2") ;
+        ts2.setContent(R.id.shape_modify_menu_list) ;
+        ts2.setIndicator(this.getString(R.string.image_modify_shape)) ;
+        tabHost.addTab(ts2) ;
 
         Intent image_modify_intent = getIntent();
         file_path = image_modify_intent.getExtras().getString("file_path");
