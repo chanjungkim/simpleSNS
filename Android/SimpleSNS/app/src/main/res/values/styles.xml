@@ -11,4 +11,10 @@
 
     </style>
 
+    <!-- ImageModifyView attr -->
+    <declare-styleable name="ImageModifyButton">
+        <attr name="bg" format="reference|integer"/>
+        <attr name="symbol" format="reference|integer"/>
+        <attr name="text" format="reference|string"/>
+    </declare-styleable>
 </resources>
