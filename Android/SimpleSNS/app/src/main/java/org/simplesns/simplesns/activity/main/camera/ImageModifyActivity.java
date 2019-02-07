@@ -1,9 +1,6 @@
 package org.simplesns.simplesns.activity.main.camera;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -15,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
 public class ImageModifyActivity extends AppCompatActivity {
     String file_path;
@@ -39,11 +37,7 @@ public class ImageModifyActivity extends AppCompatActivity {
         file_path = image_modify_intent.getExtras().getString("file_path");
         Toast.makeText(this, "image path = "+file_path,Toast.LENGTH_SHORT).show();   // 디버깅용, 지울것
 
-        Bitmap bmp = BitmapFactory.decodeFile(file_path);
-        Matrix matrix = new Matrix();    // portrait 모드에서만 촬영
-        matrix.postRotate(90);          // 코린이 : 왜 돌려야하는지??
-        Bitmap newBmp = Bitmap.createBitmap(bmp, 0, 0,bmp.getWidth(), bmp.getHeight(),matrix, true);
-        mainView.setImageBitmap(newBmp);
+        mainView.setImageBitmap(ImageUtil.rotateBitmapOrientation(file_path));
 
     }
 

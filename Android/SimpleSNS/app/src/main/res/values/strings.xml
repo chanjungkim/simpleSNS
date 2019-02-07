@@ -6,6 +6,11 @@
     <string name="title_like">like</string>
     <string name="title_profile">profile</string>
 
+    <!-- image_modify_menu -->
+    <string name="menu_next">다음</string>
+    <!-- image_post_menu -->
+    <string name="menu_share">공유</string>
+
     <!-- BottomNavigation -->
     <string name="home">home</string>
     <string name="favorite">favorite</string>

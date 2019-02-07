@@ -28,6 +28,12 @@
             android:hint="@string/image_post_title_hint"/>
     </LinearLayout>
 
+    <!--line-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,6 +41,12 @@
         android:textSize="20sp"
         android:lines="2"
         android:padding="5dp"/>
+
+    <!--line-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -44,6 +56,12 @@
         android:lines="2"
         android:padding="5dp"/>
 
+    <!--line-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,4 +69,11 @@
         android:textSize="20sp"
         android:lines="2"
         android:padding="2dp"/>
+
+    <!--line-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
 </LinearLayout>
