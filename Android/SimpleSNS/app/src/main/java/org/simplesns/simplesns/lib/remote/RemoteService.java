@@ -8,9 +8,14 @@ import org.simplesns.simplesns.item.result.LoginResult;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RemoteService {
     String TAG = RemoteService.class.getSimpleName();
@@ -18,8 +23,8 @@ public interface RemoteService {
     // ★★★ push 시에 주의할 것
     String BASE_URL = "http://13.125.159.29:3000";
 
-    @POST("/email/send")
-    Call<ValidResult> validateEmail(@Body String to);
+    @GET("/email/send")
+    Call<ValidResult> validateEmail(@Query("to") String to);
 
     @POST("/member")
     Call<SignUpResult> insertMember(@Body MemberItem memberItem);

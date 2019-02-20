@@ -86,8 +86,8 @@ public class FirstActivity extends AppCompatActivity {
             email = emailET.getText().toString();
 
             try {
-//                validateEmail(email);
-                initFirstCreate(email);
+                validateEmail(email);
+//                initFirstCreate(email);
             } catch (NullPointerException e) {
                 Toast.makeText(FirstActivity.this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
@@ -95,6 +95,8 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void validateEmail(String to) {
+        Log.d(TAG, "validateEmail()= to(email): "+email);
+
         // backCount 세지 않음.
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
@@ -109,15 +111,18 @@ public class FirstActivity extends AppCompatActivity {
             call.enqueue(new Callback<ValidResult>() {
                 @Override
                 public void onResponse(Call<ValidResult> call, Response<ValidResult> response) {
+                    Log.d(TAG, "onResponse()");
                     try {
                         ValidResult validResult = response.body();
+                        Log.d(TAG, validResult.toString());
 
                         switch (validResult.getCode()) {
                             case 100:
-//                                initFirstCreate(email);
+                                initFirstCreate(email);
+                                Toast.makeText(FirstActivity.this, validResult.getMessage(), Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(FirstActivity.this, "이미 가입된 이메일 주소입니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FirstActivity.this, validResult.getMessage(), Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     } catch (Exception e) {
@@ -137,6 +142,7 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void initFirstCreate(String email) {
+        Log.d(TAG, "initFirstCreate()= email: "+email);
         backCount = -1;
         setContentView(R.layout.activity_first_create);
         TextView infoTV = findViewById(R.id.info_textview_first_create_activity);
@@ -222,8 +228,12 @@ public class FirstActivity extends AppCompatActivity {
         Button loginBTN = findViewById(R.id.login_button_loginactivity);
 
         loginBTN.setOnClickListener((v) -> {
-            GlobalUser.getInstance().setMyId(usernameET.getText().toString());
-            tempPass();
+//            if(usernameET.getText().toString() != null && passwordET.getText().toString() != null){
+//                GlobalUser.getInstance().setMyId(usernameET.getText().toString());
+//                tempPass();
+//            }else{
+                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+//            }
         });
 
     }

@@ -28,4 +28,13 @@ public class ValidResult {
     public void setResult(boolean result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "ValidResult{" +
+                "message='" + message + '\'' +
+                ", code=" + code +
+                ", result=" + result +
+                '}';
+    }
 }
