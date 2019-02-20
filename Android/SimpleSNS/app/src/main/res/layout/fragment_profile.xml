@@ -23,11 +23,11 @@
                 android:layout_height="120dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_profile_photo"
                     android:layout_height="80dp"
                     android:layout_width="80dp"
                     android:src="@drawable/ic_profile_samplephoto"
-                    android:layout_margin="20dp"
-                    android:id="@+id/iv_profile_photo"/>
+                    android:layout_margin="20dp"/>
 
                 <ImageView
                     android:layout_height="80dp"
