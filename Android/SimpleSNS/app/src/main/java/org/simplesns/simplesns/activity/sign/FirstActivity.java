@@ -228,12 +228,12 @@ public class FirstActivity extends AppCompatActivity {
         Button loginBTN = findViewById(R.id.login_button_loginactivity);
 
         loginBTN.setOnClickListener((v) -> {
-//            if(usernameET.getText().toString() != null && passwordET.getText().toString() != null){
-//                GlobalUser.getInstance().setMyId(usernameET.getText().toString());
-//                tempPass();
-//            }else{
+            if(usernameET.getText().toString() != null && passwordET.getText().toString() != null){
+                GlobalUser.getInstance().setMyId(usernameET.getText().toString());
+                tempPass();
+            }else{
                 Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-//            }
+            }
         });
 
     }
