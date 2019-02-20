@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    tools:context="org.simplesns.simplesns.activity.LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo_imageview_firstactivity"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:src="@drawable/insta_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        />
+    <Button
+        android:id="@+id/create_button_firstactivity"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edittext_height"
+        android:layout_marginLeft="@dimen/default_side_margin"
+        android:layout_marginRight="@dimen/default_side_margin"
+        android:layout_below="@id/logo_imageview_firstactivity"
+        android:textAllCaps="false"
+        android:background="@color/link_blue"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/create_new_account" />
+    <Button
+        android:id="@+id/login_button_firstactivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_side_margin"
+        android:layout_marginRight="@dimen/default_side_margin"
+        android:textAllCaps="false"
+        android:layout_below="@id/create_button_firstactivity"
+        android:text="Log In"
+        android:textColor="@color/link_blue"
+        android:background="#0FFF"
+        />
+</RelativeLayout>

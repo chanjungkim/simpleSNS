@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    tools:context="org.simplesns.simplesns.activity.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/logo_imageview_firsttwoactivity"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:src="@drawable/insta_logo"
+            android:layout_marginBottom="40dp"
+            />
+        <EditText
+            android:id="@+id/email_edittext_first_create_ctivity"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edittext_height"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textAllCaps="false"
+            android:textColorHint="@color/grey2"
+            android:layout_below="@id/logo_imageview_firsttwoactivity"
+            android:hint="@string/email"
+            android:textColor="@color/link_blue"
+            android:padding="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/outline"
+            />
+        <Button
+            android:id="@+id/next_button_first_create_activity"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edittext_height"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_below="@id/email_edittext_first_create_ctivity"
+            android:textAllCaps="false"
+            android:background="@color/link_blue"
+            android:textColor="@color/white"
+            android:text="@string/next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edittext_height"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@drawable/outline"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? "
+            android:textColor="@color/grey2"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/log_in"
+            android:textStyle="bold"
+            android:textColor="@color/grey4"
+            />
+    </LinearLayout>
+</RelativeLayout>

@@ -16,7 +16,7 @@ public class FeedDescriptionItem {
     private String text;
     @SerializedName("user")
     @Expose
-    private UserItem user;
+    private MemberItem user;
     @SerializedName("id")
     @Expose
     private String id;
@@ -37,11 +37,11 @@ public class FeedDescriptionItem {
         this.text = text;
     }
 
-    public UserItem getUser() {
+    public MemberItem getUser() {
         return user;
     }
 
-    public void setUser(UserItem user) {
+    public void setUser(MemberItem user) {
         this.user = user;
     }
 

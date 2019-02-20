@@ -21,8 +21,12 @@
     <!-- LoginActivity -->
     <string name="username">username or email</string>
     <string name="password">password</string>
+    <string name="fullname">Full name</string>
+    <string name="cpassword">Password</string>
     <string name="log_in">Log in</string>
-
+    <string name="email">Email</string>
+    <string name="next">Next</string>
+    <string name="create_new_account">Create New Account</string>
     <!-- CameraFragment -->
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>

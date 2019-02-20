@@ -17,7 +17,7 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.home.adapter.HomeAdapter;
 import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.item.FeedImageItem;
-import org.simplesns.simplesns.item.UserItem;
+import org.simplesns.simplesns.item.MemberItem;
 
 import java.util.ArrayList;
 
@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             FeedItem feedItem = new FeedItem();
             FeedImageItem images = new FeedImageItem();
             images.setUrl("https://source.unsplash.com/random");
-            feedItem.setUser(new UserItem(null,
+            feedItem.setUser(new MemberItem(null,
                     "TestID::" + i,
                     null,
                     "https://picsum.photos/200/300/?random",

@@ -30,11 +30,18 @@ public class ServiceGenerator {
                 .setLenient()
                 .create();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RemoteService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+        Retrofit retrofit;
+        try{
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(RemoteService.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
 
-        return retrofit.create(serviceClass);
+            return retrofit.create(serviceClass);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

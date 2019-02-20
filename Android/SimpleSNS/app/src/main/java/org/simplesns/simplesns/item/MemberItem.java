@@ -3,38 +3,19 @@ package org.simplesns.simplesns.item;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserItem {
-
-    /**
-     * @param id
-     * @param username
-     * @param full_name
-     * @param profilePicture
-     * @param bio
-     * @param feed_count
-     * @param follows
-     * @param followed_by
-     */
-    public UserItem(String id, String username, String full_name, String profilePicture, String bio, int feed_count, int follows, int followed_by) {
-        this.id = id;
-        this.username = username;
-        this.full_name = full_name;
-        this.profilePicture = profilePicture;
-        this.bio = bio;
-        this.feed_count = feed_count;
-        this.follows = follows;
-        this.followed_by = followed_by;
-    }
-
-    @SerializedName("id")
+public class MemberItem {
+    @SerializedName("email")
     @Expose
-    private String id;
+    private String email;
     @SerializedName("username")
     @Expose
     private String username;
     @SerializedName("full_name")
     @Expose
     private String full_name;
+    @SerializedName("password")
+    @Expose
+    private String password;
     @SerializedName("profile_picture")
     @Expose
     private String profilePicture;
@@ -51,12 +32,43 @@ public class UserItem {
     @Expose
     private int followed_by;
 
-    public String getId() {
-        return id;
+    public MemberItem(){
+
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public MemberItem(String email, String username, String password){
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
+     * @param email
+     * @param username
+     * @param full_name
+     * @param profilePicture
+     * @param bio
+     * @param feed_count
+     * @param follows
+     * @param followed_by
+     */
+    public MemberItem(String email, String username, String full_name, String profilePicture, String bio, int feed_count, int follows, int followed_by) {
+        this.email = email;
+        this.username = username;
+        this.full_name = full_name;
+        this.profilePicture = profilePicture;
+        this.bio = bio;
+        this.feed_count = feed_count;
+        this.follows = follows;
+        this.followed_by = followed_by;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -117,8 +129,8 @@ public class UserItem {
 
     @Override
     public String toString() {
-        return "UserItem{" +
-                "id='" + id + '\'' +
+        return "MemberItem{" +
+                "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", full_name='" + full_name + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Bundle;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.sign.FirstActivity;
 
 public class SplashActivity extends Activity {
     /** Duration of wait **/
@@ -21,7 +22,7 @@ public class SplashActivity extends Activity {
          * and close this Splash-Screen after some seconds.*/
         new Handler().postDelayed(() -> {
             /* Create an Intent that will start the Menu-Activity. */
-            Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+            Intent mainIntent = new Intent(SplashActivity.this, FirstActivity.class);
             SplashActivity.this.startActivity(mainIntent);
             SplashActivity.this.finish();
         }, SPLASH_DISPLAY_LENGTH);

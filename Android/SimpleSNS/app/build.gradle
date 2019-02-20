@@ -52,4 +52,7 @@ dependencies {
 
     // NavigationTabStrip: https://github.com/Devlight/NavigationTabStrip
     implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
+
+    // Volley https://github.com/google/volley
+    implementation 'com.android.volley:volley:1.1.1'
 }

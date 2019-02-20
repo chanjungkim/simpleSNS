@@ -3,20 +3,14 @@ package org.simplesns.simplesns.activity.main;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +18,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.favorite.FavoriteFragment;
-import org.simplesns.simplesns.lib.UIlib;
+import org.simplesns.simplesns.lib.UiLib;
 import org.simplesns.simplesns.activity.main.camera.ImageRegisterActivity;
 import org.simplesns.simplesns.activity.main.home.HomeFragment;
 import org.simplesns.simplesns.activity.main.profile.ProfileFragment;
@@ -35,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private BottomNavigationViewEx bottomNavigationViewEx;
+    int backCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UIlib.getInstance(this).setHideNavigation(true);
-        UIlib.getInstance(this).setStatusBarColor(getResources().getColor(R.color.grey));
+        UiLib.getInstance(this).setHideNavigation(true);
+        UiLib.getInstance(this).setStatusBarColor(getResources().getColor(R.color.grey));
 
         setContentView(R.layout.activity_main);
 
@@ -103,6 +98,21 @@ public class MainActivity extends AppCompatActivity {
             ImageViewCompat.setImageTintList(bottomNavigationViewEx.getIconAt(i), ColorStateList.valueOf(Color.parseColor("#ffbfbfbf")));
         }
         ImageViewCompat.setImageTintList(bottomNavigationViewEx.getIconAt(position), ColorStateList.valueOf(Color.parseColor("#ff000000")));
+    }
+
+    @Override
+    public void onBackPressed() {
+        backCount++;
+
+        switch (backCount) {
+            case 1:
+                Toast.makeText(this, "Press back to exit.", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                super.onBackPressed();
+                finish();
+                break;
+        }
     }
 }
 

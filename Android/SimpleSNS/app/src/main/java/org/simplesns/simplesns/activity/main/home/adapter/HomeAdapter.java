@@ -47,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         try{
             Holder.tv_user_name.setText(dataArrayList.get(i).getUser().getUsername());
         }catch (NullPointerException e){
-            Log.d(TAG, "No UserItem FeedItem");
+            Log.d(TAG, "No MemberItem FeedItem");
             e.printStackTrace();
             return;
         }

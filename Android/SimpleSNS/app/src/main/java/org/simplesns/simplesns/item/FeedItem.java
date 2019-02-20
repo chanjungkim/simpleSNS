@@ -25,7 +25,7 @@ public class FeedItem {
 
     @SerializedName("user")
     @Expose
-    private UserItem user;
+    private MemberItem user;
 
     @SerializedName("created_time")
     @Expose
@@ -84,11 +84,11 @@ public class FeedItem {
         this.like_count = like_count;
     }
 
-    public UserItem getUser() {
+    public MemberItem getUser() {
         return user;
     }
 
-    public void setUser(UserItem user) {
+    public void setUser(MemberItem user) {
         this.user = user;
     }
 

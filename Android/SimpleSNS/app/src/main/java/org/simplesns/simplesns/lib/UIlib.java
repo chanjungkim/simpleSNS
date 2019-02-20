@@ -4,23 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
-import org.simplesns.simplesns.R;
-
-public class UIlib {
+public class UiLib {
     private static Context mContext;
-    private static UIlib instance;
+    private static UiLib instance;
     int newUiOptions = 0;
 
-    public static UIlib getInstance(@NonNull Context context) {
+
+    public static UiLib getInstance(@NonNull Context context) {
         if (instance == null) {
-            synchronized (UIlib.class) {
+            synchronized (UiLib.class) {
                 if (instance == null) {
-                    instance = new UIlib();
+                    instance = new UiLib();
                     mContext = context;
                 }
             }
