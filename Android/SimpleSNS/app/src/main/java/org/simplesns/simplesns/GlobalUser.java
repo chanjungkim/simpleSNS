@@ -58,7 +58,7 @@ public class GlobalUser {
         this.jwt = jwt;
     }
 
-    public String getMy_id() {
+    public String getMyId() {
         return my_id;
     }
 

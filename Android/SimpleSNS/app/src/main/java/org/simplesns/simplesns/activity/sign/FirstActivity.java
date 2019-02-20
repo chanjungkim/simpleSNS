@@ -216,8 +216,21 @@ public class FirstActivity extends AppCompatActivity {
     public void initLogin() {
         backCount = 0;
         setContentView(R.layout.activity_login);
+
+        EditText usernameET = findViewById(R.id.username_edittext_loginactivity);
+        EditText passwordET = findViewById(R.id.password_edittext_loginactivity);
+        Button loginBTN = findViewById(R.id.login_button_loginactivity);
+
+        loginBTN.setOnClickListener((v) -> {
+            GlobalUser.getInstance().setMyId(usernameET.getText().toString());
+            tempPass();
+        });
+
     }
 
+    /**
+     * 임피 패스를 위한 메소드
+     */
     public void tempPass(){
         // 임시 패스
         Intent intent = new Intent(FirstActivity.this, MainActivity.class);

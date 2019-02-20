@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.favorite.FavoriteFragment;
 import org.simplesns.simplesns.lib.UiLib;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(this, "Sign-in Success.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Welcome, "+ GlobalUser.getInstance().getMyId(), Toast.LENGTH_SHORT).show();
 
         mTextMessage = findViewById(R.id.message);
         bottomNavigationViewEx = findViewById(R.id.navigation);

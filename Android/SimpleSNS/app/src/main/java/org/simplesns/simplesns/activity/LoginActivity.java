@@ -34,19 +34,12 @@ public class LoginActivity extends AppCompatActivity {
 
         EditText usernameET = findViewById(R.id.username_edittext_loginactivity);
         EditText passwordET = findViewById(R.id.password_edittext_loginactivity);
-
         Button loginBTN = findViewById(R.id.login_button_loginactivity);
 
         loginBTN.setOnClickListener((v) -> {
+            GlobalUser.getInstance().login(LoginActivity.this, usernameET.getText().toString(), passwordET.getText().toString());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-        });
-
-        loginBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GlobalUser.getInstance().login(LoginActivity.this, usernameET.getText().toString(), passwordET.getText().toString());
-            }
         });
 
         // 패스워드 edit text에서 enter하면 바로 로그인
