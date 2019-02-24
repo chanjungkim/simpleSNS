@@ -10,30 +10,16 @@ var smtpTransport = nodemailer.createTransport({
   }
 });
 
-// From client, if the user click send button. calls... and send email to the email address that passed.
 router.get('/send', async function(req, res, next) {
 	console.log('/send');
   var email = decodeURI(req.query.to);
 	console.log(email);
   var rand = Math.floor((Math.random() * 9000 + 1000));
-// get method
-//  var link="http://"+req.get("host")+"/email/verify?email="+email+"&num="+rand;
+  var link="http://"+req.get("host")+"/email/verify?email="+email+"&num="+rand;
   var mailOptions={
 		to : email,
-    subject : "Please verify that it's your email address.",
-    html : "<div style='font-size: 15px;'>"
-					+"Please verify that it's you."
-					+"<br>This is an email from"
-					+"<a style='font-weight: bold;' href='https://github.com/chanjungkim/simpleSNS'>SimpleSNS</a> to verify your email address."
-					+"<br>If you are attempting to sign-up, please use the following code to verify your identity."
-					+"<br> Your verification code :"
-					+"<div style='background-color:#555; color:white; text-align: center; font-weight: bold;"
-					+"line-height: 100px; width: 150px; height: 100px;'>"+rand
-					+"</div>"
-					+"</div>"
-					+"<div style='color:red;'>Please ignore or block this email if you are not signing up for SimpleSNS.</div>" 
-					+"<br>Yours securely,"
-					+"<br>Team <a href='https://github.com/chanjungkim/simpleSNS'>SimpleSNS</a>"
+    subject : "Please confirm your Email account",
+    html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
   }
 
 	try{
@@ -51,7 +37,7 @@ router.get('/send', async function(req, res, next) {
 				var sql = "INSERT INTO email_verification(email, code) VALUES(?,?)";
 				var input = [email,num];
 				db.get().query(sql, input, function(err, result){
-					res.json({result:true, message:"Please check the code in your mail box.", code:100});
+					res.json({result:true, message:"Please check your email.", code:100});
 				});
     	}
   	});
@@ -60,36 +46,23 @@ router.get('/send', async function(req, res, next) {
 	}
 });
 
-// From email, if user clicks the link in the verification email. calls... => don't need link, but code in the email.
-router.post('/verify',async function(req,res){
+router.get('/verify',async function(req,res){
 	console.log('/verify');
-	var email = req.body.email;
-	var code = req.body.code;
+  var result = await dbHelper.verify(req.query.email,req.query.num);
+  if(result==true){
+    console.log("email is verified");
+		var num = rand;
+		var sql = "UPDATE email_verification SET status = 1 WHERE email=? AND code=?";
+		var input = [email, num];
 
-	var sql = "SELECT * FROM email_verification WHERE email=? AND code=? AND req_time >= NOW() - INTERVAL 3 MINUTE";
-	var input = [email, code];
-	db.get().query(sql, input, function(err, result){
-		if(err){
-			console.log("err: "+JSON.stringify(err, null, 2));
+//    db.get().dbHelper.verifyUpdate(req.query.email,req.query.num);
+		db.get().query(sql, input, function(err, result){
+	    res.json({result:true, code:100, message:"Checked your email successfully."});
+		});
+  } else  {
       console.log("email is not verified");
-      res.json({result:false, code:403, message:"Verify SQL Error."});
-		}
-		console.log("result: "+JSON.stringify(result,null,2));
-		if(result.length > 0){
-    	console.log("Ready to verify - There is a record to be verified.");
-    	var sql = "UPDATE email_verification SET status = 1 WHERE email=? AND code=? AND req_time >= NOW() - INTERVAL 3 MINUTE";
-    	var input = [email, code];
-
-    	db.get().query(sql, input, function(err, result){
-				// this shows when the user clicks the link in the email.
-				console.log(email+" M= verified successfully");
-      	res.json({result:true, code:100, message:"Verified successfully."});
-    	});
-  	} else  {
-      console.log("email is not verified");
-      res.json({result:false, code:401, message:"Your email hasn't been verified yet."});
-  	}
-	});
+      res.json({result:false, code:401, message:"email is not verified"});
+  }
 });
 
 router.post('/register',async function(req,res){
@@ -106,11 +79,11 @@ router.post('/register',async function(req,res){
 				var input = [email];
 
 				db.get().query(sql, input, function(err, result){
-					if(result.length >0){
+					if(rows.length >0){
 						var sql_select = "SELECT * FROM member WHERE email=?";
 						var input = [email];
 						db.get().query(sql_select, input, function(err, result){
-							if(result.length == 0){
+							if(rows.length == 0){
 								var token = makeToken();
 								var sql_insert = "INSERT INTO member (email,password,username,device_id,login_method,token) VALUES(?,?,?,?,0,?)";
 								var input = [email,pass,nick,devid,token];

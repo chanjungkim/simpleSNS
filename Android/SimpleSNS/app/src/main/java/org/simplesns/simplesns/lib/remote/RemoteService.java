@@ -23,9 +23,6 @@ public interface RemoteService {
     // ★★★ push 시에 주의할 것
     String BASE_URL = "http://13.125.159.29:3000";
 
-    @GET("/email/send")
-    Call<BasicResult> validateEmail(@Query("to") String to);
-
     @POST("/member")
     Call<SignUpResult> insertMember(@Body SignUpData signUpData);
 
@@ -36,6 +33,9 @@ public interface RemoteService {
     @FormUrlEncoded
     @POST("/member/login/myid")
     Call<LoginResult> loginByMyId(@Field("my_id") String myId);
+
+    @GET("/email/send")
+    Call<BasicResult> validateEmail(@Query("to") String to);
 
     @FormUrlEncoded
     @POST("/email/verify")
