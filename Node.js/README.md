@@ -72,7 +72,7 @@ module.exports = router; // all routers must end with this.
 
 # db.get().query(...)
 
-```
+```javascript
 db.get().query(sql, input, function(err, result) {
 	if(err){
 		console.log("err: " + JSON.stringify(err,null,2));
