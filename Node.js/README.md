@@ -1,11 +1,15 @@
 # introduction
 
 `app.js` - The main file for its server.
+
 `bin/www` or `bin/simpleSNS` - A file for execution.
+
 `db.js` - Database setting file.
+
 `packing.json` - The description of the app. It also contains the information of modules. You can install the described modules with a command `npm install`.
 
 `routes` - For `routers`.
+
 `view` - For a web app.
 
 `public` - For static web page.
