@@ -16,30 +16,22 @@ var db = require('../db');
 var router = express.Router();
 
 router.post('/login', function(req, res, next){
-	console.log("/login");
-	var username = req.body.username;
-	var password = req.body.password;
+	var a = req.body.a;
+	var b = req.body.b;
 
-	console.log("username: "+username+", password: "+password);
-	var sql = "SELECT * FROM member WHERE username = ? AND password = ? LIMIT 1";
-	var input = [username, password];
+	var sql = "SELECT ...";
+	var input = [a, b];
 
-	console.log("sql : " + sql);
 	db.get().query(sql, input, function(err, result) {
-		if(err){
-			console.log("err: "+JSON.stringify(err,null,2));
-			res.json({message:"DB error", code:403, result:false});
-		}
-		console.log("result : "  + JSON.stringify(result, null, 2));
-		if ( result.length > 0) {
-			console.log(username+"/"+password+" => Login Successful");
-			res.json({message:"Login Succesful", code:100, result:true, jwt:"TEST_JWT"});
-		} else {
-			console.log(username+"/"+password+" <= User doesn't exists.");
-			res.json({message:"User doesn't exists.",code:400,result:false});;
-		}
+		// TODO:
 	});
 });
 
 module.exports = router;
+```
+
+```java
+    @FormUrlEncoded
+    @POST("/member/login")
+    Call<LoginResult> loginMember(@Field("a") String x, @Field("b") String y);
 ```
