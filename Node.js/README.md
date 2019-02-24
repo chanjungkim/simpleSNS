@@ -50,3 +50,20 @@ module.exports = router;
 
 `@UPDATE`
 
+# db.get().query(...)
+
+```
+db.get().query(sql, input, function(err, result) {
+	if(err){
+		console.log("err: " + JSON.stringify(err,null,2));
+		res.json({message:"SQL error", code:403, request:false});
+	}
+	console.log("result: " + JSON.stringify(result,null,2));
+
+	if(result.length > 0){
+		res.json({message:"Success!", code:100, request:true});
+	]else{
+		res.json({message:"No User!", code:403, request:false});
+	}
+});
+```
