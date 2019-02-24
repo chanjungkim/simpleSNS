@@ -43,7 +43,10 @@ module.exports = router;
 # Method Types
 
 `@GET` -> @Path, @Query -> req.params, req.query
+
 `@POST` -> @Body, @Field(@FormUrlEncoded사용) -> req.body
+
 `@DELETE`
+
 `@UPDATE`
 
