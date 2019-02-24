@@ -9,9 +9,12 @@ import org.simplesns.simplesns.item.MemberItem;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RemoteService {
@@ -26,8 +29,17 @@ public interface RemoteService {
     @POST("/member")
     Call<SignUpResult> insertMember(@Body SignUpData signUpData);
 
+    @FormUrlEncoded
     @POST("/member/login")
-    Call<LoginResult> loginMember(@Body MemberItem memberItem);
+    Call<LoginResult> loginMember(@Field("username") String username, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("/member/login/myid")
+    Call<LoginResult> loginByMyId(@Field("my_id") String myId);
+
+    @FormUrlEncoded
+    @POST("/email/verify")
+    Call<BasicResult> verifyEmailAndCode(@Field("email") String email, @Field("code") String code);
 
     @PUT("/member")
     Call<String> updateMember(@Body MemberItem memberItem);

@@ -37,6 +37,9 @@ public class FirstActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(GlobalUser.getInstance().getMyIDPreference(FirstActivity.this) != null){
+            GlobalUser.getInstance().loginByMyId(FirstActivity.this, GlobalUser.getInstance().getMyId());
+        }
         super.onCreate(savedInstanceState);
         initFirst();
     }
@@ -47,7 +50,7 @@ public class FirstActivity extends AppCompatActivity {
 
         switch (backCount) {
             case 0:
-                initFirstEmailValid();
+                initEmailValidView();
                 break;
             case 1:
                 initFirst();
@@ -68,15 +71,15 @@ public class FirstActivity extends AppCompatActivity {
         Button loginBTN = findViewById(R.id.login_button_firstactivity);
 
         createBTN.setOnClickListener((v) -> {
-            initFirstEmailValid();
+            initEmailValidView();
         });
 
         loginBTN.setOnClickListener((v) -> {
-            initLogin();
+            initLoginView();
         });
     }
 
-    public void initFirstEmailValid() {
+    public void initEmailValidView() {
         backCount = 0;
         setContentView(R.layout.activity_first_email_valid);
         EditText emailET = findViewById(R.id.email_edittext_first_email_valid);
@@ -104,16 +107,20 @@ public class FirstActivity extends AppCompatActivity {
         sendBTN.setOnClickListener((v) -> {
             email = emailET.getText().toString();
             try {
-                validateEmail(email, nextBTN, countDownTimerTV);
-//                initFirstCreate(email);
+                sendVerificationEmail(email, nextBTN, countDownTimerTV);
+//                initCreateUserView(email);
             } catch (NullPointerException e) {
                 Toast.makeText(FirstActivity.this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
         });
+
+        nextBTN.setOnClickListener((v)->{
+            verifyEmailAndCode(emailET.getText().toString(), codeET.getText().toString());
+        });
     }
 
-    public void validateEmail(String to, Button nextBTN, TextView countDownTimerTV) {
-        Log.d(TAG, "validateEmail()= to(email): " + email);
+    public void sendVerificationEmail(String to, Button nextBTN, TextView countDownTimerTV) {
+        Log.d(TAG, "sendVerificationEmail()= to(email): " + email);
 
         // backCount 세지 않음.
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
@@ -140,21 +147,15 @@ public class FirstActivity extends AppCompatActivity {
                                 nextBTN.setBackgroundColor(getResources().getColor(R.color.link_blue));
                                 countDownTimerTV.setVisibility(View.VISIBLE);
                                 BasicCountDownTimer basicCountDownTimer = BasicCountDownTimer.getInstance(FirstActivity.this);
-                                if(!basicCountDownTimer.isTimerRunning()){
+                                if (!basicCountDownTimer.isTimerRunning()) { // not running. initialize.
                                     basicCountDownTimer.setCountDownTimerFormat("Verify your email in: (", ":", ")");
-                                    basicCountDownTimer.setTimeLeftInMilliseconds(60 * 1000);
+                                    basicCountDownTimer.setTimeLeftInMilliseconds(60 * 1000 * 3);
                                     basicCountDownTimer.startTimer(countDownTimerTV, nextBTN);
-                                }else{
+                                } else { // running
                                     basicCountDownTimer.stopTimer();
-                                    basicCountDownTimer.setTimeLeftInMilliseconds(60 * 1000);
+                                    basicCountDownTimer.setTimeLeftInMilliseconds(60 * 1000 * 3);
                                     basicCountDownTimer.startTimer(countDownTimerTV, nextBTN);
                                 }
-//                                new Thread(() -> {
-//                                    Handler countDownTimeHandler = new Handler();
-//                                    countDownTimeHandler.post(() -> {
-//
-//                                    });
-//                                });
                                 Toast.makeText(FirstActivity.this, validResult.getMessage(), Toast.LENGTH_SHORT).show();
                                 break;
                             default:
@@ -177,8 +178,8 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-    public void initFirstCreate(String email) {
-        Log.d(TAG, "initFirstCreate()= email: " + email);
+    public void initCreateUserView(String email) {
+        Log.d(TAG, "initCreateUserView()= email: " + email);
         backCount = -1;
         setContentView(R.layout.activity_first_create);
         TextView infoTV = findViewById(R.id.info_textview_first_create_activity);
@@ -234,7 +235,7 @@ public class FirstActivity extends AppCompatActivity {
                             switch (signUpResult.code) {
                                 case 100:
                                     try {
-                                        GlobalUser.getInstance().login(FirstActivity.this, email, passwordET.getText().toString());
+                                        GlobalUser.getInstance().login(FirstActivity.this, username, password);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         Toast.makeText(FirstActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -263,7 +264,35 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 
-    public void initLogin() {
+    public void verifyEmailAndCode(String email, String code) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        Call<BasicResult> call = remoteService.verifyEmailAndCode(email, code);
+        call.enqueue(new Callback<BasicResult>() {
+            @Override
+            public void onResponse(Call<BasicResult> call, Response<BasicResult> response) {
+                BasicResult basicResult = response.body();
+
+                switch (basicResult.getCode()) {
+                    case 100:
+                        Toast.makeText(FirstActivity.this, basicResult.getMessage(), Toast.LENGTH_SHORT).show();
+                        initCreateUserView(email);
+                        break;
+                    default:
+                        Toast.makeText(FirstActivity.this, basicResult.getCode() + ": " + basicResult.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BasicResult> call, Throwable throwable) {
+                throwable.printStackTrace();
+                Toast.makeText(FirstActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void initLoginView() {
         backCount = 0;
         setContentView(R.layout.activity_login);
 
@@ -272,9 +301,12 @@ public class FirstActivity extends AppCompatActivity {
         Button loginBTN = findViewById(R.id.login_button_loginactivity);
 
         loginBTN.setOnClickListener((v) -> {
-            if (usernameET.getText().toString() != null && passwordET.getText().toString() != null) {
-                GlobalUser.getInstance().setMyId(usernameET.getText().toString());
-                tempPass();
+            String username = usernameET.getText().toString();
+            String password = passwordET.getText().toString();
+
+            if ( username != null && password != null) {
+                GlobalUser.getInstance().login(FirstActivity.this, username, password);
+//                tempPass();
             } else {
                 Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
             }

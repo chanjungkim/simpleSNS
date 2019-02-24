@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import org.simplesns.simplesns.activity.LoginActivity;
+import org.simplesns.simplesns.activity.sign.FirstActivity;
 import org.simplesns.simplesns.activity.sign.item.LoginResult;
 import org.simplesns.simplesns.activity.sign.item.User;
 import org.simplesns.simplesns.activity.main.MainActivity;
@@ -74,78 +75,71 @@ public class GlobalUser {
         this.default_url = default_url;
     }
 
-    public void logout(Context activityContext, Class<LoginActivity> loginActivityClass) {
-        Log.d(TAG, "logOut()");
-        //로그아웃 버튼 기능 추가
-        SharedPreferences pref = activityContext.getSharedPreferences("pref", MODE_PRIVATE);
-        pref.edit()
-                .remove("jwt")
-                .apply();
-        SharedPreferences pref2 = activityContext.getSharedPreferences("pref2", MODE_PRIVATE);
-        pref.edit()
-                .remove("my_id")
-                .apply();
-
-        Toast.makeText(activityContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(activityContext, loginActivityClass);
-        activityContext.startActivity(intent);
-    }
-
-    public void getMyIDPreference(Context context) {
+    /**
+     * Get myId from SharedPreferences.
+     * @param context
+     * @return
+     */
+    public String getMyIDPreference(Context context) {
         Log.d(TAG, "getMyIDPreference()");
         SharedPreferences pref2 = context.getSharedPreferences("pref2", MODE_PRIVATE);
         my_id = pref2.getString("my_id", "");
         if (my_id.equals("") || my_id == null) {
             Log.d(TAG, "No id....");
-        } else {
-            GlobalUser.getInstance().setMyId(my_id);
-            Log.d(TAG, "my_id: " + my_id);
+            return null;
         }
+        GlobalUser.getInstance().setMyId(my_id);
+        Log.d(TAG, "my_id: " + my_id);
+
+        return my_id;
     }
 
-    public void login(Context context, String email, String password) {
-        Log.d(TAG, "login()= email: " + email + ", password: " + password);
+    /**
+     * For sign-up and login. This is for normal login. It needs username, password.
+     * @param context
+     * @param username
+     * @param password
+     */
+    public void login(Context context, String username, String password) {
+        Log.d(TAG, "login()= email: " + username + ", password: " + password);
 
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
         try {
-            Call<LoginResult> call = remoteService.loginMember(new MemberItem());
+            Call<LoginResult> call = remoteService.loginMember(username, password);
 
             call.enqueue(new Callback<LoginResult>() {
                 @Override
                 public void onResponse(Call<LoginResult> call, retrofit2.Response<LoginResult> response) {
                     try {
-                        String message;
-                        boolean result;
-                        int code;
                         LoginResult responseResult = response.body(); // ???
                         Log.d(TAG, "login resonse" + responseResult.toString());
                         switch (responseResult.getCode()) {
                             case 100:
                                 //요청에 성공한 경우 호출됨.
                                 //로그인 성공 시 response. result -> jwt토큰 반환(String Type), JWT가 없으면 접속 못함.
-                                if(jwt.equals("") || jwt == null){
+                                jwt = responseResult.getJwt();
+                                if (jwt.equals("") || jwt == null) {
                                     Toast.makeText(context, "Login Failed.", Toast.LENGTH_SHORT).show();
                                     return;
-                                }else{
-                                    jwt = responseResult.getJwt();
+                                } else {
+                                    //값 저장하기
+                                    SharedPreferences sp = context.getSharedPreferences("pref", MODE_PRIVATE);
+                                    sp.edit()
+                                            .putString("jwt", jwt)
+                                            .apply();
+
+                                    Log.d(TAG, "saved jwt: " + jwt);
+                                    GlobalUser.getInstance().setJwt(jwt);
+                                    GlobalUser.getInstance().setMyId(username);
+                                    //로그인 성공 시 화면 이동
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    context.startActivity(intent);
+                                    Toast.makeText(context, responseResult.getMessage(), Toast.LENGTH_SHORT).show(); //핸들러 사용해야함
+                                    ((Activity) context).finish();
+//                                    getMyIdFromServer(context, MainActivity.class);
                                 }
 
-                                //값 저장하기
-                                SharedPreferences sp = context.getSharedPreferences("pref", MODE_PRIVATE);
-                                sp.edit()
-                                        .putString("jwt", jwt)
-                                        .apply();
-
-                                Log.d(TAG, "saved jwt: " + jwt);
-                                GlobalUser.getInstance().setJwt(jwt);
-                                getMyIdFromServer(context, MainActivity.class);
-                                //로그인 성공 시 화면 이동
-                                Toast.makeText(context, responseResult.getMessage(), Toast.LENGTH_SHORT).show(); //핸들러 사용해야함
-                                Intent intent = new Intent(context, MainActivity.class);
-                                context.startActivity(intent);
-                                ((Activity) context).finish();
                                 break;
                             default://로그인 실패시 다시 입력
                                 Toast.makeText(context, responseResult.getMessage(), Toast.LENGTH_SHORT).show();
@@ -167,6 +161,11 @@ public class GlobalUser {
         }
     }
 
+    /**
+     * ???
+     * @param context
+     * @param mainActivityClass
+     */
     public void getMyIdFromServer(Context context, Class<MainActivity> mainActivityClass) {
         Log.d(TAG, "getMyIdFromServer()");
 
@@ -197,12 +196,17 @@ public class GlobalUser {
                             Log.d(TAG, "code: " + String.valueOf(code));
 
                             //자동로그인기능
-                            if (code == 100) {
-                                GlobalUser.getInstance().setMyId(my_id);
-                                Intent intent = new Intent(context, mainActivityClass);
-                                context.startActivity(intent);
-                                Toast.makeText(context, "자동로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                                ((Activity) context).finish();
+                            switch (code) {
+                                case 100:
+                                    GlobalUser.getInstance().setMyId(my_id);
+                                    Intent intent = new Intent(context, mainActivityClass);
+                                    context.startActivity(intent);
+                                    Toast.makeText(context, "자동로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                                    ((Activity) context).finish();
+                                    break;
+                                default:
+                                    Toast.makeText(context, code+": ?", Toast.LENGTH_SHORT).show();
+                                    break;
                             }
                         }
                     } catch (Exception e) {
@@ -221,6 +225,44 @@ public class GlobalUser {
         }
     }
 
+    /**
+     * For auto login, if the client ever logged in before. Skip FirstActivity and Show MainActivity directly.
+     * @param activityContext
+     * @param myId
+     */
+    public void loginByMyId(Context activityContext, String myId) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        Call<LoginResult> call = remoteService.loginByMyId(myId);
+
+        call.enqueue(new Callback<LoginResult>() {
+            @Override
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                LoginResult loginResult = response.body();
+
+                switch (loginResult.getCode()) {
+                    case 100:
+
+                        break;
+                    default:
+                        Toast.makeText(activityContext, loginResult.getCode() + ":" + loginResult.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResult> call, Throwable throwable) {
+                throwable.printStackTrace();
+                Toast.makeText(activityContext, throwable.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * ???
+     * @param activityContext
+     * @param loginActivityClass
+     */
     public void logOut(Context activityContext, Class<LoginActivity> loginActivityClass) {
         Log.d(TAG, "logOut()");
         //로그아웃 버튼 기능 추가
