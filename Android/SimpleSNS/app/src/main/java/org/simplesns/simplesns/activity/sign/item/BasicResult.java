@@ -1,6 +1,6 @@
 package org.simplesns.simplesns.activity.sign.item;
 
-public class ValidResult {
+public class BasicResult {
     String message;
     int code;
     boolean result;
@@ -31,7 +31,7 @@ public class ValidResult {
 
     @Override
     public String toString() {
-        return "ValidResult{" +
+        return "BasicResult{" +
                 "message='" + message + '\'' +
                 ", code=" + code +
                 ", result=" + result +

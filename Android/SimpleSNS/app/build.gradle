@@ -20,6 +20,11 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+
+    // For databinding, we just need to enable this. Then, all done. That's it.
+    dataBinding{
+        enabled = true
+    }
 }
 
 dependencies {

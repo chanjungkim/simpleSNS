@@ -27,6 +27,9 @@
     <string name="email">Email</string>
     <string name="next">Next</string>
     <string name="create_new_account">Create New Account</string>
+    <string name="code">CODE</string>
+    <string name="send_email">Send email</string>
+
     <!-- CameraFragment -->
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>

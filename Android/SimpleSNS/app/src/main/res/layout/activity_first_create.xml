@@ -1,93 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    tools:context="org.simplesns.simplesns.activity.LoginActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        tools:context="org.simplesns.simplesns.activity.LoginActivity">
 
-        <TextView
-            android:id="@+id/logo_imageview_firsttwoactivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="NAME AND PASSWORD"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/fullname_edittext_first_create_activity"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edittext_height"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/outline"
-            android:hint="@string/fullname"
-            android:padding="15dp"
-            android:textAllCaps="false"
-            android:textColor="@color/link_blue"
-            android:textColorHint="@color/grey2" />
-
-        <EditText
-            android:id="@+id/password_edittext_first_create_activity"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edittext_height"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/outline"
-            android:hint="@string/cpassword"
-            android:padding="15dp"
-            android:textAllCaps="false"
-            android:textColor="@color/link_blue"
-            android:textColorHint="@color/grey2" />
-
-        <Button
-            android:id="@+id/continue_button_first_create_activity"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edittext_height"
-            android:layout_marginLeft="@dimen/default_side_margin"
-            android:layout_marginRight="@dimen/default_side_margin"
-            android:layout_marginBottom="30dp"
-            android:background="@color/link_blue"
-            android:text="Continue and Sync Contacts"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Continue Without Syncing Contacts"
-            android:textColor="@color/link_blue" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/info_textview_first_create_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/default_side_margin"
-            android:paddingRight="@dimen/default_side_margin"
-            android:paddingBottom="20dp"
-            android:autoLink="web"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="information"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/grey2" />
-    </LinearLayout>
-</RelativeLayout>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/logo_imageview_firsttwoactivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="NAME AND PASSWORD"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/fullname_edittext_first_create_activity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edittext_height"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/outline"
+                android:hint="@string/fullname"
+                android:padding="15dp"
+                android:maxLength="32"
+                android:imeOptions="actionNext"
+                android:textAllCaps="false"
+                android:textColor="@color/link_blue"
+                android:textColorHint="@color/grey2" />
+
+            <EditText
+                android:id="@+id/password_edittext_first_create_activity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edittext_height"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/outline"
+                android:inputType="textPassword"
+                android:hint="@string/cpassword"
+                android:padding="15dp"
+                android:maxLength="20"
+                android:imeOptions="actionNext"
+                android:textAllCaps="false"
+                android:textColor="@color/link_blue"
+                android:textColorHint="@color/grey2" />
+
+            <Button
+                android:id="@+id/continue_button_first_create_activity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edittext_height"
+                android:layout_marginLeft="@dimen/default_side_margin"
+                android:layout_marginRight="@dimen/default_side_margin"
+                android:layout_marginBottom="30dp"
+                android:background="@color/link_blue"
+                android:text="Continue and Sync Contacts"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continue Without Syncing Contacts"
+                android:textColor="@color/link_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/info_textview_first_create_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:gravity="center"
+                android:paddingLeft="@dimen/default_side_margin"
+                android:paddingRight="@dimen/default_side_margin"
+                android:paddingBottom="20dp"
+                android:text="information"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/grey2" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

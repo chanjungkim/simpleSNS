@@ -1,20 +1,17 @@
 package org.simplesns.simplesns.lib.remote;
 
+import org.simplesns.simplesns.activity.sign.item.LoginResult;
+import org.simplesns.simplesns.activity.sign.item.SignUpData;
 import org.simplesns.simplesns.activity.sign.item.SignUpResult;
-import org.simplesns.simplesns.activity.sign.item.ValidResult;
+import org.simplesns.simplesns.activity.sign.item.BasicResult;
 import org.simplesns.simplesns.item.MemberItem;
-import org.simplesns.simplesns.item.result.LoginResult;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RemoteService {
@@ -24,10 +21,10 @@ public interface RemoteService {
     String BASE_URL = "http://13.125.159.29:3000";
 
     @GET("/email/send")
-    Call<ValidResult> validateEmail(@Query("to") String to);
+    Call<BasicResult> validateEmail(@Query("to") String to);
 
     @POST("/member")
-    Call<SignUpResult> insertMember(@Body MemberItem memberItem);
+    Call<SignUpResult> insertMember(@Body SignUpData signUpData);
 
     @POST("/member/login")
     Call<LoginResult> loginMember(@Body MemberItem memberItem);

@@ -10,12 +10,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
 import org.simplesns.simplesns.activity.LoginActivity;
+import org.simplesns.simplesns.activity.sign.item.LoginResult;
 import org.simplesns.simplesns.activity.sign.item.User;
 import org.simplesns.simplesns.activity.main.MainActivity;
 import org.simplesns.simplesns.item.MemberItem;
-import org.simplesns.simplesns.item.result.LoginResult;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 
@@ -37,12 +36,13 @@ public class GlobalUser {
 
     /**
      * 싱글턴, 하나의 객체만을 사용함.
+     *
      * @return
      */
-    public static GlobalUser getInstance(){
-        if(instance == null){
-            synchronized (GlobalUser.class){
-                if(instance == null){
+    public static GlobalUser getInstance() {
+        if (instance == null) {
+            synchronized (GlobalUser.class) {
+                if (instance == null) {
                     instance = new GlobalUser();
                 }
             }
@@ -105,9 +105,11 @@ public class GlobalUser {
     }
 
     public void login(Context context, String email, String password) {
+        Log.d(TAG, "login()= email: " + email + ", password: " + password);
+
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        try{
+        try {
             Call<LoginResult> call = remoteService.loginMember(new MemberItem());
 
             call.enqueue(new Callback<LoginResult>() {
@@ -117,38 +119,39 @@ public class GlobalUser {
                         String message;
                         boolean result;
                         int code;
-                        String responseResult = response.body().toString(); // ???
-                        JSONObject jsonObject = new JSONObject(responseResult);
-                        Log.d(TAG, "login resonse" + responseResult);
-                        Log.d(TAG, "response messasge" + jsonObject.getString("message"));
-                        Log.d(TAG, "response code" + String.valueOf(jsonObject.getInt("code")));
-//                                    Log.d("response result", String.valueOf(jsonObject.getBoolean("result")));
-                        message = jsonObject.getString("message");
-//                    result = jsonObject.getBoolean("result");
-                        code = jsonObject.getInt("code");
-                        if (code == 100) {
-                            //요청에 성공한 경우 호출됨.
-                            //로그인 성공 시 response. result -> jwt토큰 반환(String Type)
-                            jwt = jsonObject.getString("result");
-                            //값 저장하기
-                            SharedPreferences sp = context.getSharedPreferences("pref", MODE_PRIVATE);
-                            sp.edit()
-                                    .putString("jwt", jwt)
-                                    .apply();
+                        LoginResult responseResult = response.body(); // ???
+                        Log.d(TAG, "login resonse" + responseResult.toString());
+                        switch (responseResult.getCode()) {
+                            case 100:
+                                //요청에 성공한 경우 호출됨.
+                                //로그인 성공 시 response. result -> jwt토큰 반환(String Type), JWT가 없으면 접속 못함.
+                                if(jwt.equals("") || jwt == null){
+                                    Toast.makeText(context, "Login Failed.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }else{
+                                    jwt = responseResult.getJwt();
+                                }
 
-                            Log.d(TAG, "saved jwt: " + jwt);
-                            GlobalUser.getInstance().setJwt(jwt);
-                            getMyIdFromServer(context, MainActivity.class);
-                            //로그인 성공 시 화면 이동
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show(); //핸들러 사용해야함
-                            Intent intent = new Intent(context, MainActivity.class);
-                            context.startActivity(intent);
-                            ((Activity)context).finish();
-                        } else //로그인 실패시 다시 입력
-                        {
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                //값 저장하기
+                                SharedPreferences sp = context.getSharedPreferences("pref", MODE_PRIVATE);
+                                sp.edit()
+                                        .putString("jwt", jwt)
+                                        .apply();
+
+                                Log.d(TAG, "saved jwt: " + jwt);
+                                GlobalUser.getInstance().setJwt(jwt);
+                                getMyIdFromServer(context, MainActivity.class);
+                                //로그인 성공 시 화면 이동
+                                Toast.makeText(context, responseResult.getMessage(), Toast.LENGTH_SHORT).show(); //핸들러 사용해야함
+                                Intent intent = new Intent(context, MainActivity.class);
+                                context.startActivity(intent);
+                                ((Activity) context).finish();
+                                break;
+                            default://로그인 실패시 다시 입력
+                                Toast.makeText(context, responseResult.getMessage(), Toast.LENGTH_SHORT).show();
+                                break;
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -158,7 +161,7 @@ public class GlobalUser {
                     Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show();
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
@@ -169,7 +172,7 @@ public class GlobalUser {
 
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        try{
+        try {
             Call<String> call = remoteService.getMyId(new MemberItem());
 
             call.enqueue(new Callback<String>() {
@@ -199,7 +202,7 @@ public class GlobalUser {
                                 Intent intent = new Intent(context, mainActivityClass);
                                 context.startActivity(intent);
                                 Toast.makeText(context, "자동로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                                ((Activity)context).finish();
+                                ((Activity) context).finish();
                             }
                         }
                     } catch (Exception e) {
@@ -212,7 +215,7 @@ public class GlobalUser {
                     Toast.makeText(context, "getMyId() 에러", Toast.LENGTH_SHORT).show();
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
