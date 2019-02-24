@@ -54,8 +54,6 @@ module.exports = router;
 
 `@UPDATE`
 
-# 
-```javascript
 ```javascript
 var express = require('express'); // module doesn't need to specify its path.
 var db = require('../db'); // if it's not a module, then you need to specify the correct path.
