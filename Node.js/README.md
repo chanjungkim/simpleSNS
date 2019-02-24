@@ -68,7 +68,6 @@ router.post('/login', function(req, res, next){ // If the client sends a request
 
 module.exports = router; // all routers must end with this.
 ```
-```
 
 # db.get().query(...)
 
