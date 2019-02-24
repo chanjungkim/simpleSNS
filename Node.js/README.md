@@ -54,19 +54,37 @@ module.exports = router;
 
 `@UPDATE`
 
+# 
+```javascript
+```javascript
+var express = require('express'); // module doesn't need to specify its path.
+var db = require('../db'); // if it's not a module, then you need to specify the correct path.
+var router = express.Router();
+
+router.post('/login', function(req, res, next){ // If the client sends a request with POST method, then you need to use `router.post`.
+	var a = req.body.a; // If the client sends a request in @Body or @Field, you need to get the data with req.body.item_name;
+	var b = req.body.b;
+
+	// TODO:...
+});
+
+module.exports = router; // all routers must end with this.
+```
+```
+
 # db.get().query(...)
 
 ```
 db.get().query(sql, input, function(err, result) {
 	if(err){
 		console.log("err: " + JSON.stringify(err,null,2));
-		res.json({message:"SQL error", code:403, request:false});
+		res.json({message:"SQL error", code:403, request:false}); // get the json data. The client would need `Gson`.
 	}
 	console.log("result: " + JSON.stringify(result,null,2));
 
-	if(result.length > 0){
+	if(result.length > 0){ // If there is any affectnesses after the query.
 		res.json({message:"Success!", code:100, request:true});
-	]else{
+	}else{ // If there is any affectnesses after the query.
 		res.json({message:"No User!", code:403, request:false});
 	}
 });
