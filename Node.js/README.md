@@ -79,7 +79,7 @@ db.get().query(sql, input, function(err, result) {
 	}
 	console.log("result: " + JSON.stringify(result,null,2));
 
-	if(result.length > 0){ // If there is any affectnesses after the query.
+	if(result.length > 0){ // If there are some affectnesses after the query.
 		res.json({message:"Success!", code:100, request:true});
 	}else{ // If there is any affectnesses after the query.
 		res.json({message:"No User!", code:403, request:false});
