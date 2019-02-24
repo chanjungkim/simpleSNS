@@ -10,6 +10,8 @@
 
 `public` - For static web page.
 
+`routes/member.js`
+
 ```javascript
 var express = require('express');
 var db = require('../db');
@@ -30,8 +32,18 @@ router.post('/login', function(req, res, next){
 module.exports = router;
 ```
 
+`RemoteService.java` interface.
+
 ```java
     @FormUrlEncoded
     @POST("/member/login")
     Call<LoginResult> loginMember(@Field("a") String x, @Field("b") String y);
 ```
+
+# Method Types
+
+`@GET` -> @Path, @Query -> req.params, req.query
+`@POST` -> @Body, @Field(@FormUrlEncoded사용) -> req.body
+`@DELETE`
+`@UPDATE`
+
