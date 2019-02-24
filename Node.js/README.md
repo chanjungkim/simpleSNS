@@ -1,18 +1,18 @@
 # introduction
 
-`app.js` - The main file for its server.
+`app.js` - The main file for its server. It's the highest file among all the file. It contains `modules`, `db.js`, `routers`.
 
-`bin/www` or `bin/simpleSNS` - A file for execution.
+`bin/www` or `bin/simpleSNS` - A file for execution. You can run the server by `pm2 start bin/simpleSNS` and then you can see the list of running applications with `pm2 list` and you will see `simpleSNS` in the list.
 
-`db.js` - Database setting file.
+`db.js` - Database setting file. It contains database account(id, password), database name, etc.
 
-`packing.json` - The description of the app. It also contains the information of modules. You can install the described modules with a command `npm install`.
+`packing.json` - The description of the app. It also contains the information of modules. You can install the described modules with a command `npm install`. So, when you push node.js project, you can exclude `node_modules` because `package.json` knows what to install. It will make your repository less heavier. `package.json` also can contain about app information such as app name, version, script for execute some commands.
 
-`routes` - For `routers`.
+`routes` - For `routers`. The backend developer mostly work on this folder. You write your business logic here.
 
-`view` - For a web app.
+`view` - For a web app. You don't need this part if you are a mobile app developer.
 
-`public` - For static web page.
+`public` - For static web page such as image files or html.
 
 `routes/member.js`
 
