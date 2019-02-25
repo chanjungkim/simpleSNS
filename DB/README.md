@@ -28,25 +28,25 @@ DESC TABLE_NAME; // 테이블의 속성 및 구성을 보여줍니다.
 
 ```
 CREATE TABLE member (
-p_key BIGINT UNSIGNED PRIMARY KEY,
-e_mail VARCHAR(64) NOT NULL UNIQUE KEY,
-password VARCHAR(20) NOT NULL,
-nickname VARCHAR(12) NOT NULL,
-device_id VARCHAR(100),
-login_method INT NOT NULL,
-token VARCHAR(32) NOT NULL,
-gender INT,
-profile VARCHAR(50),
-recent_date DATETIME NOT NULL
+  p_key BIGINT UNSIGNED PRIMARY KEY,
+  e_mail VARCHAR(64) NOT NULL UNIQUE KEY,
+  password VARCHAR(20) NOT NULL,
+  nickname VARCHAR(12) NOT NULL,
+  device_id VARCHAR(100),
+  login_method INT NOT NULL,
+  token VARCHAR(32) NOT NULL,
+  gender INT,
+  profile VARCHAR(50),
+  recent_date DATETIME NOT NULL
 );
 ```
 
 ```
 CREATE TABLE email_verify(
-e_mail VARCHAR(64) NOT NULL,
-verify_number VARCHAR(5)  NOT NULL,
-request_time DATETIME NOT NULL,
-verified_status INT DEFAULT 0
+  e_mail VARCHAR(64) NOT NULL,
+  verify_number VARCHAR(5)  NOT NULL,
+  request_time DATETIME NOT NULL,
+  verified_status INT DEFAULT 0
 );
 ```
 
