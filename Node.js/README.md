@@ -153,7 +153,7 @@ db.get().query(sql, input, function(err, result) {
 | PUT	 | UPDATE   | 수정 시 사용합니다.   |
 | DELETE | DELETE   | 삭제 시 사용합니다.   |
 
-### Implemented APIs
+### APIs in this project.
 
 | num | method | router                  | name                    | description                                                       |
 |:---:|:-------|:------------------------|:------------------------|:------------------------------------------------------------------|
