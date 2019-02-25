@@ -11,14 +11,17 @@ USE SimpleSNS;
 
 ## 기본 동작 ##
 
+```
 SHOW DATABASES; // DBMS의 DB목록을 보여줍니다.
 CREATE DATABASE DB_NAME; // DB_NAME이란 데이터베이스를 생성합니다. 
 USE DB_NAME; // DD_NAME이란 데이터베이스를 사용합니다.
 SHOW TABLES; // 접속된 DB내의 테이블 목록을 보여줍니다.
 DESC TABLE_NAME; // 테이블의 속성 및 구성을 보여줍니다.
+```
 
 # OLD
 
+```
 CREATE TABLE member (
 p_key BIGINT UNSIGNED PRIMARY KEY,
 e_mail VARCHAR(64) NOT NULL UNIQUE KEY,
@@ -31,13 +34,16 @@ gender INT,
 profile VARCHAR(50),
 recent_date DATETIME NOT NULL
 );
+```
 
+```
 CREATE TABLE email_verify(
 e_mail VARCHAR(64) NOT NULL,
 verify_number VARCHAR(5)  NOT NULL,
 request_time DATETIME NOT NULL,
 verified_status INT DEFAULT 0
 );
+```
 
 # NEW
 
@@ -45,8 +51,11 @@ verified_status INT DEFAULT 0
 
 ### EMAIL_VERIFICATION
 
+```
 DROP TABLE IF EXISTS `MEMBER`;
-		
+```
+
+```
 CREATE TABLE member (
   `uid` BIGINT(20) NOT NULL AUTO_INCREMENT DEFAULT NULL,
   `email` VARCHAR(64) NOT NULL,
@@ -60,11 +69,15 @@ CREATE TABLE member (
   `last_login_date` DATETIME NOT NULL,
   PRIMARY KEY (`uid`)
 );	
+```
 
 ### Table 'EMAIL_VERIFICATION'
 
+```
 DROP TABLE IF EXISTS `EMAIL_VERIFICATION`;
-		
+```
+
+```
 CREATE TABLE email_verification (
   `eid` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(64) NOT NULL,
@@ -73,11 +86,15 @@ CREATE TABLE email_verification (
   `status` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`eid`)
 );
+```
 
 ### Table 'FEED'
 
+```
 DROP TABLE IF EXISTS `FEED`;
-		
+```
+
+```
 CREATE TABLE feed (
   `fid` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `uid` BIGINT(20) NOT NULL,
@@ -86,11 +103,16 @@ CREATE TABLE feed (
   `mod_time` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`fid`, `uid`)
 );
+```
 
 ### Table 'MEDIA'
 
+
+```
 DROP TABLE IF EXISTS media;
-		
+```
+
+```
 CREATE TABLE media (
   `mid` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `fid` BIGINT(20) NOT NULL,
@@ -100,11 +122,16 @@ CREATE TABLE media (
   `height` INTEGER(6) NOT NULL,
   PRIMARY KEY (`mid`, `fid`)
 );
+```
 
 ### Table 'COMMENT'
 
+
+```
 DROP TABLE IF EXISTS comment;
-		
+```
+
+```
 CREATE TABLE comment(
   `cid` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `fid` BIGINT(20) NOT NULL,
@@ -113,22 +140,30 @@ CREATE TABLE comment(
   `pid` BIGINT(20) NULL DEFAULT NULL COMMENT '대댓글을 위한 속성',
   PRIMARY KEY (`cid`, `fid`, `uid`)
 );
+```
 
 ### Table 'LIKE'
 
+```
 DROP TABLE IF EXISTS `LIKE`;
-		
+```
+
+```
 CREATE TABLE reaction(
   `lid` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `fid` BIGINT(20) NOT NULL,
   `uid` BIGINT(25) NOT NULL,
   PRIMARY KEY (`lid`, `fid`, `uid`)
 );
+```
 
 ### Table 'TAG'
 
+```
 DROP TABLE IF EXISTS `TAG`;
-		
+```
+
+```
 CREATE TABLE tag(
   `uid` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `feed_seq` BIGINT(20) NOT NULL,
@@ -136,19 +171,25 @@ CREATE TABLE tag(
   `location` VARCHAR(20) NULL DEFAULT NULL,
   PRIMARY KEY (`uid`, `feed_seq`)
 );
+```
 
 ### Table 'FOLLOW'
 
+```
 DROP TABLE IF EXISTS `FOLLOW`;
-		
+```
+
+```
 CREATE TABLE follow (
   `uid` INTEGER NULL DEFAULT NULL,
   `following_uid` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`uid`, `following_uid`)
 );
+```
 
 ### Foreign Keys (미완성)
 
+```
 alter table trade add foreign key (seller_id) REFERENCES user(uid);
 
 alter table user drop column score;
@@ -163,9 +204,11 @@ ALTER TABLE feed ADD FOREIGN KEY (fid) REFERENCES media (fid);
 ALTER TABLE feed ADD FOREIGN KEY (fid) REFERENCES comment (fid);
 ALTER TABLE feed ADD FOREIGN KEY (fid) REFERENCES like (fid);
 ALTER TABLE feed ADD FOREIGN KEY (fid) REFERENCES tag (feed_seq);
+```
 
 ### Table Properties(미완성)
 
+```
 ALTER TABLE `MEMBER` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 ALTER TABLE `EMAIL_VERIFICATION` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 ALTER TABLE `FEED` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -174,3 +217,4 @@ ALTER TABLE `COMMENT` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 ALTER TABLE `LIKE` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 ALTER TABLE `TAG` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 ALTER TABLE `FOLLOW` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+```
