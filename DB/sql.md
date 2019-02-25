@@ -1,15 +1,15 @@
 # Start
 
-#### MySQL/MariaDB 접속 ##
+#### MySQL/MariaDB 접속 ####
 
 mysql -u root -p
 패스워드 입력
 
-#### SimpleSNS 디비 접속 ##
+#### SimpleSNS 디비 접속 ####
 
 USE SimpleSNS;
 
-#### 기본 동작 ##
+#### 기본 동작 ####
 
 ```
 SHOW DATABASES; // DBMS의 DB목록을 보여줍니다.
@@ -19,7 +19,7 @@ SHOW TABLES; // 접속된 DB내의 테이블 목록을 보여줍니다.
 DESC TABLE_NAME; // 테이블의 속성 및 구성을 보여줍니다.
 ```
 
-### OLD
+## OLD
 
 ```
 CREATE TABLE member (
@@ -45,7 +45,7 @@ verified_status INT DEFAULT 0
 );
 ```
 
-### NEW
+## NEW
 
 #### Create Tables
 
