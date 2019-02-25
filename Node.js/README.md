@@ -46,24 +46,24 @@ module.exports = router;
 
 # Method Types and examples
 
-| Client(Retrofit)         | Parameters in RemoteService(interface)          | Nodejs(method)            | Nodejs(get data)       |
-| ------------------------ |-------------------------------------------------| --------------------------| -----------------------|
-| @GET("/member/{xxx}")    | @Path("xxx") String abc                         | router.get('/:xxx', f)    | req.params.xxx         |
-| @GET("/member/xyz")      | @Query("xxx") String abc                        | router.get('/xyz', f)     | req.query.xxx          |
-| @POST("/member/{xxx}")   | @Path("xxx") String abc                         | router.post('/:xxx', f)   | req.params.xxx         |
-| @POST("/member")         | @Body("member") MemberItem abc                  | router.post('/', f)       | req.body.member.xxx    |
-|            -             |                      -                          |            -              | req.body.member.yyy    |
-| @FormUrlEncoded          |                      -                          |            -              |           -            |
-| @POST("/member")         | @Field("xxx") String a, @Field("yyy") String b  | router.post('/', f)       | req.body.xxx           |
-|            -             |                      -                          |            -              | req.body.yyy           |
-| @PUT("/member/{xxx}")    | @Path("xxx") String abc                         | router.put('/:xxx', f)    | req.params.xxx         |
-| @Multipart               |                      -                          |            -              |           -            |
-| @PUT("/member/xxx")      | @Part("image") Img img, @Part("info") Info info | router.put('/xxx', f)     | [Multiparty Library](https://github.com/pillarjs/multiparty)               |
-| @PATCH("/member/{xxx}")  | @Path("xxx") String abc                         | router.patch('/:xxx', f)  | req.params.xxx         |
-| @PATCH("/member")        | @Body("member") MemberItem abc                  | router.patch('/', f)      | req.body.member.xxx    |
-|            -             |                      -                          |            -              | req.body.member.yyy    |     
-| @DELETE("/member/{xxx}") | @Path("xxx") String abc                         | router.delete('/:xxx', f) | req.params.xxx         |
-| @DELETE("/member")       | @Query("xxx") String abc                        | router.delete('/', f)     | req.query.xxx          |
+| No | Client(Retrofit)         | Parameters in RemoteService(interface)          | Nodejs(method)            | Nodejs(get data)       |
+| -- | ------------------------ |-------------------------------------------------| --------------------------| -----------------------|
+| 1  | @GET("/member/{xxx}")    | @Path("xxx") String abc                         | router.get('/:xxx', f)    | req.params.xxx         |
+| 2  | @GET("/member/xyz")      | @Query("xxx") String abc                        | router.get('/xyz', f)     | req.query.xxx          |
+| 3  | @POST("/member/{xxx}")   | @Path("xxx") String abc                         | router.post('/:xxx', f)   | req.params.xxx         |
+| 4  | @POST("/member")         | @Body("member") MemberItem abc                  | router.post('/', f)       | req.body.member.xxx    |
+|    |            -             |                      -                          |            -              | req.body.member.yyy    |
+| 5  | @FormUrlEncoded          |                      -                          |            -              |           -            |
+|    | @POST("/member")         | @Field("xxx") String a, @Field("yyy") String b  | router.post('/', f)       | req.body.xxx           |
+|    |            -             |                      -                          |            -              | req.body.yyy           |
+| 6  | @PUT("/member/{xxx}")    | @Path("xxx") String abc                         | router.put('/:xxx', f)    | req.params.xxx         |
+| 7  | @Multipart               |                      -                          |            -              |           -            |
+|    | @PUT("/member/xxx")      | @Part("image") Img img, @Part("info") Info info | router.put('/xxx', f)     | [Multiparty Library](https://github.com/pillarjs/multiparty)               |
+| 8  | @PATCH("/member/{xxx}")  | @Path("xxx") String abc                         | router.patch('/:xxx', f)  | req.params.xxx         |
+| 9  | @PATCH("/member")        | @Body("member") MemberItem abc                  | router.patch('/', f)      | req.body.member.xxx    |
+|    |            -             |                      -                          |            -              | req.body.member.yyy    |     
+| 10 | @DELETE("/member/{xxx}") | @Path("xxx") String abc                         | router.delete('/:xxx', f) | req.params.xxx         |
+| 11 | @DELETE("/member")       | @Query("xxx") String abc                        | router.delete('/', f)     | req.query.xxx          |
 
 NOTE: You may need to encode and decode when you use `query`. For example, `Koreran`.
 
