@@ -52,6 +52,10 @@ verified_status INT DEFAULT 0
 
 ## NEW
 
+#### ERD
+
+<image src="https://lh6.googleusercontent.com/a5GvlaeEcSD_TCVLzm8R-R-wePJY6hatHGWiv6cjdfQumeHJunCJJveWlAEMKLlGl9kHho1sz6xXXxTsXWCd38oiA2_l79Kifb6ioceunCQmCRPzxmWhd_4VLNe3kNGBCk7H_lepvww"/>
+
 #### Create Tables
 
 - EMAIL_VERIFICATION
