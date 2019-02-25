@@ -153,6 +153,8 @@ db.get().query(sql, input, function(err, result) {
 | PUT	 | UPDATE   | 수정 시 사용합니다.   |
 | DELETE | DELETE   | 삭제 시 사용합니다.   |
 
+### Implemented APIs
+
 | num | method | router                  | name                    | description                                                       |
 |:---:|:-------|:------------------------|:------------------------|:------------------------------------------------------------------|
 | 1   | POST   | /member                 | 회원가입                 | 본인 팔로잉(팔로워, 팔로잉 리스트엔 미적용), 가입 후 /login 호출      |
