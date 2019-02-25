@@ -47,7 +47,7 @@ For more details, go to [android](./Android)
     
 This folder doesn't have any DBMSs. However, it contains the files that you can apply in your DBMS such as creating tables, inserting records or something.
 
-For more details, go to [db](./Db)
+For more details, go to [db](./DB)
 
 ### Our channel(Discord) ###
 
