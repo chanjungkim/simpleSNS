@@ -70,15 +70,38 @@ module.exports = router;
 NOTE: You may need to encode and decode when you use `query`. For example, `Koreran`.
 
 For more information, see [Retrofit Document](http://devflow.github.io/retrofit-kr).
-	
+
+### How router looks like
+
+##### router overview
+
+One router can have multi-methods. And one method looks something like this:
+```
+router.METHODNAME('/route', function(req,res,next){
+
+});
+```
+
 ```javascript
 var express = require('express'); // module doesn't need to specify its path.
 var db = require('../db'); // if it's not a module, then you need to specify the correct path.
 var router = express.Router();
 
-router.post('/login', function(req, res, next){ // If the client sends a request with POST method, then you need to use `router.post`.
+// After app.js fine the right router then this file runs if it matches and even in this router, There are many routes like below:
+
+router.post('/', function(req, res, next){ // If the client sends a request with POST method, then you need to use `router.post`.
+	// TODO:...
+});
+
+router.post('/login', function(req, res, next){
 	var a = req.body.a; // If the client sends a request in @Body or @Field, you need to get the data with req.body.item_name;
 	var b = req.body.b;
+
+	// TODO:...
+});
+
+router.get('/user/id', function(req, res, next){ // If the client sends a request with GET method, then you need to use `router.get`.
+	var a = req.query.a; // If the client sends a request in @Query, req.query.item_name or in @Path, you need req.params.item_name
 
 	// TODO:...
 });
@@ -86,7 +109,22 @@ router.post('/login', function(req, res, next){ // If the client sends a request
 module.exports = router; // all routers must end with this.
 ```
 
-# db.get().query(...)
+#### db process
+
+If you need to access db(mysql module is used here). You will need to implement something like this:
+
+```
+db.get().query(sql, input, function(err, result){
+    // TODO
+});
+```
+
+```
+db.get().query(sql, input, function(err, result){
+    if(err) console.log(err); // it shows sql error message.
+    res.json({code:100, message:"Sign-up Success!""}); // it responses to the client with the result.
+});
+```
 
 ```javascript
 db.get().query(sql, input, function(err, result) {
@@ -96,7 +134,7 @@ db.get().query(sql, input, function(err, result) {
 	}
 	console.log("result: " + JSON.stringify(result,null,2));
 
-	if(result.length > 0){ // If there are some affectnesses after the query.
+	if(result.length > 0){ // If there are some affectnesses after the query, it shows how many rows has been affected by length.
 		res.json({message:"Success!", code:100, request:true});
 	}else{ // If there is any affectnesses after the query.
 		res.json({message:"No User!", code:403, request:false});
