@@ -141,3 +141,42 @@ db.get().query(sql, input, function(err, result) {
 	}
 });
 ```
+
+# Interface
+
+### Type of Method.
+
+| method | SQL	    | description         |
+|:------:|:--------:|:--------------------|
+| POST	 | INSERT   | 등록할 때 사용합니다. |
+| GET	 | SELECT   | 얻어올 때 사용합니다. |
+| PUT	 | UPDATE   | 수정 시 사용합니다.   |
+| DELETE | DELETE   | 삭제 시 사용합니다.   |
+
+| num | method | router                  | name                    | description                                                       |
+|:---:|:-------|:------------------------|:------------------------|:------------------------------------------------------------------|
+| 1   | POST   | /member                 | 회원가입                 | 본인 팔로잉(팔로워, 팔로잉 리스트엔 미적용), 가입 후 /login 호출      |
+| 2   | POST   | /member/login           | 로그인                   |                                                                  |
+| 3   | GET    | /member                 | 유저 아이디 리턴          | 토큰 가져와서 로컬에 jwt, myId의 SharedPreference 저장.            |
+|     |        |                         |                          |                                                                 |
+| 4   | POST   | /feed                   | 게시글 작성               | 사진 포함(필요시 POST, /image 구성)                               | 
+| 5   | PUT    | /feed                   | 게시글 수정	        | (사진수정X)	                                               |
+| 6   | DELETE | /feed                   | 게시물 삭제               |                                                                 |
+| 7   | POST   | /feed/like              | 좋아요 누르기              |                                                                 |
+| 8   | GET    | /feed/like              | 좋아요 한 사람들 조회       |                                                                |
+| 9   | GET    | /feed                   | 팔로잉한 사람들 글 불러오기  | (jwt, lastPostNum) 처음이면 5개, 처음 아니면 3개씩               |
+| 10  | POST   | /comment                | 댓글 달기                   |                                                               |
+| 11  | GET    | /comment                | 댓글 조회                   |                                                               |
+|     |        |                         |                            |                                                                |
+| 12  | POST   | /follow	         | 팔로우 추가		  |                                                                |
+| 13  | GET    | /follow/follower        | 팔로워 리스트               |                                                                |
+| 14  | GET    | /follow/following       | 팔로잉 리스트     	         |                                                                |
+| 15  | GET    | /follow/history         | 팔로우한 사람들의 흔적보기   | (backend - like, comment 에 시간 넣기)                          |
+|     |        | 		         | 	                      |                                                                |
+| 16  | GET    | /profile                | 프로필 조회	  	  |                                                                |
+| 17  | PUT    | /profile                | 프로필 수정		  | (아이디 수정 O)					              |	
+| 18  | GET    | /profile/:username      | 유저 정보		   |                                                               |
+| 19  | GET    | /profile/feed/:username | 유저 게시물 피드	        |                                                               |
+|     |        | 			 |                            |                                                               |
+| 20  | POST   | /email/send             | 메일 주소 인증 이메일 보내기 | 메일함에서 4자리 인증 코드만 확인하는 방법                       |
+| 21  | POST   | /email/verify           | 인증 코드 체크              | 클라이언트 단에서 4자리 인증 코드를 입력하면 체크함               |
