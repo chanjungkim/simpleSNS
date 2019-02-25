@@ -35,13 +35,19 @@ Now you are ready for the nexts.
 Apprently, `Node.js` folder has the Node.js project file for server side.
 Once you installed `npm`, then you can simply start this project by `npm start` in `Node.js/SimpleSNS` folder.
 
+For more details, go to [nodejs](./nodejs)
+
 #### Android ####
 
 For Android Studio project file, open `Android/SimpleSNS` folder on Android Studio.
 
+For more details, go to [android](./android)
+
 #### DB ####
     
 This folder doesn't have any DBMSs. However, it contains the files that you can apply in your DBMS such as creating tables, inserting records or something.
+
+For more details, go to [db](./db)
 
 ### Our channel(Discord) ###
 
