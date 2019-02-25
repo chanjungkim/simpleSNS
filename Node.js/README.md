@@ -47,7 +47,7 @@ module.exports = router;
 # Method Types and examples
 
 | Client(Retrofit)         | Parameters in RemoteService(interface)          | Nodejs(method)            | Nodejs(get data)       |
-| ------------------------ |:-----------------------------------------------:| -------------------------:| ----------------------:|
+| ------------------------ |-------------------------------------------------| --------------------------| -----------------------|
 | @GET("/member/{xxx}")    | @Path("xxx") String abc                         | router.get('/:xxx', f)    | req.params.xxx         |
 | @GET("/member/xyz")      | @Query("xxx") String abc                        | router.get('/xyz', f)     | req.query.xxx          |
 | @POST("/member/{xxx}")   | @Path("xxx") String abc                         | router.post('/:xxx', f)   | req.params.xxx         |
