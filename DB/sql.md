@@ -1,15 +1,15 @@
 # Start
 
-## MySQL/MariaDB 접속 ##
+#### MySQL/MariaDB 접속 ##
 
 mysql -u root -p
 패스워드 입력
 
-## SimpleSNS 디비 접속 ##
+#### SimpleSNS 디비 접속 ##
 
 USE SimpleSNS;
 
-## 기본 동작 ##
+#### 기본 동작 ##
 
 ```
 SHOW DATABASES; // DBMS의 DB목록을 보여줍니다.
@@ -19,7 +19,7 @@ SHOW TABLES; // 접속된 DB내의 테이블 목록을 보여줍니다.
 DESC TABLE_NAME; // 테이블의 속성 및 구성을 보여줍니다.
 ```
 
-# OLD
+### OLD
 
 ```
 CREATE TABLE member (
@@ -45,11 +45,11 @@ verified_status INT DEFAULT 0
 );
 ```
 
-# NEW
+### NEW
 
-## Create Tables
+#### Create Tables
 
-### EMAIL_VERIFICATION
+- EMAIL_VERIFICATION
 
 ```
 DROP TABLE IF EXISTS `MEMBER`;
@@ -71,7 +71,7 @@ CREATE TABLE member (
 );	
 ```
 
-### Table 'EMAIL_VERIFICATION'
+- Table 'EMAIL_VERIFICATION'
 
 ```
 DROP TABLE IF EXISTS `EMAIL_VERIFICATION`;
@@ -88,7 +88,7 @@ CREATE TABLE email_verification (
 );
 ```
 
-### Table 'FEED'
+- Table 'FEED'
 
 ```
 DROP TABLE IF EXISTS `FEED`;
@@ -105,7 +105,7 @@ CREATE TABLE feed (
 );
 ```
 
-### Table 'MEDIA'
+- Table 'MEDIA'
 
 
 ```
@@ -124,7 +124,7 @@ CREATE TABLE media (
 );
 ```
 
-### Table 'COMMENT'
+- Table 'COMMENT'
 
 
 ```
@@ -142,7 +142,7 @@ CREATE TABLE comment(
 );
 ```
 
-### Table 'LIKE'
+- Table 'LIKE'
 
 ```
 DROP TABLE IF EXISTS `LIKE`;
@@ -157,7 +157,7 @@ CREATE TABLE reaction(
 );
 ```
 
-### Table 'TAG'
+- Table 'TAG'
 
 ```
 DROP TABLE IF EXISTS `TAG`;
@@ -173,7 +173,7 @@ CREATE TABLE tag(
 );
 ```
 
-### Table 'FOLLOW'
+- Table 'FOLLOW'
 
 ```
 DROP TABLE IF EXISTS `FOLLOW`;
@@ -187,7 +187,7 @@ CREATE TABLE follow (
 );
 ```
 
-### Foreign Keys (미완성)
+- Foreign Keys (미완성)
 
 ```
 alter table trade add foreign key (seller_id) REFERENCES user(uid);
@@ -206,7 +206,7 @@ ALTER TABLE feed ADD FOREIGN KEY (fid) REFERENCES like (fid);
 ALTER TABLE feed ADD FOREIGN KEY (fid) REFERENCES tag (feed_seq);
 ```
 
-### Table Properties(미완성)
+- Table Properties(미완성)
 
 ```
 ALTER TABLE `MEMBER` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
