@@ -55,7 +55,7 @@ module.exports = router;
 |            -             |                      -                          |            -              | req.body.member.yyy    |
 | @FormUrlEncoded          |                      -                          |            -              |           -            |
 | @POST("/member")         | @Field("xxx") String a, @Field("yyy") String b  | router.post('/', f)       | req.body.xxx           |
-|            -             |                                                 |                           | req.body.yyy           |
+|            -             |                      -                          |            -              | req.body.yyy           |
 | @PUT("/member/{xxx}")    | @Path("xxx") String abc                         | router.put('/:xxx', f)    | req.params.xxx         |
 | @Multipart               |                      -                          |            -              |           -            |
 | @PUT("/member/xxx")      | @Part("image") Img img, @Part("info") Info info | router.put('/xxx', f)     | [Multiparty Library](https://github.com/pillarjs/multiparty)               |
