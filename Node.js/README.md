@@ -14,6 +14,8 @@
 
 `public` - For static web page such as image files or html.
 
+### simple view
+
 `routes/member.js`
 
 ```javascript
