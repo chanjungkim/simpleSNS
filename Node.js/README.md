@@ -1,4 +1,4 @@
-# introduction
+# Introduction
 
 `app.js` - The main file for its server. It's the highest file among all the file. It contains `modules`, `db.js`, `routers`.
 
