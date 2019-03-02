@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- 밑줄 focused 됐을 때 색상 변경하는거 추가하기 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_profile_change" />
@@ -54,8 +54,11 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="이름"
-                    android:textSize="16dp"/>
+                    android:hint="이름"
+                    android:textSize="16dp"
+                    android:textColorHint="#bfbfbf"
+                    android:textColor="#4a4a4a"
+                    app:theme="@style/EditTheme"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -69,8 +72,11 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="사용자 이름"
-                    android:textSize="16dp"/>
+                    android:hint="사용자 이름"
+                    android:textSize="16dp"
+                    android:textColorHint="#bfbfbf"
+                    android:textColor="#4a4a4a"
+                    app:theme="@style/EditTheme"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -84,8 +90,11 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="소개"
-                    android:textSize="16dp"/>
+                    android:hint="소개"
+                    android:textSize="16dp"
+                    android:textColorHint="#bfbfbf"
+                    android:textColor="#4a4a4a"
+                    app:theme="@style/EditTheme"/>
             </LinearLayout>
 
             <TextView
@@ -114,9 +123,12 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="user@email.address"
+                    android:hint="user@email.address"
                     android:textSize="16dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColorHint="#bfbfbf"
+                    android:textColor="#4a4a4a"
+                    app:theme="@style/EditTheme" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -130,8 +142,11 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="전화번호를 입력하세요"
-                    android:textSize="16dp" />
+                    android:hint="전화번호를 입력하세요"
+                    android:textSize="16dp"
+                    android:textColorHint="#bfbfbf"
+                    android:textColor="#4a4a4a"
+                    app:theme="@style/EditTheme" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
