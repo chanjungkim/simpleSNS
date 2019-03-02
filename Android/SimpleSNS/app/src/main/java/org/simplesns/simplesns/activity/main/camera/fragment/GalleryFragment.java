@@ -23,6 +23,7 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.camera.adapter.ImageGalleryAdapter;
 import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -34,9 +35,10 @@ public class GalleryFragment extends Fragment {
 
     RecyclerView        rv_gallery;
     ImageGalleryAdapter galleryAdapter;
-    List<String>        gallery_paths;
+    static List<String> gallery_paths;
 
     ImageView iv_gallery;
+    Cursor cursor;
 
     @Nullable
     @Override
@@ -58,6 +60,7 @@ public class GalleryFragment extends Fragment {
         Collections.reverse(gallery_paths);
 
         iv_gallery.setImageBitmap(ImageUtil.rotateBitmapOrientation(gallery_paths.get(0)));
+        ImageUtil.pFile = new File(gallery_paths.get(0));
 
         galleryAdapter = new ImageGalleryAdapter (getContext(), gallery_paths, R.layout.item_gallery, iv_gallery);
         rv_gallery.setAdapter(galleryAdapter);
@@ -66,10 +69,16 @@ public class GalleryFragment extends Fragment {
         rv_gallery.setItemAnimator(new DefaultItemAnimator());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cursor.close();
+    }
+
     private void setImagePath () {
         String[] STAR = { "*" };
 
-        Cursor cursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        cursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 , STAR, null, null, null);
 
         if (cursor != null)
@@ -84,7 +93,7 @@ public class GalleryFragment extends Fragment {
                 } while (cursor.moveToNext());
 
             }
-            cursor.close();
+            //cursor.close(); // todo : 코린이-커서를 닫아버려서 이미지 변경 페이지에서 되돌아 오면 재호출 버그 발생 수정중
         }
     }
 }

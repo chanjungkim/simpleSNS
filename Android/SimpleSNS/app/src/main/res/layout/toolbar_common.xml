@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_common"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@color/light_grey">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="30">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/light_grey"
+            android:src="@drawable/baseline_x_24"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text = "@string/app_name"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/color_dark"
+            android:layout_weight="28"/>
+
+        <!--해당 레이아웃에서 visibility, text 정의 해야함  -->
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/baseline_check_24"
+            android:background="@color/light_grey"
+            android:layout_weight="1"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+        <!--해당 레이아웃에서 visibility 정의 해야함  -->
+        <ImageButton
+            android:id="@+id/btn_ok"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/baseline_check_24"
+            android:background="@color/light_grey"
+            android:layout_weight="1"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.Toolbar>

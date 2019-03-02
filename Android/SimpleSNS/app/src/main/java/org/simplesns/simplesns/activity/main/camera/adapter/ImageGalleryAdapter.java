@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -64,12 +65,9 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
                 .apply(RequestOptions.centerCropTransform())
                 .into(viewHolder.iv_grid_gallery);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.itemView.setOnClickListener(v-> {
+                ImageUtil.pFile = new File(items.get(position));
                 mainView.setImageBitmap(ImageUtil.rotateBitmapOrientation(items.get(position)));
-                Toast.makeText(context, items.get(position), Toast.LENGTH_SHORT).show();
-            }
         });
     }
 

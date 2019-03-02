@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <!--<android.support.v7.widget.Toolbar
         android:id="@+id/image_post_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_grey"/>
+        android:background="@color/light_grey"/>-->
+    <include layout="@layout/toolbar_common"></include>
 
     <LinearLayout
         android:layout_width="match_parent"

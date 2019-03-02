@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
@@ -17,25 +20,24 @@ import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
 public class ImageModifyActivity extends AppCompatActivity {
     String file_path;
-    Toolbar toolbar;
     ImageView mainView;
     TabHost tabHost;
+    TextView tv_next;
+    ImageButton btn_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_modify);
 
-        toolbar = (Toolbar) findViewById(R.id.image_modify_toolbar);
         mainView = (ImageView) findViewById (R.id.image_modify_view);
         tabHost = (TabHost) findViewById (R.id.image_modify_tabs);
+        tv_next = (TextView) findViewById (R.id.tv_next);
+        btn_back = (ImageButton) findViewById (R.id.btn_back);
         tabHost.setup();
 
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_keyboard_backspace_black_24dp);
+        tv_next.setText(getString(R.string.menu_next));
+        tv_next.setVisibility(View.VISIBLE);
 
         TabHost.TabSpec ts1 = tabHost.newTabSpec("Tab Spec 1") ;
         ts1.setContent(R.id.color_filter_menu_list) ;
@@ -54,27 +56,14 @@ public class ImageModifyActivity extends AppCompatActivity {
 
         mainView.setImageBitmap(ImageUtil.rotateBitmapOrientation(file_path));
 
-    }
+        tv_next.setOnClickListener(v->{
+            Intent image_post_intent = new Intent(ImageModifyActivity.this, ImagePostActivity.class);
+            image_post_intent.putExtra("file_path", file_path);
+            startActivity(image_post_intent);
+        });
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.image_modify_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.ic_next :
-                Intent image_post_intent = new Intent(ImageModifyActivity.this, ImagePostActivity.class);
-                image_post_intent.putExtra("file_path", file_path);
-                startActivity(image_post_intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        btn_back.setOnClickListener(v->{
+            finish();
+        });
     }
 }

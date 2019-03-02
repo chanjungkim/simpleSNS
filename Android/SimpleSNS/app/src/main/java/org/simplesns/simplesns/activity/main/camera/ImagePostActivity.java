@@ -18,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +43,10 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
     String gps2 = "777";
     String gps3 = "777";
 
-    Toolbar toolbar;
     TextView tv_location;
+
+    TextView tv_next;
+    ImageButton btn_back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +73,16 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
         }
 
+        tv_next.setOnClickListener(v->{
+            Intent home_intent = new Intent(ImagePostActivity.this, MainActivity.class);
+            home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   // activity stack clear
+            startActivity(home_intent);
+        });
+
+        btn_back.setOnClickListener(v->{
+            finish();
+        });
+
     }
 
     @Override
@@ -78,38 +92,14 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
     }
 
     private void initView () {
-        toolbar = (Toolbar) findViewById(R.id.image_post_toolbar);
         tv_location = (TextView) findViewById (R.id.tv_location);
+        tv_next = (TextView) findViewById (R.id.tv_next);
+        btn_back = (ImageButton) findViewById (R.id.btn_back);
 
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_keyboard_backspace_black_24dp);
+        tv_next.setText(getString(R.string.menu_share));
+        tv_next.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.image_post_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.ic_post :
-                Intent home_intent = new Intent(ImagePostActivity.this, MainActivity.class);
-                home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(home_intent);
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d(TAG, "onStatusChanged");

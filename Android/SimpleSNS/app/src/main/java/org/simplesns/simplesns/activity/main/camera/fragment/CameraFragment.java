@@ -64,7 +64,9 @@ import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.camera.ImageModifyActivity;
+import org.simplesns.simplesns.activity.main.camera.ImageRegisterActivity;
 import org.simplesns.simplesns.activity.main.camera.customview.AutoFitTextureView;
+import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -891,9 +893,8 @@ public class CameraFragment extends Fragment
                     // to do
                     unlockFocus();
 
-                    Intent cameraIntent = new Intent(getActivity(), ImageModifyActivity.class);
-                    cameraIntent.putExtra("file_path",mFile.getAbsoluteFile().toString());
-                    startActivity(cameraIntent);
+                    ImageUtil.pFile = mFile;
+                    ((ImageRegisterActivity)getActivity()).sendToImageModify(mFile);
                 }
             };
 

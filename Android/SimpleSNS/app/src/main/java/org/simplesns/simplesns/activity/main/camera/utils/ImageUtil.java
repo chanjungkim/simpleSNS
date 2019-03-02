@@ -5,11 +5,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 
+import java.io.File;
 import java.io.IOException;
 
 //reference 지울것
 //https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media
 public class ImageUtil {
+    public static File pFile;   // post 파일
+
+    private ImageUtil () {
+        // 인스턴스화 방지
+        throw new AssertionError();
+    }
 
     public static Bitmap rotateBitmapOrientation(String file_path) {
         BitmapFactory.Options bounds = new BitmapFactory.Options();
