@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="10">
+        android:weightSum="11">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -18,6 +18,7 @@
             android:layout_weight="8">
 
             <TextView
+                android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:fontFamily="sans-serif-medium"
@@ -45,6 +46,17 @@
             android:src="@drawable/baseline_menu_24"
             android:layout_weight="1"
             android:layout_marginRight="15dp"/>
+
+        <ImageView
+            android:id="@+id/btn_setting"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:src="@drawable/baseline_settings"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="15dp"/>
+
+
 
     </LinearLayout>
 

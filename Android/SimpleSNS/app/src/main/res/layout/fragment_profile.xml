@@ -9,6 +9,7 @@
     <include layout="@layout/toolbar_profile"/>
 
     <LinearLayout
+        android:id="@+id/profile_container_all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -39,26 +40,106 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="120dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="5dp"
-                    android:gravity="center"
-                    android:text="TODO: 게시물, 팔로워 정보 등 정리 " />
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:weightSum="2">
+                        <TextView
+                            android:id="@+id/tv_post_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:text="0 "
+                            android:textSize="18dp"
+                            android:textColor="@color/color_dark"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center_horizontal|top"
+                            android:text="게시물"
+                            android:textSize="14dp"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:weightSum="2">
+                        <TextView
+                            android:id="@+id/tv_follower_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:text="0 "
+                            android:textSize="18dp"
+                            android:textColor="@color/color_dark"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center_horizontal|top"
+                            android:text="팔로워"
+                            android:textSize="14dp"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:weightSum="2">
+                        <TextView
+                            android:id="@+id/tv_following_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:text="0 "
+                            android:textSize="18dp"
+                            android:textColor="@color/color_dark"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center_horizontal|top"
+                            android:text="팔로잉"
+                            android:textSize="14dp"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/tv_profile_change"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/border_rectangle"
                     android:gravity="center"
                     android:text="프로필 수정"
+                    android:textSize="14dp"
                     android:textColor="#000000" />
             </LinearLayout>
 

@@ -17,4 +17,9 @@
         <attr name="symbol" format="reference|integer"/>
         <attr name="text" format="reference|string"/>
     </declare-styleable>
+
+    <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/link_blue</item>
+    </style>
+
 </resources>

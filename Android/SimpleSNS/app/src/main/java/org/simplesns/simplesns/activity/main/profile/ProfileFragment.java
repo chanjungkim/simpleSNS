@@ -1,6 +1,7 @@
 package org.simplesns.simplesns.activity.main.profile;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.profile.fragment.ProfileBadukFragment;
 import org.simplesns.simplesns.activity.main.profile.fragment.ProfileLineFragment;
@@ -30,6 +32,13 @@ public class ProfileFragment extends Fragment {
     ProfileLineFragment profileLineFragment;
     ProfileTagFragment profileTagFragment;
     FragmentManager fragmentManager;
+
+    TextView tv_post_number;
+    TextView tv_follower_number;
+    TextView tv_following_number;
+
+    TextView tv_username;
+    ImageView btn_setting;
 
     public static ProfileFragment newInstance() {
 
@@ -48,6 +57,16 @@ public class ProfileFragment extends Fragment {
         button_baduk = (ImageView) view.findViewById(R.id.button_baduk);
         button_line = (ImageView) view.findViewById(R.id.button_line);
         button_tag = (ImageView) view.findViewById(R.id.button_tag);
+
+        // TODO : 서버에서 숫자 받아오기. 클릭하면 해당 페이지로 넘어가기.
+        tv_post_number = (TextView) view.findViewById(R.id.tv_post_number);
+        tv_follower_number = (TextView) view.findViewById(R.id.tv_follower_number);
+        tv_following_number = (TextView) view.findViewById(R.id.tv_following_number);
+
+        tv_username = (TextView) view.findViewById(R.id.tv_username);
+        tv_username.setText(GlobalUser.getInstance().getMyId());
+
+        btn_setting = (ImageView) view.findViewById(R.id.btn_setting);
 
         profileBadukFragment = new ProfileBadukFragment();
         profileLineFragment = new ProfileLineFragment();
@@ -84,7 +103,7 @@ public class ProfileFragment extends Fragment {
         iv_profile_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                // TODO : 서버에서 사진 받아와서 띄워놓기, 클릭하면 카메라로 이동하기
                 Toast.makeText(getActivity(),"TODO : 프로필 사진 바꾸기", Toast.LENGTH_SHORT).show();
             }
         });
@@ -97,6 +116,14 @@ public class ProfileFragment extends Fragment {
                 v.getContext().startActivity(intent);
             }
         });
+
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Setting 페이지로 이동/로그아웃 구현", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 
