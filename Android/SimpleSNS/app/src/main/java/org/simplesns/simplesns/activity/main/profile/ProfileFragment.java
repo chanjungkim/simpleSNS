@@ -22,8 +22,8 @@ import org.simplesns.simplesns.activity.main.profile.fragment.ProfileLineFragmen
 import org.simplesns.simplesns.activity.main.profile.fragment.ProfileTagFragment;
 
 public class ProfileFragment extends Fragment {
-    TextView tv_profile_change;             // 프로필 내용 수정 관련
-    ImageView iv_profile_photo;             // 프로필 이미지 수정 관련
+    TextView tvProfileChange;             // 프로필 내용 수정 관련
+    ImageView ivProfilePhoto;             // 프로필 이미지 수정 관련
     ImageView button_baduk;
     ImageView button_line;
     ImageView button_tag;
@@ -33,12 +33,12 @@ public class ProfileFragment extends Fragment {
     ProfileTagFragment profileTagFragment;
     FragmentManager fragmentManager;
 
-    TextView tv_post_number;
-    TextView tv_follower_number;
-    TextView tv_following_number;
+    TextView tvPostCount;
+    TextView tvFollowerCount;
+    TextView tvFollowingCount;
 
-    TextView tv_username;
-    ImageView btn_setting;
+    TextView tvUsername;
+    ImageView btnSetting;
 
     public static ProfileFragment newInstance() {
 
@@ -53,20 +53,20 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        tv_profile_change = (TextView) view.findViewById(R.id.tv_profile_change);
+        tvProfileChange = (TextView) view.findViewById(R.id.tv_profile_change);
         button_baduk = (ImageView) view.findViewById(R.id.button_baduk);
         button_line = (ImageView) view.findViewById(R.id.button_line);
         button_tag = (ImageView) view.findViewById(R.id.button_tag);
 
         // TODO : 서버에서 숫자 받아오기. 클릭하면 해당 페이지로 넘어가기.
-        tv_post_number = (TextView) view.findViewById(R.id.tv_post_number);
-        tv_follower_number = (TextView) view.findViewById(R.id.tv_follower_number);
-        tv_following_number = (TextView) view.findViewById(R.id.tv_following_number);
+        tvPostCount = (TextView) view.findViewById(R.id.tv_post_count);
+        tvFollowerCount = (TextView) view.findViewById(R.id.tv_follower_count);
+        tvFollowingCount = (TextView) view.findViewById(R.id.tv_following_count);
 
-        tv_username = (TextView) view.findViewById(R.id.tv_username);
-        tv_username.setText(GlobalUser.getInstance().getMyId());
+        tvUsername = (TextView) view.findViewById(R.id.tv_username);
+        tvUsername.setText(GlobalUser.getInstance().getMyId());
 
-        btn_setting = (ImageView) view.findViewById(R.id.btn_setting);
+        btnSetting = (ImageView) view.findViewById(R.id.btn_setting);
 
         profileBadukFragment = new ProfileBadukFragment();
         profileLineFragment = new ProfileLineFragment();
@@ -97,10 +97,10 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        iv_profile_photo = (ImageView) view.findViewById(R.id.iv_profile_photo);
+        ivProfilePhoto = (ImageView) view.findViewById(R.id.iv_profile_photo);
 
 
-        iv_profile_photo.setOnClickListener(new View.OnClickListener() {
+        ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO : 서버에서 사진 받아와서 띄워놓기, 클릭하면 카메라로 이동하기
@@ -108,16 +108,16 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        tv_profile_change.setOnClickListener(new View.OnClickListener() {
+        tvProfileChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ProfileChangeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
             }
         });
 
-        btn_setting.setOnClickListener(new View.OnClickListener() {
+        btnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"Setting 페이지로 이동/로그아웃 구현", Toast.LENGTH_SHORT).show();

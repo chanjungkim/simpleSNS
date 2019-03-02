@@ -59,7 +59,7 @@
                         android:layout_weight="1"
                         android:weightSum="2">
                         <TextView
-                            android:id="@+id/tv_post_number"
+                            android:id="@+id/tv_post_count"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:gravity="center"
@@ -84,7 +84,7 @@
                         android:layout_weight="1"
                         android:weightSum="2">
                         <TextView
-                            android:id="@+id/tv_follower_number"
+                            android:id="@+id/tv_follower_count"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:gravity="center"
@@ -109,7 +109,7 @@
                         android:layout_weight="1"
                         android:weightSum="2">
                         <TextView
-                            android:id="@+id/tv_following_number"
+                            android:id="@+id/tv_following_count"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:gravity="center"

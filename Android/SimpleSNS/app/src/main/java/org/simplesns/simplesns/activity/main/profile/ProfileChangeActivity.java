@@ -18,15 +18,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class ProfileChangeActivity extends AppCompatActivity {
-    ImageView btn_close;
-    ImageView btn_save;
-    CircleImageView iv_profile_photo;
-    TextView tv_profile_photo;
-    EditText et_name;
-    EditText et_username;
-    EditText et_introduction;
-    EditText et_email;
-    EditText et_phone;
+    ImageView btnClose;
+    ImageView btnSave;
+    CircleImageView ivProfilePhoto;
+    TextView tvProfilePhoto;
+    EditText etName;
+    EditText etUsername;
+    EditText etIntroduction;
+    EditText etEmail;
+    EditText etPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,36 +34,36 @@ public class ProfileChangeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_change);
 
 //        체크나 X 버튼을 누르면 ProfileFragment.java(fragment_profile.xml) 파일로 돌아감
-        btn_close = (ImageView)findViewById(R.id.btn_close);
-        btn_close.setOnClickListener(new View.OnClickListener() {
+        btnClose = (ImageView)findViewById(R.id.btn_close);
+        btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        btn_save = (ImageView)findViewById(R.id.btn_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
+        btnSave = (ImageView)findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                String new_name = et_name.getText().toString();
-                String new_username = et_username.getText().toString();
-                String new_introduction = et_introduction.getText().toString();
+                String new_name = etName.getText().toString();
+                String new_username = etUsername.getText().toString();
+                String new_introduction = etIntroduction.getText().toString();
                 // TODO : 수정한 내용 저장해야 함.  서버로 저장하나?
                 finish();
             }
         });
 
-        iv_profile_photo = (CircleImageView)findViewById(R.id.iv_profile_photo);
-        iv_profile_photo.setOnClickListener(new View.OnClickListener() {
+        ivProfilePhoto = (CircleImageView)findViewById(R.id.iv_profile_photo);
+        ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO : 프로필 이미지 바꾸는 코드 작성하기
             }
         });
-        tv_profile_photo = (TextView)findViewById(R.id.tv_profile_photo);
-        tv_profile_photo.setOnClickListener(new View.OnClickListener() {
+        tvProfilePhoto = (TextView)findViewById(R.id.tv_profile_photo);
+        tvProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO : 프로필 이미지 바꾸는 코드 작성하기
@@ -71,19 +71,19 @@ public class ProfileChangeActivity extends AppCompatActivity {
         });
 
         // TODO : 서버에서 받은 값으로 설정하기
-        et_name = (EditText)findViewById(R.id.et_name);
+        etName = (EditText)findViewById(R.id.et_name);
 //        et_name.setText("");
 
-        et_username = (EditText)findViewById(R.id.et_username);
-        et_username.setText(GlobalUser.getInstance().getMyId());
+        etUsername = (EditText)findViewById(R.id.et_username);
+        etUsername.setText(GlobalUser.getInstance().getMyId());
 
-        et_introduction = (EditText)findViewById(R.id.et_introduction);
+        etIntroduction = (EditText)findViewById(R.id.et_introduction);
 //        et_introduction.setText("");
 
-        et_email= (EditText)findViewById(R.id.et_email);
+        etEmail= (EditText)findViewById(R.id.et_email);
 //        et_email.setText("");
 
-        et_phone = (EditText)findViewById(R.id.et_phone);
+        etPhone = (EditText)findViewById(R.id.et_phone);
 //        et_phone.setText("");
     }
 }
