@@ -1,11 +1,23 @@
 package org.simplesns.simplesns.activity.main.camera.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
 import java.util.List;
 
@@ -13,50 +25,65 @@ import java.util.List;
  * author : 코린이
  * Created by default on 2018-04-14.
  */
-public class ImageGalleryAdapter  extends BaseAdapter {
-    Context mContext;
-    List<Bitmap> imageBmps; // 코린이 file path 로 변경 할듯
-    ImageView iv_main;
+public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder> {
+    private Context context;
+    private List<String> items;
+    private int itemLayout;
+    private ImageView mainView;
 
-    public ImageGalleryAdapter(Context context, List<Bitmap> imageBmps, ImageView iv_main) {
-        this.mContext = context;
-        this.imageBmps = imageBmps; // 코린이 file path 로 변경 할듯
-        this.iv_main = iv_main;
+    public ImageGalleryAdapter(Context context, List<String> items, int itemLayout, ImageView mainView) {
+        this.context = context;
+        this.items = items;
+        this.itemLayout = itemLayout;
+        this.mainView = mainView;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+
+        View v = LayoutInflater.from (parent.getContext()).inflate(itemLayout, parent, false);
+
+        GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) v.getLayoutParams();
+        params.height = metrics.widthPixels/3;
+        //params.width = metrics.heightPixels/3;
+        v.setLayoutParams(params);
+
+        return new ViewHolder(v);
     }
 
     @Override
-    public int getCount() {
-        return (imageBmps!=null) ? imageBmps.size() :0;
-    }
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
 
-    @Override
-    public Bitmap getItem(int i) {
-        return (imageBmps!=null) ? imageBmps.get(i) : null;
-    }
+        Glide.with(context)
+                .load(items.get(position))
+                .apply(RequestOptions.centerCropTransform())
+                .into(viewHolder.iv_grid_gallery);
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        if (imageBmps == null) {
-            return null;
-        }
-
-        // 코린이 : to do, get images from file path and use glide library
-        ImageView imageView = null;
-        imageView = new ImageView(mContext);
-        imageView.setAdjustViewBounds(true);
-        imageView.setImageBitmap(imageBmps.get(i));
-        imageView.invalidate();
-
-        // 메인 이미지 뷰 변경
-        imageView.setOnClickListener(v-> {
-            iv_main.setImageBitmap(imageBmps.get(i));
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainView.setImageBitmap(ImageUtil.rotateBitmapOrientation(items.get(position)));
+                Toast.makeText(context, items.get(position), Toast.LENGTH_SHORT).show();
+            }
         });
-        return imageView;
     }
 
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView iv_grid_gallery;
+
+        ViewHolder (View itemView) {
+            super(itemView);
+            iv_grid_gallery = itemView.findViewById(R.id.iv_gallery);
+        }
+    }
 }

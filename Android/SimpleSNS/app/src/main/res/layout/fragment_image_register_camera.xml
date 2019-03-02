@@ -7,7 +7,7 @@
     <org.simplesns.simplesns.activity.main.camera.customview.AutoFitTextureView
         android:id="@+id/camera_texture"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
