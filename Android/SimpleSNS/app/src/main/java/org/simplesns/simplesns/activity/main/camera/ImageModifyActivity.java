@@ -30,10 +30,10 @@ public class ImageModifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_modify);
 
-        mainView = (ImageView) findViewById (R.id.image_modify_view);
-        tabHost = (TabHost) findViewById (R.id.image_modify_tabs);
-        tv_next = (TextView) findViewById (R.id.tv_next);
-        btn_back = (ImageButton) findViewById (R.id.btn_back);
+        mainView  = findViewById (R.id.image_modify_view);
+        tabHost   = findViewById (R.id.image_modify_tabs);
+        tv_next   = findViewById (R.id.tv_next);
+        btn_back  = findViewById (R.id.btn_back);
         tabHost.setup();
 
         tv_next.setText(getString(R.string.menu_next));
@@ -48,17 +48,12 @@ public class ImageModifyActivity extends AppCompatActivity {
         TabHost.TabSpec ts2 = tabHost.newTabSpec("Tab Spec 2") ;
         ts2.setContent(R.id.shape_modify_menu_list) ;
         ts2.setIndicator(this.getString(R.string.image_modify_shape)) ;
-        tabHost.addTab(ts2) ;
+        tabHost.addTab(ts2);
 
-        Intent image_modify_intent = getIntent();
-        file_path = image_modify_intent.getExtras().getString("file_path");
-        Toast.makeText(this, "image path = "+file_path,Toast.LENGTH_SHORT).show();   // 디버깅용, 지울것
-
-        mainView.setImageBitmap(ImageUtil.rotateBitmapOrientation(file_path));
+        mainView.setImageBitmap(ImageUtil.rotateBitmapOrientation(ImageUtil.pFile.getAbsolutePath()));
 
         tv_next.setOnClickListener(v->{
             Intent image_post_intent = new Intent(ImageModifyActivity.this, ImagePostActivity.class);
-            image_post_intent.putExtra("file_path", file_path);
             startActivity(image_post_intent);
         });
 

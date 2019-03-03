@@ -37,6 +37,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // TedPermission: https://github.com/GitDeveloperKim/TedPermission
+    implementation 'gun0912.ted:tedpermission:2.2.2'
+
     // BottomNavigationViewEx: https://github.com/ittianyu/BottomNavigationViewEx
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.2'
 

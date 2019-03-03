@@ -92,9 +92,9 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
     }
 
     private void initView () {
-        tv_location = (TextView) findViewById (R.id.tv_location);
-        tv_next = (TextView) findViewById (R.id.tv_next);
-        btn_back = (ImageButton) findViewById (R.id.btn_back);
+        tv_location = findViewById (R.id.tv_location);
+        tv_next     = findViewById (R.id.tv_next);
+        btn_back    = findViewById (R.id.btn_back);
 
         tv_next.setText(getString(R.string.menu_share));
         tv_next.setVisibility(View.VISIBLE);

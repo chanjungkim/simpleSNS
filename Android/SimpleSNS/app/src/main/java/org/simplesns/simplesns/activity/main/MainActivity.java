@@ -19,6 +19,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.activity.main.camera.utils.RegisterType;
 import org.simplesns.simplesns.activity.main.favorite.FavoriteFragment;
 import org.simplesns.simplesns.lib.UiLib;
 import org.simplesns.simplesns.activity.main.camera.ImageRegisterActivity;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             case R.id.navigation_plus:
                 Intent imageResisterIntent = new Intent(MainActivity.this, ImageRegisterActivity.class);
+                imageResisterIntent.putExtra("register_type", RegisterType.FEED);   // PROFILE 에서 호출시 RegisterType.PROFILE
                 startActivity(imageResisterIntent);
                 return false;
             case R.id.navigation_like:

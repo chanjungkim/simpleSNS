@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.activity.main.camera;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,13 +13,19 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.camera.adapter.ImageRegisterAdapter;
 import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
+import org.simplesns.simplesns.activity.main.camera.utils.RegisterType;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.List;
 
 public class ImageRegisterActivity extends AppCompatActivity {
     ViewPager pager;
@@ -32,7 +39,45 @@ public class ImageRegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_register);
 
-        initView ();
+        // permission check
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                //Toast.makeText(ImageRegisterActivity.this,"Permission Granted", Toast.LENGTH_SHORT).show();
+                initView ();
+                registerTypeCheck();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(ImageRegisterActivity.this,"Permission Denied\n"
+                        + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        };
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(getString(R.string.request_permission))
+                .setDeniedMessage(getString(R.string.deny_permission))
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+    }
+
+    private void initView () {
+        pager      = findViewById (R.id.image_register_viewpager);
+        container  = findViewById (R.id.image_register_container);
+        tabLayout  = findViewById (R.id.image_register_tabs);
+        tv_next    = findViewById (R.id.tv_next);
+        btn_back   = findViewById (R.id.btn_back);
+
+        tv_next.setText(getString(R.string.menu_next));
+        tv_next.setVisibility(View.VISIBLE);
+
+        ImageRegisterAdapter irAdapter = new ImageRegisterAdapter(getSupportFragmentManager());
+        pager.setAdapter(irAdapter);
+
+        tabLayout.setupWithViewPager(pager);
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
@@ -62,7 +107,12 @@ public class ImageRegisterActivity extends AppCompatActivity {
         });
 
         tv_next.setOnClickListener(v->{
-            sendToImageModify(ImageUtil.pFile);
+            if (ImageUtil.pFile != null)  {
+                sendToImageModify(ImageUtil.pFile);
+            } else {
+                Toast.makeText(this,getString(R.string.image_register_capture_first), Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         btn_back.setOnClickListener(v->{
@@ -70,33 +120,34 @@ public class ImageRegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void initView () {
-        pager =(ViewPager) findViewById (R.id.image_register_viewpager);
-        container = (RelativeLayout) findViewById (R.id.image_register_container);
-        tabLayout = (TabLayout) findViewById (R.id.image_register_tabs);
-        tv_next = (TextView) findViewById (R.id.tv_next);
-        btn_back = (ImageButton) findViewById (R.id.btn_back);
-
-        tv_next.setText(getString(R.string.menu_next));
-        tv_next.setVisibility(View.VISIBLE);
-
-        ImageRegisterAdapter irAdapter = new ImageRegisterAdapter(getSupportFragmentManager());
-        pager.setAdapter(irAdapter);
-
-        tabLayout.setupWithViewPager(pager);
+    private void registerTypeCheck () {
+        Intent registerIntent = getIntent();
+        RegisterType.registerType = (RegisterType) registerIntent.getSerializableExtra("register_type");
+        if (RegisterType.registerType == null) {
+            throw new AssertionError(); // developer error: register 타입을 주어야함
+        }
+        switch (RegisterType.registerType) {
+            case FEED :
+                // todo FEED 등록을 위해 이미지를 사각형으로 표시
+                break;
+            case PROFILE:
+                // todo PROFILE 등록을 위해 이미지를 원형으로 표시
+                break;
+        }
     }
 
     public void setBtnVisibility (boolean flag) {
         if (flag) {
-            tv_next.setVisibility(View.VISIBLE); // gallery page
+            tv_next.setVisibility(View.VISIBLE); // next btn is visible in gallery page
         } else {
-            tv_next.setVisibility(View.GONE);    // camera page
+            tv_next.setVisibility(View.GONE);    // next btn is gone in camera page
         }
     }
 
     public void sendToImageModify (File mFile) {
-        Intent registerIntent = new Intent(ImageRegisterActivity.this, ImageModifyActivity.class);
-        registerIntent.putExtra("file_path", mFile.getAbsoluteFile().toString());
-        startActivity(registerIntent);
+        if (mFile != null) {
+            Intent registerIntent = new Intent(ImageRegisterActivity.this, ImageModifyActivity.class);
+            startActivity(registerIntent);
+        }
     }
 }

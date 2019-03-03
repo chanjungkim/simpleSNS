@@ -15,7 +15,7 @@ public class ImageUtil {
 
     private ImageUtil () {
         // 인스턴스화 방지
-        throw new AssertionError();
+        throw new AssertionError(); // developer error
     }
 
     public static Bitmap rotateBitmapOrientation(String file_path) {

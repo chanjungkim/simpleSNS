@@ -52,21 +52,28 @@ public class GalleryFragment extends Fragment {
         mActivity = getActivity();
         mContext = getContext();
 
-        rv_gallery = (RecyclerView) mActivity.findViewById(R.id.rv_gallery);
-        iv_gallery = (ImageView) mActivity.findViewById(R.id.iv_gallery);
+        rv_gallery = mActivity.findViewById(R.id.rv_gallery);
+        iv_gallery = mActivity.findViewById(R.id.iv_gallery);
 
         gallery_paths = new ArrayList<>();
         setImagePath();
         Collections.reverse(gallery_paths);
-
-        iv_gallery.setImageBitmap(ImageUtil.rotateBitmapOrientation(gallery_paths.get(0)));
-        ImageUtil.pFile = new File(gallery_paths.get(0));
 
         galleryAdapter = new ImageGalleryAdapter (getContext(), gallery_paths, R.layout.item_gallery, iv_gallery);
         rv_gallery.setAdapter(galleryAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         rv_gallery.setLayoutManager(gridLayoutManager);
         rv_gallery.setItemAnimator(new DefaultItemAnimator());
+
+
+        if (gallery_paths.size() > 0) {
+            // 저장소에 이미지가 있는 경우
+            iv_gallery.setImageBitmap(ImageUtil.rotateBitmapOrientation(gallery_paths.get(0)));
+            ImageUtil.pFile = new File(gallery_paths.get(0));
+        } else {
+            // 저장소에 이미지가 없는 경우
+            iv_gallery.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.no_image));
+        }
     }
 
     @Override

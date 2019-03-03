@@ -34,7 +34,13 @@
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
     <string name="request_permission">This app needs camera permission.</string>
+    <string name="deny_permission">"If you reject permission,
+        you can not use this service\n\n
+        Please turn on permissions at [Setting] > [Permission]"</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+
+    <!-- ImageRegisterActivity -->
+    <string name="image_register_capture_first">first, capture image</string>
 
     <!-- ImageModifyActivity -->
     <string name="image_modify_filter">필터</string>
