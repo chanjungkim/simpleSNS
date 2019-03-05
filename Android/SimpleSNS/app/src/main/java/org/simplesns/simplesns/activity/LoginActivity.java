@@ -22,9 +22,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getJWTPreference();
-
         super.onCreate(savedInstanceState);
+        //        getJWTPreference();
+
         try{
             setContentView(R.layout.activity_login);
         }catch (Exception e){
@@ -63,26 +63,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        getJWTPreference();
-        GlobalUser.getInstance().getMyIdFromServer(this, MainActivity.class);
-        GlobalUser.getInstance().getMyIDPreference(this);
-    }
-
-    public void getJWTPreference() {
-        Log.d(TAG, "getJWTPreference()");
-        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        jwt = pref.getString("jwt", "");
-        if (jwt == null || jwt.equals("")) {
-            Log.d(TAG, "No jwt....");
-        } else {
-            GlobalUser.getInstance().getMyIdFromServer(this, MainActivity.class); // 자동 로그인
-            GlobalUser.getInstance().setJwt(jwt);
-        }
-        Log.d(TAG, "jwt: " + jwt);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        getJWTPreference();
+//        GlobalUser.getInstance().getMyIdFromServer(this, MainActivity.class);
+//        GlobalUser.getInstance().getMyIDPreference(this);
+//    }
+//
+//    public void getJWTPreference() {
+//        Log.d(TAG, "getJWTPreference()");
+//        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+//        jwt = pref.getString("jwt", "");
+//        if (jwt == null || jwt.equals("")) {
+//            Log.d(TAG, "No jwt....");
+//        } else {
+//            GlobalUser.getInstance().getMyIdFromServer(this, MainActivity.class); // 자동 로그인
+//            GlobalUser.getInstance().setJwt(jwt);
+//        }
+//        Log.d(TAG, "jwt: " + jwt);
+//    }
 
 }

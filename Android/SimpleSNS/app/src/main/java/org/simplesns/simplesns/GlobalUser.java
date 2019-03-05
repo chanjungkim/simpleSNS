@@ -161,125 +161,125 @@ public class GlobalUser {
         }
     }
 
-    /**
-     * ???
-     * @param context
-     * @param mainActivityClass
-     */
-    public void getMyIdFromServer(Context context, Class<MainActivity> mainActivityClass) {
-        Log.d(TAG, "getMyIdFromServer()");
+//    /**
+//     * ???
+//     * @param context
+//     * @param mainActivityClass
+//     */
+//    public void getMyIdFromServer(Context context, Class<MainActivity> mainActivityClass) {
+//        Log.d(TAG, "getMyIdFromServer()");
+//
+//        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+//
+//        try {
+//            Call<String> call = remoteService.getMyId(new MemberItem());
+//
+//            call.enqueue(new Callback<String>() {
+//                @Override
+//                public void onResponse(Call<String> call, Response<String> response) {
+//                    try {
+//                        String responseResult = response.body().toString(); // ???
+//                        Gson gson = new Gson();
+//                        Log.d("profile", responseResult);
+//                        User user = gson.fromJson(responseResult, User.class);
+//                        if (user != null) {
+//                            int code;
+//                            my_id = user.id;
+//                            code = user.code;
+//
+//                            SharedPreferences pref2 = context.getSharedPreferences("pref2", MODE_PRIVATE);
+//                            pref2.edit()
+//                                    .putString("my_id", my_id)
+//                                    .apply();
+//
+//                            Log.d(TAG, "saved my_id: " + my_id);
+//                            Log.d(TAG, "code: " + String.valueOf(code));
+//
+//                            //자동로그인기능
+//                            switch (code) {
+//                                case 100:
+//                                    GlobalUser.getInstance().setMyId(my_id);
+//                                    Intent intent = new Intent(context, mainActivityClass);
+//                                    context.startActivity(intent);
+//                                    Toast.makeText(context, "자동로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+//                                    ((Activity) context).finish();
+//                                    break;
+//                                default:
+//                                    Toast.makeText(context, code+": ?", Toast.LENGTH_SHORT).show();
+//                                    break;
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<String> call, Throwable throwable) {
+//                    Toast.makeText(context, "getMyId() 에러", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
-        try {
-            Call<String> call = remoteService.getMyId(new MemberItem());
-
-            call.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    try {
-                        String responseResult = response.body().toString(); // ???
-                        Gson gson = new Gson();
-                        Log.d("profile", responseResult);
-                        User user = gson.fromJson(responseResult, User.class);
-                        if (user != null) {
-                            int code;
-                            my_id = user.id;
-                            code = user.code;
-
-                            SharedPreferences pref2 = context.getSharedPreferences("pref2", MODE_PRIVATE);
-                            pref2.edit()
-                                    .putString("my_id", my_id)
-                                    .apply();
-
-                            Log.d(TAG, "saved my_id: " + my_id);
-                            Log.d(TAG, "code: " + String.valueOf(code));
-
-                            //자동로그인기능
-                            switch (code) {
-                                case 100:
-                                    GlobalUser.getInstance().setMyId(my_id);
-                                    Intent intent = new Intent(context, mainActivityClass);
-                                    context.startActivity(intent);
-                                    Toast.makeText(context, "자동로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-                                    ((Activity) context).finish();
-                                    break;
-                                default:
-                                    Toast.makeText(context, code+": ?", Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
-                    Toast.makeText(context, "getMyId() 에러", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * For auto login, if the client ever logged in before. Skip FirstActivity and Show MainActivity directly.
-     * @param activityContext
-     * @param myId
-     */
-    public void loginByMyId(Context activityContext, String myId) {
-        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
-        Call<LoginResult> call = remoteService.loginByMyId(myId);
-
-        call.enqueue(new Callback<LoginResult>() {
-            @Override
-            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
-                LoginResult loginResult = response.body();
-
-                switch (loginResult.getCode()) {
-                    case 100:
-
-                        break;
-                    default:
-                        Toast.makeText(activityContext, loginResult.getCode() + ":" + loginResult.getMessage(), Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResult> call, Throwable throwable) {
-                throwable.printStackTrace();
-                Toast.makeText(activityContext, throwable.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    /**
-     * ???
-     * @param activityContext
-     * @param loginActivityClass
-     */
-    public void logOut(Context activityContext, Class<LoginActivity> loginActivityClass) {
-        Log.d(TAG, "logOut()");
-        //로그아웃 버튼 기능 추가
-        SharedPreferences pref = activityContext.getSharedPreferences("pref", MODE_PRIVATE);
-        pref.edit()
-                .remove("jwt")
-                .apply();
-        SharedPreferences pref2 = activityContext.getSharedPreferences("pref2", MODE_PRIVATE);
-        pref.edit()
-                .remove("my_id")
-                .apply();
-
-        Toast.makeText(activityContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(activityContext, loginActivityClass);
-        activityContext.startActivity(intent);
-    }
+//    /**
+//     * For auto login, if the client ever logged in before. Skip FirstActivity and Show MainActivity directly.
+//     * @param activityContext
+//     * @param myId
+//     */
+//    public void loginByMyId(Context activityContext, String myId) {
+//        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+//
+//        Call<LoginResult> call = remoteService.loginByMyId(myId);
+//
+//        call.enqueue(new Callback<LoginResult>() {
+//            @Override
+//            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+//                LoginResult loginResult = response.body();
+//
+//                switch (loginResult.getCode()) {
+//                    case 100:
+//                        // 성공
+//                        break;
+//                    default:
+//                        Toast.makeText(activityContext, loginResult.getCode() + ":" + loginResult.getMessage(), Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<LoginResult> call, Throwable throwable) {
+//                throwable.printStackTrace();
+//                Toast.makeText(activityContext, throwable.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    /**
+//     * ???
+//     * @param activityContext
+//     * @param loginActivityClass
+//     */
+//    public void logOut(Context activityContext, Class<LoginActivity> loginActivityClass) {
+//        Log.d(TAG, "logOut()");
+//        //로그아웃 버튼 기능 추가
+//        SharedPreferences pref = activityContext.getSharedPreferences("pref", MODE_PRIVATE);
+//        pref.edit()
+//                .remove("jwt")
+//                .apply();
+//        SharedPreferences pref2 = activityContext.getSharedPreferences("pref2", MODE_PRIVATE);
+//        pref.edit()
+//                .remove("my_id")
+//                .apply();
+//
+//        Toast.makeText(activityContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+//
+//        Intent intent = new Intent(activityContext, loginActivityClass);
+//        activityContext.startActivity(intent);
+//    }
 
     @Override
     public String toString() {

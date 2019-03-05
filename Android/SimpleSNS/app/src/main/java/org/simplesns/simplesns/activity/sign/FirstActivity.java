@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -22,6 +24,8 @@ import org.simplesns.simplesns.lib.BasicCountDownTimer;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,10 +41,11 @@ public class FirstActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(GlobalUser.getInstance().getMyIDPreference(FirstActivity.this) != null){
-            GlobalUser.getInstance().loginByMyId(FirstActivity.this, GlobalUser.getInstance().getMyId());
-        }
         super.onCreate(savedInstanceState);
+//        if (GlobalUser.getInstance().getMyIDPreference(FirstActivity.this) != null) {
+//            GlobalUser.getInstance().loginByMyId(FirstActivity.this, GlobalUser.getInstance().getMyId());
+//        }
+
         initFirst();
     }
 
@@ -48,6 +53,7 @@ public class FirstActivity extends AppCompatActivity {
     public void onBackPressed() {
         backCount++;
 
+        // 수정해야할 부분.
         switch (backCount) {
             case 0:
                 initEmailValidView();
@@ -91,6 +97,7 @@ public class FirstActivity extends AppCompatActivity {
         nextBTN.setClickable(false);
         countDownTimerTV.setVisibility(View.INVISIBLE);
 
+        // If you run Activity backwards, get the email address that the user input already.
         if (email != null) {
             emailET.setText(email);
         }
@@ -106,21 +113,75 @@ public class FirstActivity extends AppCompatActivity {
 
         sendBTN.setOnClickListener((v) -> {
             email = emailET.getText().toString();
+
+            // Check validation email by Server if no problem, then go to next view.
             try {
                 sendVerificationEmail(email, nextBTN, countDownTimerTV);
 //                initCreateUserView(email);
             } catch (NullPointerException e) {
-                Toast.makeText(FirstActivity.this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FirstActivity.this, "Please input correect email address.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        nextBTN.setOnClickListener((v)->{
+        nextBTN.setOnClickListener((v) -> {
             verifyEmailAndCode(emailET.getText().toString(), codeET.getText().toString());
         });
     }
 
+    /**
+     * Email format validation
+     *
+     * @param email
+     * @return
+     */
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
+    /**
+     * Username format validation for instagram, instagram.
+     * <p>
+     * Only 'a-Z', '0-9', '_' are allowed.
+     *
+     * @param username
+     * @return
+     */
+    private boolean validUsername(String username) {
+        String USERNAME_PATTERN = "^@?(\\w){4,25}$";
+        Pattern pattern = Pattern.compile(USERNAME_PATTERN);
+        return pattern.matcher(username).matches();
+    }
+
+    /**
+     * Password format validation.
+     * <p>
+     * ^                 # start-of-string
+     * (?=.*[0-9])       # a digit must occur at least once
+     * (?=.*[a-z])       # a lower case letter must occur at least once
+     * (?=.*[A-Z])       # an upper case letter must occur at least once
+     * (?=.*[@#$%^&+=])  # a special character must occur at least once
+     * (?=\S+$)          # no whitespace allowed in the entire string
+     * .{8,}             # anything, at least eight places though
+     * $                 # end-of-string
+     *
+     * @param password
+     * @return
+     */
+    private boolean validPassword(String password) {
+        String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
+        Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+        return pattern.matcher(password).matches();
+    }
+
     public void sendVerificationEmail(String to, Button nextBTN, TextView countDownTimerTV) {
         Log.d(TAG, "sendVerificationEmail()= to(email): " + email);
+
+        // Check email Regex
+        if (!validEmail(email)) {
+            Toast.makeText(FirstActivity.this, "This is not a correct email format.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // backCount 세지 않음.
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
@@ -149,11 +210,11 @@ public class FirstActivity extends AppCompatActivity {
                                 BasicCountDownTimer basicCountDownTimer = BasicCountDownTimer.getInstance(FirstActivity.this);
                                 if (!basicCountDownTimer.isTimerRunning()) { // not running. initialize.
                                     basicCountDownTimer.setCountDownTimerFormat("Verify your email in: (", ":", ")");
-                                    basicCountDownTimer.setTimeLeftInMilliseconds(60 * 1000 * 3);
+                                    basicCountDownTimer.setTimeLeftInMilliseconds(timeLeftInMillionSeconds);
                                     basicCountDownTimer.startTimer(countDownTimerTV, nextBTN);
                                 } else { // running
                                     basicCountDownTimer.stopTimer();
-                                    basicCountDownTimer.setTimeLeftInMilliseconds(60 * 1000 * 3);
+                                    basicCountDownTimer.setTimeLeftInMilliseconds(timeLeftInMillionSeconds);
                                     basicCountDownTimer.startTimer(countDownTimerTV, nextBTN);
                                 }
                                 Toast.makeText(FirstActivity.this, validResult.getMessage(), Toast.LENGTH_SHORT).show();
@@ -180,6 +241,7 @@ public class FirstActivity extends AppCompatActivity {
 
     public void initCreateUserView(String email) {
         Log.d(TAG, "initCreateUserView()= email: " + email);
+
         backCount = -1;
         setContentView(R.layout.activity_first_create);
         TextView infoTV = findViewById(R.id.info_textview_first_create_activity);
@@ -190,6 +252,7 @@ public class FirstActivity extends AppCompatActivity {
 
         infoTV.setText(Html.fromHtml("Your contacts will be periodically synced and stored on instagram servers to help you and others find friends, and to help us provide a better service. To remove contacts, go to Settings and disconnect. <a href=''>Learn More</a>"));
 
+        // If the user ever input username or password before, keep them again.
         if (username != null) {
             usernameET.setText(username);
         }
@@ -206,17 +269,32 @@ public class FirstActivity extends AppCompatActivity {
         });
 
         continueBTN.setOnClickListener((v) -> {
-            try {
-                username = usernameET.getText().toString();
-                try {
-                    password = passwordET.getText().toString();
-                } catch (NullPointerException e) {
-                    Toast.makeText(FirstActivity.this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                }
-            } catch (NullPointerException e) {
-                Toast.makeText(FirstActivity.this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            username = usernameET.getText().toString();
+            password = passwordET.getText().toString();
+
+            // Check if username is empty
+            if (TextUtils.isEmpty(username)) {
+                Toast.makeText(FirstActivity.this, "Please input username.", Toast.LENGTH_SHORT).show();
+                return;
             }
 
+            // Check if password is empty
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(FirstActivity.this, "Please input password.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Check email Regex
+            if (!validUsername(username)) {
+                Toast.makeText(FirstActivity.this, "You can only use a-z, 0-9, _ for username.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Check password Regex
+            if (!validPassword(password)) {
+                Toast.makeText(FirstActivity.this, "You can only use a-z, 0-9, _ for username.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 //            tempPass();
 
             try {
@@ -304,14 +382,13 @@ public class FirstActivity extends AppCompatActivity {
             String username = usernameET.getText().toString();
             String password = passwordET.getText().toString();
 
-            if ( username != null && password != null) {
+            if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
                 GlobalUser.getInstance().login(FirstActivity.this, username, password);
 //                tempPass();
             } else {
                 Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     /**
