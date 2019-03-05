@@ -66,6 +66,8 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.activity.main.camera.ImageModifyActivity;
 import org.simplesns.simplesns.activity.main.camera.ImageRegisterActivity;
 import org.simplesns.simplesns.activity.main.camera.customview.AutoFitTextureView;
+import org.simplesns.simplesns.activity.main.camera.task.ImageSaver;
+import org.simplesns.simplesns.activity.main.camera.utils.DateFormatUtil;
 import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
 import java.io.File;
@@ -84,6 +86,13 @@ import java.util.concurrent.TimeUnit;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP )
 public class CameraFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
+
+    // image save path
+    private static final String saveDir = Environment.getExternalStorageDirectory()
+            +File.separator+"DCIM"
+            +File.separator+"Camera"
+            +File.separator;
+
     /**
      * Conversion from screen rotation to JPEG orientation.
      */
@@ -453,8 +462,10 @@ public class CameraFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //mFile = new File(Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera"+File.separator+"test.jpg");
-        mFile = new File(Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera"+File.separator+"test.jpg");
+        mFile = new File(saveDir);
+        if (!mFile.exists()) {
+            mFile.mkdir();
+        }
     }
 
     @Override
@@ -819,6 +830,8 @@ public class CameraFragment extends Fragment
      * Initiate a still image capture.
      */
     private void takePicture() {
+        mFile = new File(saveDir+"IMG"
+                +DateFormatUtil.getCurrentDateForCapture()+".jpg");
         lockFocus();
     }
 
@@ -968,49 +981,7 @@ public class CameraFragment extends Fragment
         }
     }
 
-    /**
-     * Saves a JPEG {@link Image} into the specified {@link File}.
-     */
-    private static class ImageSaver implements Runnable {
 
-        /**
-         * The JPEG image
-         */
-        private final Image mImage;
-        /**
-         * The file we save the image into.
-         */
-        private final File mFile;
-
-        ImageSaver(Image image, File file) {
-            mImage = image;
-            mFile = file;
-        }
-
-        @Override
-        public void run() {
-            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
-            FileOutputStream output = null;
-            try {
-                output = new FileOutputStream(mFile);
-                output.write(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                mImage.close();
-                if (null != output) {
-                    try {
-                        output.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-    }
 
     /**
      * Compares two {@code Size}s based on their areas.
