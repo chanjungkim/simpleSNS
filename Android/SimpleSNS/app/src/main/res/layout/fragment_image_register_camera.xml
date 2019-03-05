@@ -14,7 +14,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp" />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="112dp"
@@ -27,10 +27,27 @@
             android:id="@+id/picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:background="@color/white"
             android:src="@drawable/button_circle"/>
 
+        <ImageButton
+            android:id="@+id/btn_switch_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentStart="true"
+            android:paddingStart="10dp"
+            android:src="@drawable/rear_camera"/>
 
-    </FrameLayout>
+        <ImageButton
+            android:id="@+id/btn_flash_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="10dp"
+            android:src="@drawable/flash_auto" />
+    </RelativeLayout>
 </RelativeLayout>

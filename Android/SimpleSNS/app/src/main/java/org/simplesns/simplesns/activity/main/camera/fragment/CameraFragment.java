@@ -60,6 +60,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
@@ -92,6 +93,19 @@ public class CameraFragment extends Fragment
             +File.separator+"DCIM"
             +File.separator+"Camera"
             +File.separator;
+    /**
+     * variable
+     */
+
+    /**
+     * view
+     */
+    ImageButton imageButton;
+
+    /**
+     * flag
+     */
+    Integer mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
 
     /**
      * Conversion from screen rotation to JPEG orientation.
@@ -454,9 +468,11 @@ public class CameraFragment extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        view.findViewById(R.id.picture).setOnClickListener(this);
-
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.camera_texture);
+        imageButton = (ImageButton) view.findViewById (R.id.btn_switch_camera);
+
+        view.findViewById(R.id.picture).setOnClickListener(this);
+        imageButton.setOnClickListener(this);
     }
 
     @Override
@@ -555,7 +571,7 @@ public class CameraFragment extends Fragment
 
                 // We don't use a front facing camera in this sample.
                 Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
+                if (facing != null && facing == mCameraLensFacingDirection) {
                     continue;
                 }
 
@@ -961,6 +977,10 @@ public class CameraFragment extends Fragment
                 takePicture();
                 break;
             }
+            case R.id.btn_switch_camera: {
+                switchCamera();
+                break;
+            }
             case R.id.info: {
                 Activity activity = getActivity();
                 if (null != activity) {
@@ -971,6 +991,29 @@ public class CameraFragment extends Fragment
                 }
                 break;
             }
+        }
+    }
+
+    public void switchCamera() {
+        if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_BACK) {
+            mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+            closeCamera();
+            reopenCamera();
+            imageButton.setImageResource(R.drawable.rear_camera);
+
+        } else if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
+            mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
+            closeCamera();
+            reopenCamera();
+            imageButton.setImageResource(R.drawable.front_camera);
+        }
+    }
+
+    public void reopenCamera() {
+        if (mTextureView.isAvailable()) {
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+        } else {
+            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
     }
 
