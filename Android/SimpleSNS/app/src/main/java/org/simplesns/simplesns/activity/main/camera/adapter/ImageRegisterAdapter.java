@@ -35,6 +35,6 @@ public class ImageRegisterAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return tab_titles.length;
     }
 }

@@ -25,6 +25,10 @@ public class ImageUtil {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         Bitmap bm = BitmapFactory.decodeFile(file_path, opts);
 
+        if (bm==null) {
+            return null;    // 코린이 - file path 가 있어도 이미지를 못만드는 경우가 있음 .....
+        }
+
         ExifInterface exif = null;
         try {
             exif = new ExifInterface(file_path);

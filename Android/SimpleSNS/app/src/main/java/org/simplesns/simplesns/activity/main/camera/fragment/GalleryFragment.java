@@ -61,7 +61,7 @@ public class GalleryFragment extends Fragment {
 
         galleryAdapter = new ImageGalleryAdapter (getContext(), gallery_paths, R.layout.item_gallery, iv_gallery);
         rv_gallery.setAdapter(galleryAdapter);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
         rv_gallery.setLayoutManager(gridLayoutManager);
         rv_gallery.setItemAnimator(new DefaultItemAnimator());
 
@@ -100,7 +100,7 @@ public class GalleryFragment extends Fragment {
                 } while (cursor.moveToNext());
 
             }
-            //cursor.close(); // todo : 코린이-커서를 닫아버려서 이미지 변경 페이지에서 되돌아 오면 재호출 버그 발생 수정중
+            //cursor.close(); // todo : 코린이-커서를 닫아버려서 이미지 변경 페이지로 갔다가 되돌아 오면 재호출 버그 발생 수정중
         }
     }
 }

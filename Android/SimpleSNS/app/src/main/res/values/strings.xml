@@ -40,7 +40,8 @@
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 
     <!-- ImageRegisterActivity -->
-    <string name="image_register_capture_first">first, capture image</string>
+    <string name="image_register_capture_first">first, capture or select image</string>
+    <string name="image_register_cant_open_file">can not open file</string>
 
     <!-- ImageModifyActivity -->
     <string name="image_modify_filter">필터</string>

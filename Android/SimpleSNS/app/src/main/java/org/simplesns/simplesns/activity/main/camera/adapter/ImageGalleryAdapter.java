@@ -1,6 +1,7 @@
 package org.simplesns.simplesns.activity.main.camera.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -50,7 +51,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         View v = LayoutInflater.from (parent.getContext()).inflate(itemLayout, parent, false);
 
         GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) v.getLayoutParams();
-        params.height = metrics.widthPixels/3;
+        params.height = metrics.widthPixels/4;
         //params.width = metrics.heightPixels/3;
         v.setLayoutParams(params);
 
@@ -59,15 +60,25 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.background_gray)
+                .error(R.drawable.background_gray)          // 오류 이미지 바꾸어야 할듯.
+                .centerCrop();
 
         Glide.with(context)
                 .load(items.get(position))
-                .apply(RequestOptions.centerCropTransform())
+                .apply(requestOptions)
                 .into(viewHolder.iv_grid_gallery);
 
         viewHolder.itemView.setOnClickListener(v-> {
                 ImageUtil.pFile = new File(items.get(position));
-                mainView.setImageBitmap(ImageUtil.rotateBitmapOrientation(items.get(position)));
+                Bitmap bitmap =  ImageUtil.rotateBitmapOrientation(items.get(position));
+
+                if (bitmap == null) {
+                    ImageUtil.pFile = null;
+                    Toast.makeText(context,context.getString(R.string.image_register_cant_open_file), Toast.LENGTH_SHORT).show();
+                }
+                mainView.setImageBitmap(bitmap);
         });
     }
 
