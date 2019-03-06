@@ -68,6 +68,7 @@ import org.simplesns.simplesns.activity.main.camera.ImageModifyActivity;
 import org.simplesns.simplesns.activity.main.camera.ImageRegisterActivity;
 import org.simplesns.simplesns.activity.main.camera.customview.AutoFitTextureView;
 import org.simplesns.simplesns.activity.main.camera.task.ImageSaver;
+import org.simplesns.simplesns.activity.main.camera.utils.CameraModeHelper;
 import org.simplesns.simplesns.activity.main.camera.utils.DateFormatUtil;
 import org.simplesns.simplesns.activity.main.camera.utils.ImageUtil;
 
@@ -96,15 +97,18 @@ public class CameraFragment extends Fragment
     /**
      * variable
      */
-
+    CameraModeHelper cameraModeHelper;
     /**
      * view
      */
-    ImageButton imageButton;
+    ImageButton cameraSwitchButton;
+    ImageButton flashModeButton;
 
     /**
      * flag
      */
+    enum SNS_FLASH_MODE {AUTO, TORCH, ALWAYS ,OFF};
+    static SNS_FLASH_MODE FLASH_MODE= SNS_FLASH_MODE.OFF;
     Integer mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
 
     /**
@@ -398,11 +402,8 @@ public class CameraFragment extends Fragment
     private void showToast(final String text) {
         final Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+            activity.runOnUiThread(()-> {
                     Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
-                }
             });
         }
     }
@@ -468,11 +469,13 @@ public class CameraFragment extends Fragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        mTextureView = (AutoFitTextureView) view.findViewById(R.id.camera_texture);
-        imageButton = (ImageButton) view.findViewById (R.id.btn_switch_camera);
+        mTextureView            = view.findViewById(R.id.camera_texture);
+        cameraSwitchButton      = view.findViewById (R.id.btn_switch_camera);
+        flashModeButton         = view.findViewById(R.id.btn_flash_mode);
 
         view.findViewById(R.id.picture).setOnClickListener(this);
-        imageButton.setOnClickListener(this);
+        cameraSwitchButton.setOnClickListener(this);
+        flashModeButton.setOnClickListener(this);
     }
 
     @Override
@@ -781,12 +784,18 @@ public class CameraFragment extends Fragment
 
                             // When the session is ready, we start displaying the preview.
                             mCaptureSession = cameraCaptureSession;
+                            cameraModeHelper = new CameraModeHelper(mPreviewRequestBuilder
+                                    ,mCaptureSession, mCaptureCallback, mBackgroundHandler);
+
                             try {
                                 // Auto focus should be continuous for camera preview.
                                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                                 // Flash is automatically enabled when necessary.
-                                setAutoFlash(mPreviewRequestBuilder);
+                                // 코린이
+                                setAutoFlash();
+
+                                //cameraModeHelper.setTorchFlash();
 
                                 // Finally, we start displaying the camera preview.
                                 mPreviewRequest = mPreviewRequestBuilder.build();
@@ -904,7 +913,7 @@ public class CameraFragment extends Fragment
             // Use the same AE and AF modes as the preview.
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-            setAutoFlash(captureBuilder);
+            setAutoFlash();
 
             // Orientation
             int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
@@ -958,7 +967,7 @@ public class CameraFragment extends Fragment
             // Reset the auto-focus trigger
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-            setAutoFlash(mPreviewRequestBuilder);
+            setAutoFlash();
             mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
                     mBackgroundHandler);
             // After this, the camera will go back to the normal state of preview.
@@ -981,6 +990,23 @@ public class CameraFragment extends Fragment
                 switchCamera();
                 break;
             }
+            case R.id.btn_flash_mode: {
+                switch (FLASH_MODE) {
+                    case ALWAYS :
+                        // always -> off
+                        FLASH_MODE = SNS_FLASH_MODE.OFF;
+                        flashModeButton.setImageResource(R.drawable.flash_off);
+                        break;
+                    case OFF :
+                        // off -> always
+                        FLASH_MODE = SNS_FLASH_MODE.ALWAYS;
+                        flashModeButton.setImageResource(R.drawable.flash_on);
+                        break;
+                }
+                setAutoFlash();
+                break;
+            }
+
             case R.id.info: {
                 Activity activity = getActivity();
                 if (null != activity) {
@@ -999,13 +1025,13 @@ public class CameraFragment extends Fragment
             mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
             closeCamera();
             reopenCamera();
-            imageButton.setImageResource(R.drawable.rear_camera);
+            cameraSwitchButton.setImageResource(R.drawable.rear_camera);
 
         } else if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
             mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
             closeCamera();
             reopenCamera();
-            imageButton.setImageResource(R.drawable.front_camera);
+            cameraSwitchButton.setImageResource(R.drawable.front_camera);
         }
     }
 
@@ -1017,10 +1043,21 @@ public class CameraFragment extends Fragment
         }
     }
 
-    private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
-        if (mFlashSupported) {
-            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+    private void setAutoFlash() {
+        if (mFlashSupported && cameraModeHelper != null) {
+            switch(FLASH_MODE) {
+                case ALWAYS :
+                    //showToast("always mode");   // 디버깅용
+                    cameraModeHelper.resetAutoExposure().setOnAlwaysFlash().setModeRequest();
+                    break;
+                case OFF :
+                    //showToast("off mode");      // 디버깅용
+                    // todo 코린이 always 모드 끄는 방법 다시한번 생각...
+                    // always 모드였다가 torch flash off 모드로 가면 플래시가 터지는 이슈가 있음
+                    cameraModeHelper.resetAutoExposure().setTorchFlash(false).setAutoExposure(true).setModeRequest();
+                    break;
+            }
+
         }
     }
 

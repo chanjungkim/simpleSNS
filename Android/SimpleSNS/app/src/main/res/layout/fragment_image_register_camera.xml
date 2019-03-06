@@ -48,6 +48,6 @@
             android:background="@color/white"
             android:layout_alignParentEnd="true"
             android:paddingEnd="10dp"
-            android:src="@drawable/flash_auto" />
+            android:src="@drawable/flash_off" />
     </RelativeLayout>
 </RelativeLayout>
