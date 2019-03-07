@@ -46,6 +46,8 @@ module.exports = router;
     Call<LoginResult> loginMember(@Field("a") String x, @Field("b") String y);
 ```
 
+<div id="method-list"> </div>
+
 # Method Types and examples
 
 | No | Client(Retrofit)         | Parameters in RemoteService(interface)          | Nodejs(method)            | Nodejs(get data)       |
