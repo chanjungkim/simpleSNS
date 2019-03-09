@@ -28,6 +28,7 @@ import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -56,6 +57,7 @@ import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -98,6 +100,10 @@ public class CameraFragment extends Fragment
      * variable
      */
     CameraModeHelper cameraModeHelper;
+    public float finger_spacing = 0;
+    public float zoom_level = 1.0f;
+    Rect mCropRect;
+
     /**
      * view
      */
@@ -476,6 +482,59 @@ public class CameraFragment extends Fragment
         view.findViewById(R.id.picture).setOnClickListener(this);
         cameraSwitchButton.setOnClickListener(this);
         flashModeButton.setOnClickListener(this);
+
+        mTextureView.setOnTouchListener((v,event)->{
+            try {
+                Activity activity = getActivity();
+                CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
+                float maxzoom = (characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM))*6;
+
+                Rect m = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+                int action = event.getAction();
+                float current_finger_spacing;
+
+                if (event.getPointerCount() > 1) {
+                    // Multi touch logic
+                    current_finger_spacing = getFingerSpacing(event);
+
+                    if(finger_spacing != 0){
+                        if(current_finger_spacing > finger_spacing && maxzoom > zoom_level){
+                            zoom_level += 0.1f;
+                        } else if (current_finger_spacing < finger_spacing && zoom_level > 1.0f){
+                            zoom_level -= 0.2f;
+                            if (zoom_level <= 1.0f)
+                                zoom_level = 1.0f;
+                        }
+
+                        int xCenter = m.width() / 2;
+                        int yCenter = m.height() / 2;
+                        int xDelta = (int) (m.width() / (2 * zoom_level));
+                        int yDelta = (int) (m.height() / (2 * zoom_level));
+                        mCropRect = new Rect(xCenter - xDelta, yCenter - yDelta, xCenter + xDelta,
+                                yCenter + yDelta);
+                        mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, mCropRect);
+                    }
+                    finger_spacing = current_finger_spacing;
+                } else{
+                    if (action == MotionEvent.ACTION_UP) {
+                        //single touch logic
+                    }
+                }
+
+                try {
+                    mCaptureSession
+                            .setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback, null);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                }
+            } catch (CameraAccessException e) {
+                throw new RuntimeException("can not access camera.", e);
+            }
+            return true;
+        });
     }
 
     @Override
@@ -496,6 +555,7 @@ public class CameraFragment extends Fragment
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
+        zoom_level = 1.0f;
         if (mTextureView.isAvailable()) {
             openCamera(mTextureView.getWidth(), mTextureView.getHeight());
         } else {
@@ -910,6 +970,10 @@ public class CameraFragment extends Fragment
                     mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureBuilder.addTarget(mImageReader.getSurface());
 
+            if (mCropRect != null) {
+                captureBuilder.set(CaptureRequest.SCALER_CROP_REGION, mCropRect);
+            }
+
             // Use the same AE and AF modes as the preview.
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
@@ -1061,7 +1125,12 @@ public class CameraFragment extends Fragment
         }
     }
 
-
+    @SuppressWarnings("deprecation")
+    private float getFingerSpacing(MotionEvent event) {
+        float x = event.getX(0) - event.getX(1);
+        float y = event.getY(0) - event.getY(1);
+        return (float) Math.sqrt(x * x + y * y);
+    }
 
     /**
      * Compares two {@code Size}s based on their areas.

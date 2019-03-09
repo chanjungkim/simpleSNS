@@ -25,6 +25,9 @@ public class CameraModeHelper {
         this.mBackgroundHandler = mBackgroundHandler;
     }
 
+    boolean checkSessionAndBuilder(CameraCaptureSession session, CaptureRequest.Builder builder) {
+        return session != null && builder != null;
+    }
 
     public CameraModeHelper setOnAutoFlash() {
         mRequestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
@@ -70,7 +73,11 @@ public class CameraModeHelper {
     }
 
     public void setModeRequest () {
+        if (!checkSessionAndBuilder(mCaptureSession, mRequestBuilder)) {
+            return;
+        }
         mRequest = mRequestBuilder.build();
+
         try {
             mCaptureSession.setRepeatingRequest(mRequest,
                     mCaptureCallback, mBackgroundHandler);
