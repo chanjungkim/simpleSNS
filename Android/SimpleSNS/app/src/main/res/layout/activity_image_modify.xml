@@ -44,27 +44,27 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
                             <!-- temp -->
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="normal"
                                 app:symbol="@drawable/lena"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="normal"
                                 app:symbol="@drawable/lena"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="normal"
                                 app:symbol="@drawable/lena"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="normal"
                                 app:symbol="@drawable/lena"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="normal"
@@ -81,52 +81,52 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_bright"
                                 app:symbol="@drawable/baseline_wb_sunny_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_compare"
                                 app:symbol="@drawable/baseline_compare_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_temp"
                                 app:symbol="@drawable/baseline_wb_incandescent_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_saturation"
                                 app:symbol="@drawable/baseline_colorize_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_color"
                                 app:symbol="@drawable/baseline_looks_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_cloudy"
                                 app:symbol="@drawable/baseline_filter_drama_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_highlight"
                                 app:symbol="@drawable/baseline_tonality_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_blur"
                                 app:symbol="@drawable/baseline_adjust_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_mini"
                                 app:symbol="@drawable/baseline_filter_tilt_shift_black_36dp"/>
-                            <org.simplesns.simplesns.activity.main.camera.customview.ImageModifyView
+                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:text="@string/image_modify_shape_structure"

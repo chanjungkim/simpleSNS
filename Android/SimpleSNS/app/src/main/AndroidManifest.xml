@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.sign.FirstActivity"></activity>
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".ui.sign.FirstActivity"></activity>
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.main.MainActivity" />
-        <activity android:name=".activity.main.camera.ImageRegisterActivity" />
-        <activity android:name=".activity.main.camera.ImageModifyActivity" />
-        <activity android:name=".activity.main.camera.ImagePostActivity" />
-        <activity android:name=".activity.main.profile.ProfileChangeActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.main.camera.ImageRegisterActivity" />
+        <activity android:name=".ui.main.camera.ImageModifyActivity" />
+        <activity android:name=".ui.main.camera.ImagePostActivity" />
+        <activity android:name=".ui.main.profile.ProfileChangeActivity" />
     </application>
 
 </manifest>

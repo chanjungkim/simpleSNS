@@ -1,9 +1,9 @@
 package org.simplesns.simplesns.lib.remote;
 
-import org.simplesns.simplesns.activity.sign.item.LoginResult;
-import org.simplesns.simplesns.activity.sign.item.SignUpData;
-import org.simplesns.simplesns.activity.sign.item.SignUpResult;
-import org.simplesns.simplesns.activity.sign.item.BasicResult;
+import org.simplesns.simplesns.ui.sign.item.LoginResult;
+import org.simplesns.simplesns.ui.sign.item.SignUpData;
+import org.simplesns.simplesns.ui.sign.item.SignUpResult;
+import org.simplesns.simplesns.ui.sign.item.BasicResult;
 import org.simplesns.simplesns.item.MemberItem;
 
 import retrofit2.Call;
@@ -12,10 +12,8 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RemoteService {

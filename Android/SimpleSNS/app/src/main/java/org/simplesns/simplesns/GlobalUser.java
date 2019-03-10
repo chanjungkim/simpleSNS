@@ -8,20 +8,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 
-import com.google.gson.Gson;
-
-import org.simplesns.simplesns.activity.LoginActivity;
-import org.simplesns.simplesns.activity.sign.FirstActivity;
-import org.simplesns.simplesns.activity.sign.item.LoginResult;
-import org.simplesns.simplesns.activity.sign.item.User;
-import org.simplesns.simplesns.activity.main.MainActivity;
-import org.simplesns.simplesns.item.MemberItem;
+import org.simplesns.simplesns.ui.sign.item.LoginResult;
+import org.simplesns.simplesns.ui.main.MainActivity;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
