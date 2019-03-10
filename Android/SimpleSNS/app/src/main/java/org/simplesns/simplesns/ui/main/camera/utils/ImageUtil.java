@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +19,13 @@ public class ImageUtil {
         throw new AssertionError(); // developer error
     }
 
-    public static Bitmap rotateBitmapOrientation(String file_path) {
+    public static Bitmap resizeBitmap (@NonNull Bitmap src, int width, int height) {
+        Bitmap rst = Bitmap.createScaledBitmap(src, width, height, true);
+        src.recycle();
+        return rst;
+    }
+
+    public static Bitmap rotateBitmapOrientation(@NonNull String file_path) {
         BitmapFactory.Options bounds = new BitmapFactory.Options();
         bounds.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file_path, bounds);

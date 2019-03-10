@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -16,11 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.MainActivity;
+import org.simplesns.simplesns.ui.main.camera.utils.ImageUtil;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,9 +44,9 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
     String gps3 = "777";
 
     TextView tv_location;
-
     TextView tv_next;
     ImageButton btn_back;
+    ImageView imageViewThumbnail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,9 +95,13 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
         tv_location = findViewById (R.id.tv_location);
         tv_next     = findViewById (R.id.tv_next);
         btn_back    = findViewById (R.id.btn_back);
+        imageViewThumbnail = findViewById (R.id.iv_thumbnail);
 
         tv_next.setText(getString(R.string.menu_share));
         tv_next.setVisibility(View.VISIBLE);
+
+        imageViewThumbnail.setImageBitmap(
+                ImageUtil.rotateBitmapOrientation(ImageUtil.pFile.getAbsolutePath()));
     }
 
     @Override
@@ -121,7 +129,7 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
         gps1 = String.valueOf(lat);
         gps2 = String.valueOf(lng);
         gps3 = getAddress(lat, lng);
-        Toast.makeText(this, gps3+"", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, gps3+"", Toast.LENGTH_SHORT).show(); // 코린이 - issue : location manager 가 불렸다가 안불렀다함
         tv_location.setText(gps3);
     }
 
@@ -153,7 +161,6 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
                        + addr.getLocality() + ", " + addr.getCountryName();
            }
         }
-        Toast.makeText(this, "address"+address,Toast.LENGTH_SHORT).show();  // 코린이 - issue : location manager 가 불렸다가 안불렀다함
         return address;
     }
 }
