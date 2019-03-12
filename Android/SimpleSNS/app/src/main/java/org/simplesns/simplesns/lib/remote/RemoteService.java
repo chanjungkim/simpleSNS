@@ -20,7 +20,7 @@ public interface RemoteService {
     String TAG = RemoteService.class.getSimpleName();
 
     // ★★★ push 시에 주의할 것
-    String BASE_URL = "http://13.125.159.29:3000";
+    String BASE_URL = "http://52.79.98.94:3000";
 
     @POST("/member")
     Call<SignUpResult> insertMember(@Body SignUpData signUpData);
