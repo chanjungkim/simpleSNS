@@ -31,14 +31,14 @@ public class ServiceGenerator {
                 .create();
 
         Retrofit retrofit;
-        try{
+        try {
             retrofit = new Retrofit.Builder()
                     .baseUrl(RemoteService.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 
             return retrofit.create(serviceClass);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
