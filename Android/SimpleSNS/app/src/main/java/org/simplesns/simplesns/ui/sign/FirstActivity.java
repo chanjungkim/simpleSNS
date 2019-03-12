@@ -174,6 +174,12 @@ public class FirstActivity extends AppCompatActivity {
         return pattern.matcher(password).matches();
     }
 
+    /**
+     * Send verification Email to the to(User's Email Address). And start Count Down.
+     * @param to
+     * @param nextBTN
+     * @param countDownTimerTV
+     */
     public void sendVerificationEmail(String to, Button nextBTN, TextView countDownTimerTV) {
         Log.d(TAG, "sendVerificationEmail()= to(email): " + email);
 
@@ -239,6 +245,10 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Change this activity's current view into Create User View.
+     * @param email
+     */
     public void initCreateUserView(String email) {
         Log.d(TAG, "initCreateUserView()= email: " + email);
 
@@ -342,6 +352,11 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Check if the email and code match.
+     * @param email
+     * @param code
+     */
     public void verifyEmailAndCode(String email, String code) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
@@ -370,6 +385,9 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Change this Activity's view into Login View.
+     */
     public void initLoginView() {
         backCount = 0;
         setContentView(R.layout.activity_login);

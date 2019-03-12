@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationViewEx bottomNavigationViewEx;
     int backCount = 0;
 
+    public static HomeFragment homeFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         replaceFragment(HomeFragment.newInstance());
         changeItemColor(0);
+        homeFragment = new HomeFragment();
     }
 
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.navigation_home:
-                replaceFragment(HomeFragment.newInstance());
+                replaceFragment(homeFragment);
                 changeItemColor(0);
                 return false;
             case R.id.navigation_search:

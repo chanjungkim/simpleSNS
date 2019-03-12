@@ -145,7 +145,7 @@ public class GlobalUser {
 
                 @Override
                 public void onFailure(Call<LoginResult> call, Throwable throwable) {
-                    Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Check your internet status.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
