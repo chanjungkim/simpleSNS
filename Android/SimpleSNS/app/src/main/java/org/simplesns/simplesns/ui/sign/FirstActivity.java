@@ -24,6 +24,8 @@ import org.simplesns.simplesns.ui.sign.model.SignUpResult;
 import org.simplesns.simplesns.lib.BasicCountDownTimer;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
+import org.simplesns.simplesns.util.SharedPreferenceUtil;
+import org.w3c.dom.Text;
 
 import java.util.regex.Pattern;
 
@@ -43,9 +45,11 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (GlobalUser.getInstance().getMyIDPreference(FirstActivity.this) != null) {
-//            GlobalUser.getInstance().loginByMyId(FirstActivity.this, GlobalUser.getInstance().getMyId());
-//        }
+
+        SharedPreferenceUtil spUtil = new SharedPreferenceUtil(this);
+        if (!TextUtils.isEmpty(spUtil.getSharedMyId()) && !TextUtils.isEmpty(spUtil.getSharedPassword())) {
+            GlobalUser.getInstance().login(this, spUtil.getSharedMyId(), spUtil.getSharedPassword());
+        }
 
         initFirst();
     }

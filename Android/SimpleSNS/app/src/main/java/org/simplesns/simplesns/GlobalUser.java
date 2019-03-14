@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.main.MainActivity;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
+import org.simplesns.simplesns.util.SharedPreferenceUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -121,11 +123,13 @@ public class GlobalUser {
                                     /**
                                      * 리뷰: https://youtu.be/3l3kQCNef28?t=3333
                                      */
+
                                     //값 저장하기
-                                    SharedPreferences sp = context.getSharedPreferences("pref", MODE_PRIVATE);
-                                    sp.edit()
-                                            .putString("jwt", jwt)
-                                            .apply();
+                                    SharedPreferenceUtil spUtil = new SharedPreferenceUtil(context);
+                                    if(TextUtils.isEmpty(spUtil.getSharedMyId()) || TextUtils.isEmpty(spUtil.getSharedMyId())){
+                                        spUtil.setSharedMyId(username);
+                                        spUtil.setSharedPassword(password);
+                                    }
 
                                     Log.d(TAG, "saved jwt: " + jwt);
 //                                    GlobalUser.getInstance().setJwt(jwt);
