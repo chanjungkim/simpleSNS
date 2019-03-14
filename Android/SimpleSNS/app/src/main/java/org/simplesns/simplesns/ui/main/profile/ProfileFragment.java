@@ -19,6 +19,9 @@ import org.simplesns.simplesns.ui.main.profile.fragment.ProfileBadukFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileLineFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileTagFragment;
 
+/**
+ * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6657
+ */
 public class ProfileFragment extends Fragment {
     TextView tvProfileChange;             // 프로필 내용 수정 관련
     ImageView ivProfilePhoto;             // 프로필 이미지 수정 관련

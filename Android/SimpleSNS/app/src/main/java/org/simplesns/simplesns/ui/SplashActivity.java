@@ -9,10 +9,14 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.sign.FirstActivity;
 
 public class SplashActivity extends Activity {
-    /** Duration of wait **/
+    /**
+     * Duration of wait
+     **/
     private final int SPLASH_DISPLAY_LENGTH = 1000;
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -23,8 +27,8 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(() -> {
             /* Create an Intent that will start the Menu-Activity. */
             Intent mainIntent = new Intent(SplashActivity.this, FirstActivity.class);
-            SplashActivity.this.startActivity(mainIntent);
-            SplashActivity.this.finish();
+            this.startActivity(mainIntent);
+            this.finish();
         }, SPLASH_DISPLAY_LENGTH);
     }
 }

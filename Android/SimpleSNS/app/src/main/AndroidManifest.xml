@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.simplesns.simplesns">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- camera permission -->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" /><!-- camera permission -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- location -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- location -->
 
+    <!--
+     1. allowBackup: No Backup or restore of the application. (default: true)
+     ref:
+     https://developer.android.com/guide/topics/manifest/application-element
+     https://developer.android.com/guide/topics/data/autobackup
+
+     2. tools:replace"android:allowBackup" is used to merge
+     because it's also present at [com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4] AndroidManifest.xml:24:9-35 value=(true).
+     -->
     <application
-        android:allowBackup="true"
-        android:fullBackupContent="false"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"

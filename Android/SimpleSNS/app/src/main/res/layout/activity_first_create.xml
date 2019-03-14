@@ -29,7 +29,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/fullname_edittext_first_create_activity"
+                android:id="@+id/et_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edittext_height"
                 android:layout_marginLeft="30dp"
@@ -45,7 +45,7 @@
                 android:textColorHint="@color/grey2" />
 
             <EditText
-                android:id="@+id/password_edittext_first_create_activity"
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edittext_height"
                 android:layout_marginLeft="30dp"
@@ -62,7 +62,7 @@
                 android:textColorHint="@color/grey2" />
 
             <Button
-                android:id="@+id/continue_button_first_create_activity"
+                android:id="@+id/btn_continue"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edittext_height"
                 android:layout_marginLeft="@dimen/default_side_margin"
@@ -89,7 +89,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/info_textview_first_create_activity"
+                android:id="@+id/tv_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="web"

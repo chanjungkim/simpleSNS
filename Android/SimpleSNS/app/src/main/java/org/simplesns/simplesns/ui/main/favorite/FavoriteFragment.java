@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.ui.main.favorite.fragment.FollowingFragment;
-import org.simplesns.simplesns.ui.main.favorite.fragment.MyPostFragment;
+import org.simplesns.simplesns.ui.main.favorite.sub_fragment.FollowingFragment;
+import org.simplesns.simplesns.ui.main.favorite.sub_fragment.MyPostFragment;
 
 public class FavoriteFragment extends Fragment {
     private static String TAG = FavoriteFragment.class.getSimpleName();
@@ -92,29 +92,30 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void setUI() {
-        mViewPager.setAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return FRAGMENT_COUNT;
-            }
-
-            @Override
-            public boolean isViewFromObject(final View view, final Object object) {
-                return view.equals(object);
-            }
-
-            @Override
-            public void destroyItem(final View container, final int position, final Object object) {
-                ((ViewPager) container).removeView((View) object);
-            }
-
-            @Override
-            public Object instantiateItem(final ViewGroup container, final int position) {
-                final View view = new View(getContext());
-                container.addView(view);
-                return view;
-            }
-        });
+        mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));
+//        mViewPager.setAdapter(new PagerAdapter() {
+//            @Override
+//            public int getCount() {
+//                return FRAGMENT_COUNT;
+//            }
+//
+//            @Override
+//            public boolean isViewFromObject(final View view, final Object object) {
+//                return view.equals(object);
+//            }
+//
+//            @Override
+//            public void destroyItem(final View container, final int position, final Object object) {
+//                ((ViewPager) container).removeView((View) object);
+//            }
+//
+//            @Override
+//            public Object instantiateItem(final ViewGroup container, final int position) {
+//                final View view = new View(getContext());
+//                container.addView(view);
+//                return view;
+//            }
+//        });
     }
 
     @Override
@@ -123,16 +124,15 @@ public class FavoriteFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * ViewPagerAdapter
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private String TAG = ViewPagerAdapter.class.getSimpleName();
-
-        int pageCount = 0;
         String titles[] = {"FOLLOWING", "MY POST"};
 
-        ViewPagerAdapter(FragmentManager manager, int _pageCount) {
+        ViewPagerAdapter(FragmentManager manager) {
             super(manager);
-            Log.d(TAG, "_pageCount: " + _pageCount);
-            pageCount = _pageCount;
         }
 
         @Override
@@ -148,7 +148,7 @@ public class FavoriteFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return pageCount;
+            return 2;
         }
 
         @Override

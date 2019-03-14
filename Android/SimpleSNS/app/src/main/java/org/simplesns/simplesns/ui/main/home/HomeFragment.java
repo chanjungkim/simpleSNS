@@ -21,6 +21,9 @@ import org.simplesns.simplesns.item.MemberItem;
 
 import java.util.ArrayList;
 
+/**
+ * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6155
+ */
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static String TAG = "HomeFragment";
 

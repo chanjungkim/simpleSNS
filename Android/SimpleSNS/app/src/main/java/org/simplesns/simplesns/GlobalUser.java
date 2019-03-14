@@ -44,14 +44,14 @@ public class GlobalUser {
         return instance;
     }
 
-    public String getJwt() {
-        return jwt;
-    }
-
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
-    }
-
+//    public String getJwt() {
+//        return jwt;
+//    }
+//
+//    public void setJwt(String jwt) {
+//        this.jwt = jwt;
+//    }
+//
     public String getMyId() {
         return my_id;
     }
@@ -70,6 +70,7 @@ public class GlobalUser {
 
     /**
      * Get myId from SharedPreferences.
+     *
      * @param context
      * @return
      */
@@ -81,7 +82,7 @@ public class GlobalUser {
             Log.d(TAG, "No id....");
             return null;
         }
-        GlobalUser.getInstance().setMyId(my_id);
+//        GlobalUser.getInstance().setMyId(my_id);
         Log.d(TAG, "my_id: " + my_id);
 
         return my_id;
@@ -89,6 +90,7 @@ public class GlobalUser {
 
     /**
      * For sign-up and login. This is for normal login. It needs username, password.
+     *
      * @param context
      * @param username
      * @param password
@@ -116,6 +118,9 @@ public class GlobalUser {
                                     Toast.makeText(context, "Login Failed.", Toast.LENGTH_SHORT).show();
                                     return;
                                 } else {
+                                    /**
+                                     * 리뷰: https://youtu.be/3l3kQCNef28?t=3333
+                                     */
                                     //값 저장하기
                                     SharedPreferences sp = context.getSharedPreferences("pref", MODE_PRIVATE);
                                     sp.edit()
@@ -123,7 +128,7 @@ public class GlobalUser {
                                             .apply();
 
                                     Log.d(TAG, "saved jwt: " + jwt);
-                                    GlobalUser.getInstance().setJwt(jwt);
+//                                    GlobalUser.getInstance().setJwt(jwt);
                                     GlobalUser.getInstance().setMyId(username);
                                     //로그인 성공 시 화면 이동
                                     Intent intent = new Intent(context, MainActivity.class);

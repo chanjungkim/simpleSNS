@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.ui.main.favorite.fragment;
+package org.simplesns.simplesns.ui.main.favorite.sub_fragment;
 
 import android.os.Bundle;
 import android.os.Handler;

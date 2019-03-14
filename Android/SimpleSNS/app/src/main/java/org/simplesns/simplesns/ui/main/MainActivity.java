@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,9 @@ import org.simplesns.simplesns.ui.main.home.HomeFragment;
 import org.simplesns.simplesns.ui.main.profile.ProfileFragment;
 import org.simplesns.simplesns.ui.main.search.SearchFragment;
 
+/**
+ * 리뷰: https://youtu.be/3l3kQCNef28?t=5667
+ */
 public class MainActivity extends AppCompatActivity {
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     int backCount = 0;
 
     public static HomeFragment homeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(this, "Welcome, "+ GlobalUser.getInstance().getMyId(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Welcome, " + GlobalUser.getInstance().getMyId(), Toast.LENGTH_SHORT).show();
 
         mTextMessage = findViewById(R.id.message);
         bottomNavigationViewEx = findViewById(R.id.navigation);
@@ -109,12 +114,15 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         backCount++;
 
+        /**
+         * 프레그먼트 관리에 따라 추후 수정 필요
+         */
         switch (backCount) {
             case 1:
                 Toast.makeText(this, "Press back to exit.", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(() -> --backCount, 2000);
                 break;
             case 2:
-                super.onBackPressed();
                 finish();
                 break;
         }

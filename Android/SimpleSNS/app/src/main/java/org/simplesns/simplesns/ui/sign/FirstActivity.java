@@ -2,6 +2,7 @@ package org.simplesns.simplesns.ui.sign;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
@@ -49,38 +50,16 @@ public class FirstActivity extends AppCompatActivity {
         initFirst();
     }
 
-    @Override
-    public void onBackPressed() {
-        backCount++;
-
-        // 수정해야할 부분.
-        switch (backCount) {
-            case 0:
-                initEmailValidView();
-                break;
-            case 1:
-                initFirst();
-                break;
-            case 2:
-                Toast.makeText(this, "Press back to exit.", Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
-                super.onBackPressed();
-                finish();
-                break;
-        }
-    }
-
     public void initFirst() {
         setContentView(R.layout.activity_first);
-        Button createBTN = findViewById(R.id.create_button_firstactivity);
-        Button loginBTN = findViewById(R.id.login_button_firstactivity);
+        Button btnCreate = findViewById(R.id.btn_create);
+        Button btnLogin = findViewById(R.id.btn_login);
 
-        createBTN.setOnClickListener((v) -> {
+        btnCreate.setOnClickListener((v) -> {
             initEmailValidView();
         });
 
-        loginBTN.setOnClickListener((v) -> {
+        btnLogin.setOnClickListener((v) -> {
             initLoginView();
         });
     }
@@ -88,43 +67,43 @@ public class FirstActivity extends AppCompatActivity {
     public void initEmailValidView() {
         backCount = 0;
         setContentView(R.layout.activity_first_email_valid);
-        EditText emailET = findViewById(R.id.email_edittext_first_email_valid);
-        Button sendBTN = findViewById(R.id.send_button_first_email_valid);
-        EditText codeET = findViewById(R.id.code_edittext_first_email_valid);
-        TextView countDownTimerTV = findViewById(R.id.timecount_textview_first_email_valid);
-        Button nextBTN = findViewById(R.id.next_button_first_email_valid);
+        EditText etEmail = findViewById(R.id.et_email);
+        Button btnSend = findViewById(R.id.btn_send);
+        EditText etCode = findViewById(R.id.et_code);
+        TextView tvCountDown = findViewById(R.id.tv_timecount);
+        Button btnNext = findViewById(R.id.btn_next);
 
-        nextBTN.setClickable(false);
-        countDownTimerTV.setVisibility(View.INVISIBLE);
+        btnNext.setClickable(false);
+        tvCountDown.setVisibility(View.INVISIBLE);
 
         // If you run Activity backwards, get the email address that the user input already.
         if (email != null) {
-            emailET.setText(email);
+            etEmail.setText(email);
         }
 
-        emailET.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        etEmail.setImeOptions(EditorInfo.IME_ACTION_DONE);
         // Why it's not working?
-        emailET.setOnEditorActionListener((textView, i, keyEvent) -> {
+        etEmail.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_DONE) {
-                nextBTN.performClick();
+                btnNext.performClick();
             }
             return false;
         });
 
-        sendBTN.setOnClickListener((v) -> {
-            email = emailET.getText().toString();
+        btnSend.setOnClickListener((v) -> {
+            email = etEmail.getText().toString();
 
             // Check validation email by Server if no problem, then go to next view.
             try {
-                sendVerificationEmail(email, nextBTN, countDownTimerTV);
+                sendVerificationEmail(email, btnNext, tvCountDown);
 //                initCreateUserView(email);
             } catch (NullPointerException e) {
                 Toast.makeText(FirstActivity.this, "Please input correect email address.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        nextBTN.setOnClickListener((v) -> {
-            verifyEmailAndCode(emailET.getText().toString(), codeET.getText().toString());
+        btnNext.setOnClickListener((v) -> {
+            verifyEmailAndCode(etEmail.getText().toString(), etCode.getText().toString());
         });
     }
 
@@ -176,6 +155,7 @@ public class FirstActivity extends AppCompatActivity {
 
     /**
      * Send verification Email to the to(User's Email Address). And start Count Down.
+     *
      * @param to
      * @param nextBTN
      * @param countDownTimerTV
@@ -247,6 +227,7 @@ public class FirstActivity extends AppCompatActivity {
 
     /**
      * Change this activity's current view into Create User View.
+     *
      * @param email
      */
     public void initCreateUserView(String email) {
@@ -254,33 +235,33 @@ public class FirstActivity extends AppCompatActivity {
 
         backCount = -1;
         setContentView(R.layout.activity_first_create);
-        TextView infoTV = findViewById(R.id.info_textview_first_create_activity);
-        EditText usernameET = findViewById(R.id.fullname_edittext_first_create_activity);
-        EditText passwordET = findViewById(R.id.password_edittext_first_create_activity);
+        TextView tvInfo = findViewById(R.id.tv_info);
+        EditText etUsername = findViewById(R.id.et_fullname);
+        EditText etPassword = findViewById(R.id.et_password);
 
-        Button continueBTN = findViewById(R.id.continue_button_first_create_activity);
+        Button btnContinue = findViewById(R.id.btn_continue);
 
-        infoTV.setText(Html.fromHtml("Your contacts will be periodically synced and stored on instagram servers to help you and others find friends, and to help us provide a better service. To remove contacts, go to Settings and disconnect. <a href=''>Learn More</a>"));
+        tvInfo.setText(Html.fromHtml("Your contacts will be periodically synced and stored on instagram servers to help you and others find friends, and to help us provide a better service. To remove contacts, go to Settings and disconnect. <a href=''>Learn More</a>"));
 
         // If the user ever input username or password before, keep them again.
         if (username != null) {
-            usernameET.setText(username);
+            etUsername.setText(username);
         }
 
         if (password != null) {
-            passwordET.setText(password);
+            etPassword.setText(password);
         }
 
-        passwordET.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+        etPassword.setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                continueBTN.performClick();
+                btnContinue.performClick();
             }
             return false;
         });
 
-        continueBTN.setOnClickListener((v) -> {
-            username = usernameET.getText().toString();
-            password = passwordET.getText().toString();
+        btnContinue.setOnClickListener((v) -> {
+            username = etUsername.getText().toString();
+            password = etPassword.getText().toString();
 
             // Check if username is empty
             if (TextUtils.isEmpty(username)) {
@@ -354,6 +335,7 @@ public class FirstActivity extends AppCompatActivity {
 
     /**
      * Check if the email and code match.
+     *
      * @param email
      * @param code
      */
@@ -392,19 +374,27 @@ public class FirstActivity extends AppCompatActivity {
         backCount = 0;
         setContentView(R.layout.activity_login);
 
-        EditText usernameET = findViewById(R.id.username_edittext_loginactivity);
-        EditText passwordET = findViewById(R.id.password_edittext_loginactivity);
-        Button loginBTN = findViewById(R.id.login_button_loginactivity);
+        EditText etUsername = findViewById(R.id.et_username);
+        EditText etPassword = findViewById(R.id.et_password);
+        Button btnLogin = findViewById(R.id.btn_login);
 
-        loginBTN.setOnClickListener((v) -> {
-            String username = usernameET.getText().toString();
-            String password = passwordET.getText().toString();
+        etPassword.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                btnLogin.performClick();
+                return true;
+            }
+            return false;
+        });
+
+        btnLogin.setOnClickListener((v) -> {
+            String username = etUsername.getText().toString();
+            String password = etPassword.getText().toString();
 
             if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
                 GlobalUser.getInstance().login(FirstActivity.this, username, password);
 //                tempPass();
             } else {
-                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please check your username or password.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -415,8 +405,32 @@ public class FirstActivity extends AppCompatActivity {
     public void tempPass() {
         // 임시 패스
         Intent intent = new Intent(FirstActivity.this, MainActivity.class);
-        GlobalUser.getInstance().setMyId(username);
+//        GlobalUser.getInstance().setMyId(username);
         startActivity(intent);
         finish();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        backCount++;
+
+        // 수정해야할 부분.
+        switch (backCount) {
+            case 0:
+                initEmailValidView();
+                break;
+            case 1:
+                initFirst();
+                break;
+            case 2:
+                Toast.makeText(this, "Press back to exit.", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(() -> --backCount, 2000);
+                break;
+            case 3:
+                super.onBackPressed();
+                finish();
+                break;
+        }
     }
 }

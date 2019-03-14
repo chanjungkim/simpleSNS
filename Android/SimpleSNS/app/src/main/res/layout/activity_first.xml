@@ -21,7 +21,7 @@
             android:src="@drawable/insta_logo" />
 
         <Button
-            android:id="@+id/create_button_firstactivity"
+            android:id="@+id/btn_create"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edittext_height"
             android:layout_below="@id/logo_imageview_firstactivity"
@@ -35,10 +35,10 @@
             android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/login_button_firstactivity"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/create_button_firstactivity"
+            android:layout_below="@id/btn_create"
             android:layout_marginLeft="@dimen/default_side_margin"
             android:layout_marginRight="@dimen/default_side_margin"
             android:background="#0FFF"

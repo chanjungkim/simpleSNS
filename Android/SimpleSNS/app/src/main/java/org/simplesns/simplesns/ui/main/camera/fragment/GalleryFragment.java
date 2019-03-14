@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=5908
+ */
 public class GalleryFragment extends Fragment {
     Activity mActivity;
     Context mContext;
