@@ -1,4 +1,4 @@
-package org.simplesns.simplesns.ui.sign.item;
+package org.simplesns.simplesns.ui.sign.model;
 
 import org.simplesns.simplesns.item.MemberItem;
 

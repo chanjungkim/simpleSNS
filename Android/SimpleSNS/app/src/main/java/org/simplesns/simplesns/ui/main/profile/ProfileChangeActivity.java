@@ -33,56 +33,42 @@ public class ProfileChangeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_change);
 
 //        체크나 X 버튼을 누르면 ProfileFragment.java(fragment_profile.xml) 파일로 돌아감
-        btnClose = (ImageView)findViewById(R.id.btn_close);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        btnSave = (ImageView)findViewById(R.id.btn_save);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnClose = findViewById(R.id.btn_close);
+        btnClose.setOnClickListener(v -> finish());
+        btnSave = findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(v -> {
 
 
-                String new_name = etName.getText().toString();
-                String new_username = etUsername.getText().toString();
-                String new_introduction = etIntroduction.getText().toString();
-                // TODO : 수정한 내용 저장해야 함.  서버로 저장하나?
-                finish();
-            }
+            String new_name = etName.getText().toString();
+            String new_username = etUsername.getText().toString();
+            String new_introduction = etIntroduction.getText().toString();
+            // TODO : 수정한 내용 저장해야 함.  서버로 저장하나?
+            finish();
         });
 
-        ivProfilePhoto = (CircleImageView)findViewById(R.id.iv_profile_photo);
-        ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO : 프로필 이미지 바꾸는 코드 작성하기
-            }
+        ivProfilePhoto = findViewById(R.id.iv_profile_photo);
+        ivProfilePhoto.setOnClickListener(v -> {
+            // TODO : 프로필 이미지 바꾸는 코드 작성하기
         });
-        tvProfilePhoto = (TextView)findViewById(R.id.tv_profile_photo);
-        tvProfilePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO : 프로필 이미지 바꾸는 코드 작성하기
-            }
+        tvProfilePhoto = findViewById(R.id.tv_profile_photo);
+        tvProfilePhoto.setOnClickListener(v -> {
+            // TODO : 프로필 이미지 바꾸는 코드 작성하기
         });
 
         // TODO : 서버에서 받은 값으로 설정하기
-        etName = (EditText)findViewById(R.id.et_name);
+        etName = findViewById(R.id.et_name);
 //        et_name.setText("");
 
-        etUsername = (EditText)findViewById(R.id.et_username);
+        etUsername = findViewById(R.id.et_username);
         etUsername.setText(GlobalUser.getInstance().getMyId());
 
-        etIntroduction = (EditText)findViewById(R.id.et_introduction);
+        etIntroduction = findViewById(R.id.et_introduction);
 //        et_introduction.setText("");
 
-        etEmail= (EditText)findViewById(R.id.et_email);
+        etEmail= findViewById(R.id.et_email);
 //        et_email.setText("");
 
-        etPhone = (EditText)findViewById(R.id.et_phone);
+        etPhone = findViewById(R.id.et_phone);
 //        et_phone.setText("");
     }
 }

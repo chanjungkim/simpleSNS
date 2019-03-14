@@ -17,10 +17,11 @@ import android.view.ViewGroup;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.ui.main.BaseFragment;
 import org.simplesns.simplesns.ui.main.favorite.sub_fragment.FollowingFragment;
 import org.simplesns.simplesns.ui.main.favorite.sub_fragment.MyPostFragment;
 
-public class FavoriteFragment extends Fragment {
+public class FavoriteFragment extends BaseFragment {
     private static String TAG = FavoriteFragment.class.getSimpleName();
 
     int FRAGMENT_COUNT = 2;
@@ -28,9 +29,12 @@ public class FavoriteFragment extends Fragment {
     PagerAdapter mPagerAdapter;
     private NavigationTabStrip navigationTabStrip;
 
-    public static FavoriteFragment newInstance() {
-        // TODO Parameters
-        return new FavoriteFragment();
+    public static FavoriteFragment newInstance(int instance) {
+        Bundle args = new Bundle();
+        args.putInt(ARGS_INSTANCE, instance);
+        FavoriteFragment fragment = new FavoriteFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -86,6 +90,8 @@ public class FavoriteFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         return view;

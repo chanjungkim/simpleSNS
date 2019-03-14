@@ -133,7 +133,6 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
         tv_location.setText(gps3);
     }
 
-
     public String getAddress (double lat, double lng) {
         String address = null;
         Geocoder geocoder = new Geocoder (this, Locale.getDefault());

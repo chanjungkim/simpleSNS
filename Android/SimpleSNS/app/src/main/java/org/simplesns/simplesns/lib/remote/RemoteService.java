@@ -1,9 +1,9 @@
 package org.simplesns.simplesns.lib.remote;
 
-import org.simplesns.simplesns.ui.sign.item.LoginResult;
-import org.simplesns.simplesns.ui.sign.item.SignUpData;
-import org.simplesns.simplesns.ui.sign.item.SignUpResult;
-import org.simplesns.simplesns.ui.sign.item.BasicResult;
+import org.simplesns.simplesns.ui.sign.model.LoginResult;
+import org.simplesns.simplesns.ui.sign.model.SignUpData;
+import org.simplesns.simplesns.ui.sign.model.SignUpResult;
+import org.simplesns.simplesns.ui.sign.model.BasicResult;
 import org.simplesns.simplesns.item.MemberItem;
 
 import retrofit2.Call;

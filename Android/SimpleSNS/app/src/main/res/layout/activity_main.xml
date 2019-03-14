@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -11,16 +11,20 @@
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottombar"
         android:layout_weight="1" />
 
 
-    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
-        android:id="@+id/navigation"
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottombar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:layout_gravity="bottom"
-        android:background="@android:color/white"
-        app:itemIconTint="@color/grey"
-        app:menu="@menu/navigation" />
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        app:bb_activeTabColor="#000"
+        app:bb_behavior="iconsOnly"
+        app:bb_showShadow="false"
+        app:bb_inActiveTabAlpha="0.4"
+        app:bb_inActiveTabColor="#444"
+        app:bb_tabXmlResource="@xml/tabs_bottombar" />
+</RelativeLayout>

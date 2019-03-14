@@ -1,130 +1,182 @@
 package org.simplesns.simplesns.ui.main;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.ncapdevi.fragnav.FragNavController;
+import com.ncapdevi.fragnav.FragNavSwitchController;
+import com.ncapdevi.fragnav.FragNavTransactionOptions;
+import com.ncapdevi.fragnav.tabhistory.FragNavTabHistoryController;
+import com.roughike.bottombar.BottomBar;
 
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.ui.main.camera.utils.RegisterType;
-import org.simplesns.simplesns.ui.main.favorite.FavoriteFragment;
 import org.simplesns.simplesns.lib.UiLib;
 import org.simplesns.simplesns.ui.main.camera.ImageRegisterActivity;
+import org.simplesns.simplesns.ui.main.camera.utils.RegisterType;
+import org.simplesns.simplesns.ui.main.favorite.FavoriteFragment;
 import org.simplesns.simplesns.ui.main.home.HomeFragment;
 import org.simplesns.simplesns.ui.main.profile.ProfileFragment;
+import org.simplesns.simplesns.ui.main.search.RecommendFragment;
 import org.simplesns.simplesns.ui.main.search.SearchFragment;
+import org.simplesns.simplesns.ui.main.BaseFragment;
 
 /**
  * 리뷰: https://youtu.be/3l3kQCNef28?t=5667
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BaseFragment.FragmentNavigation, FragNavController.TransactionListener, FragNavController.RootFragmentListener {
     private static String TAG = MainActivity.class.getSimpleName();
+    //Better convention to properly name the indices what they are in your app
+    private final int INDEX_HOME = FragNavController.TAB1;
+    private final int INDEX_SEARCH = FragNavController.TAB2;
+    //    private final int INDEX_CAMERA = FragNavController.TAB3;
+    private final int INDEX_FAVORITE = FragNavController.TAB4;
+    private final int INDEX_PROFILE = FragNavController.TAB5;
+    private FragNavController mNavController;
 
-    private TextView mTextMessage;
-    private BottomNavigationViewEx bottomNavigationViewEx;
     int backCount = 0;
-
-    public static HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Window
         UiLib.getInstance(this).setHideNavigation(true);
         UiLib.getInstance(this).setStatusBarColor(getResources().getColor(R.color.grey));
 
         setContentView(R.layout.activity_main);
 
+
         Toast.makeText(this, "Welcome, " + GlobalUser.getInstance().getMyId(), Toast.LENGTH_SHORT).show();
 
-        mTextMessage = findViewById(R.id.message);
-        bottomNavigationViewEx = findViewById(R.id.navigation);
-        bottomNavigationViewEx.enableAnimation(false)
-                .enableAnimation(false)
-                .enableItemShiftingMode(false) // Enable the shifting mode for each item. It will have a shifting animation for item if true. Otherwise the item text is always shown. Default true when item count > 3.
-                .enableShiftingMode(false) // Enable the shifting mode for navigation. It will has a shift animation if true. Otherwise all items are the same width. Default true when item count > 3.
-                .setIconSize(35) // Set all item ImageView size(dp).
-                .setIconsMarginTop(0) // set margin top for all icons.
-                .setTextVisibility(false) // Hide Text.
-                .setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        replaceFragment(HomeFragment.newInstance());
-        changeItemColor(0);
-        homeFragment = new HomeFragment();
+        final BottomBar bottomBar = findViewById(R.id.bottombar);
+
+        boolean initial = savedInstanceState == null;
+        if (initial) {
+            bottomBar.selectTabAtPosition(INDEX_HOME);
+        }
+
+        mNavController = FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), R.id.fl_main)
+                .transactionListener(this)
+                .rootFragmentListener(this, 5)
+                .popStrategy(FragNavTabHistoryController.UNIQUE_TAB_HISTORY)
+                .switchController(new FragNavSwitchController() {
+                    @Override
+                    public void switchTab(int index, FragNavTransactionOptions transactionOptions) {
+                        bottomBar.selectTabAtPosition(index);
+                    }
+                })
+                .build();
+
+        bottomBar.setOnTabSelectListener(tabId -> {
+            Log.d(TAG, "tap listener" + tabId);
+            switch (tabId) {
+                case R.id.bb_menu_home:
+                    mNavController.switchTab(INDEX_HOME);
+                    break;
+                case R.id.bb_menu_search:
+                    mNavController.switchTab(INDEX_SEARCH);
+                    break;
+                case R.id.bb_menu_camera:
+                    Intent imageResisterIntent = new Intent(MainActivity.this, ImageRegisterActivity.class);
+                    imageResisterIntent.putExtra("register_type", RegisterType.FEED);   // PROFILE 에서 호출시 RegisterType.PROFILE
+                    startActivity(imageResisterIntent);
+                    break;
+                case R.id.bb_menu_favorite:
+                    mNavController.switchTab(INDEX_FAVORITE);
+                    break;
+                case R.id.bb_menu_profile:
+                    mNavController.switchTab(INDEX_PROFILE);
+                    break;
+                default:
+                    Log.d(TAG, "No where to go");
+                    break;
+            }
+        }, initial);
+
+        bottomBar.setOnTabReselectListener(tabId -> mNavController.clearStack());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mNavController != null) {
+            mNavController.onSaveInstanceState(outState);
+        }
+    }
+
+    @Override
+    public void pushFragment(Fragment fragment) {
+        if (mNavController != null) {
+            mNavController.pushFragment(fragment);
+        }
+    }
+
+    @Override
+    public void onTabTransaction(Fragment fragment, int index) {
+        // If we have a backstack, show the back button
+        if (getSupportActionBar() != null && mNavController != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
+        }
     }
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = item -> {
+    @Override
+    public void onFragmentTransaction(Fragment fragment, FragNavController.TransactionType transactionType) {
+        //do fragmentty stuff. Maybe change title, I'm not going to tell you how to live your life
+        // If we have a backstack, show the back button
+        if (getSupportActionBar() != null && mNavController != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
+        }
+    }
 
+    @Override
+    public Fragment getRootFragment(int index) {
+        switch (index) {
+            case INDEX_HOME:
+                return HomeFragment.newInstance(0);
+            case INDEX_SEARCH:
+                return RecommendFragment.newInstance(0);
+            case INDEX_FAVORITE:
+                return FavoriteFragment.newInstance(0);
+            case INDEX_PROFILE:
+                return ProfileFragment.newInstance(0);
+        }
+        throw new IllegalStateException("Need to send an index that we know");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.navigation_home:
-                replaceFragment(homeFragment);
-                changeItemColor(0);
-                return false;
-            case R.id.navigation_search:
-                replaceFragment(SearchFragment.newInstance());
-                changeItemColor(1);
-                return false;
-            case R.id.navigation_plus:
-                Intent imageResisterIntent = new Intent(MainActivity.this, ImageRegisterActivity.class);
-                imageResisterIntent.putExtra("register_type", RegisterType.FEED);   // PROFILE 에서 호출시 RegisterType.PROFILE
-                startActivity(imageResisterIntent);
-                return false;
-            case R.id.navigation_like:
-                replaceFragment(FavoriteFragment.newInstance());
-                changeItemColor(3);
-                return false;
-            case R.id.navigation_profile:
-                replaceFragment(ProfileFragment.newInstance());
-                changeItemColor(4);
-                return false;
+            case android.R.id.home:
+                mNavController.popFragment();
+                break;
         }
-        return false;
-    };
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fl_main, fragment).commit();
-    }
-
-    private void changeItemColor(int position) {
-        Log.d(TAG, "position: " + position);
-        Log.d(TAG, "currentItem: " + bottomNavigationViewEx.getCurrentItem());
-        for (int i = 0; i < 5; i++) {
-            ImageViewCompat.setImageTintList(bottomNavigationViewEx.getIconAt(i), ColorStateList.valueOf(Color.parseColor("#ffbfbfbf")));
-        }
-        ImageViewCompat.setImageTintList(bottomNavigationViewEx.getIconAt(position), ColorStateList.valueOf(Color.parseColor("#ff000000")));
+        return true;
     }
 
     @Override
     public void onBackPressed() {
-        backCount++;
-
         /**
          * 프레그먼트 관리에 따라 추후 수정 필요
          */
-        switch (backCount) {
-            case 1:
-                Toast.makeText(this, "Press back to exit.", Toast.LENGTH_SHORT).show();
-                new Handler().postDelayed(() -> --backCount, 2000);
-                break;
-            case 2:
-                finish();
-                break;
+        if (!mNavController.popFragment()) {
+            backCount++;
+            switch (backCount) {
+                case 1:
+                    Toast.makeText(this, "Press back to exit.", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(() -> --backCount, 2000);
+                    break;
+                case 2:
+                    finish();
+                    break;
+            }
         }
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,17 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.ui.main.home.adapter.HomeAdapter;
-import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.item.FeedImageItem;
+import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.item.MemberItem;
+import org.simplesns.simplesns.ui.main.BaseFragment;
+import org.simplesns.simplesns.ui.main.favorite.FavoriteFragment;
+import org.simplesns.simplesns.ui.main.home.adapter.HomeAdapter;
 
 import java.util.ArrayList;
 
 /**
  * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6155
  */
-public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static String TAG = "HomeFragment";
 
     private LinearLayoutManager layoutManager;
@@ -32,17 +33,24 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
 
-    public static HomeFragment newInstance() {
+    public static HomeFragment newInstance(int instance) {
+        Bundle args = new Bundle();
+        args.putInt(ARGS_INSTANCE, instance);
+        HomeFragment fragment = new HomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-        // TODO Parameters
-
-        HomeFragment homeFragment = new HomeFragment();
-        return homeFragment;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -95,7 +103,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         homeAdapter.addItem(feedList);
     }
 
-    @Override public void onRefresh() {
+    @Override
+    public void onRefresh() {
         Log.d(TAG, "Refreshing...");
         new Handler().postDelayed(() -> swipeLayout.setRefreshing(false), 2000);
     }

@@ -18,9 +18,9 @@ import android.widget.Toast;
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.MainActivity;
-import org.simplesns.simplesns.ui.sign.item.BasicResult;
-import org.simplesns.simplesns.ui.sign.item.SignUpData;
-import org.simplesns.simplesns.ui.sign.item.SignUpResult;
+import org.simplesns.simplesns.ui.sign.model.BasicResult;
+import org.simplesns.simplesns.ui.sign.model.SignUpData;
+import org.simplesns.simplesns.ui.sign.model.SignUpResult;
 import org.simplesns.simplesns.lib.BasicCountDownTimer;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
@@ -127,7 +127,7 @@ public class FirstActivity extends AppCompatActivity {
      * @return
      */
     private boolean validUsername(String username) {
-        String USERNAME_PATTERN = "^@?(\\w){4,25}$";
+        String USERNAME_PATTERN = "^[A-Za-z0-9_]+$";
         Pattern pattern = Pattern.compile(USERNAME_PATTERN);
         return pattern.matcher(username).matches();
     }
@@ -148,7 +148,7 @@ public class FirstActivity extends AppCompatActivity {
      * @return
      */
     private boolean validPassword(String password) {
-        String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
+        String PASSWORD_PATTERN = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
         Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
         return pattern.matcher(password).matches();
     }
@@ -281,9 +281,10 @@ public class FirstActivity extends AppCompatActivity {
                 return;
             }
 
+
             // Check password Regex
             if (!validPassword(password)) {
-                Toast.makeText(FirstActivity.this, "You can only use a-z, 0-9, _ for username.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FirstActivity.this, "Password needs to be included at least one number, one lower case letter, one upper case letter, one special character and longer than 8 without any spaces.", Toast.LENGTH_SHORT).show();
                 return;
             }
 //            tempPass();

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@drawable/baseline_home_24"
+        id="@+id/bb_menu_home"
+        title="@string/home" />
+
+    <tab
+        icon="@drawable/baseline_search_24"
+        id="@+id/bb_menu_search"
+        title="@string/search" />
+
+    <tab
+        icon="@drawable/baseline_control_point_24"
+        id="@+id/bb_menu_camera"
+        title="@string/add" />
+
+    <tab
+        icon="@drawable/baseline_favorite_24"
+        id="@+id/bb_menu_favorite"
+        title="@string/favorite" />
+
+    <tab
+        icon="@drawable/baseline_smile_24"
+        id="@+id/bb_menu_profile"
+        title="@string/profile" />
+</tabs>

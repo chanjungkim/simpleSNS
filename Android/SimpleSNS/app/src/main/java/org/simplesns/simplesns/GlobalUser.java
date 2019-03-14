@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
-import org.simplesns.simplesns.ui.sign.item.LoginResult;
+import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.main.MainActivity;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;

@@ -23,6 +23,8 @@ import org.simplesns.simplesns.ui.main.camera.utils.RegisterType;
 import java.io.File;
 import java.util.List;
 
+import static org.simplesns.simplesns.constant.CameraConstant.RESISTER_TYPE_FROM_IMAGE_REGISTER;
+
 public class ImageRegisterActivity extends AppCompatActivity {
     ViewPager pager;
     RelativeLayout container;
@@ -118,7 +120,7 @@ public class ImageRegisterActivity extends AppCompatActivity {
 
     private void registerTypeCheck () {
         Intent registerIntent = getIntent();
-        RegisterType.registerType = (RegisterType) registerIntent.getSerializableExtra("register_type");
+        RegisterType.registerType = (RegisterType) registerIntent.getSerializableExtra(RESISTER_TYPE_FROM_IMAGE_REGISTER); // 상수로 보내는 쪽, 받는 쪽 맞추기.
         if (RegisterType.registerType == null) {
             throw new AssertionError(); // developer error: register 타입을 주어야함
         }

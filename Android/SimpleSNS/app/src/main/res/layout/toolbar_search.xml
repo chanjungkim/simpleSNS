@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@color/light_grey"
+    android:gravity="center_vertical">
+
+    <!--  Toolbar 추후 Custom -->
+    <ImageView
+        android:id="@+id/iv_back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:background="@drawable/arrow_back" />
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/iv_back_button"
+        android:background="#0000"
+        android:hint="SEARCH"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:lines="1"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="22sp" />
+
+</RelativeLayout>
