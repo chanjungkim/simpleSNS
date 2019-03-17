@@ -87,7 +87,7 @@ Method: Git Flow
 ### How Git Flow work?
 
 - features: 기능들의 브랜치들.
-- development: 개발 중인 프로젝트의 큰 줄기. features들이 여기에 merge됨.
+- development: 개발 중인 프로젝트의 큰 줄기. features들이 여기에 merge되며, release로 넘어가는데, QA가 끝나고 release 브랜치와 합쳐지기도 한다.
 - release: master로 보내기 전에 버그 수정 등 QA를 하는 브랜치.
 - hotfixes: master에서 버그 등이 발생했을 때 잠시 만들어 버그 수정을 하고 master에 다시 합치는 브랜치.
 - master: 프로젝트 최종본. merge 때마다 tag를 달아 버전을 하나씩 올리게 됨.
