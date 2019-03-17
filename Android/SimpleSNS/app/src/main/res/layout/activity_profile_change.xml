@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 밑줄 focused 됐을 때 색상 변경하는거 추가하기 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,23 +17,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_profile_photo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="20dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_profile_samplephoto"/>
-
-            <TextView
-                android:id="@+id/tv_profile_photo"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/ll_profile_photo_change"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="사진 변경"
-                android:textSize="20dp"
-                android:textColor="@color/link_blue"/>
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_profile_photo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_profile_samplephoto"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="사진 변경"
+                    android:textSize="20dp"
+                    android:textColor="@color/link_blue"/>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,23 +49,23 @@
                 android:layout_margin="15dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="이름"
-                    android:textSize="16dp" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="이름"-->
+                    <!--android:textSize="16dp" />-->
 
-                <EditText
-                    android:id="@+id/et_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:hint="이름"
-                    android:textSize="16dp"
-                    android:textColorHint="#bfbfbf"
-                    android:textColor="#4a4a4a"
-                    app:theme="@style/EditTheme"/>
+                <!--<EditText-->
+                    <!--android:id="@+id/et_name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:ems="10"-->
+                    <!--android:inputType="textPersonName"-->
+                    <!--android:hint="이름"-->
+                    <!--android:textSize="16dp"-->
+                    <!--android:textColorHint="#bfbfbf"-->
+                    <!--android:textColor="#4a4a4a"-->
+                    <!--app:theme="@style/EditTheme"/>-->
 
                 <TextView
                     android:layout_width="match_parent"
@@ -130,23 +137,47 @@
                     android:textColor="#4a4a4a"
                     app:theme="@style/EditTheme" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="전화번호"
-                    android:textSize="16dp"/>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="전화번호"-->
+                    <!--android:textSize="16dp"/>-->
 
-                <EditText
-                    android:id="@+id/et_phone"
+                <!--<EditText-->
+                    <!--android:id="@+id/et_phone"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:ems="10"-->
+                    <!--android:inputType="textPersonName"-->
+                    <!--android:hint="전화번호를 입력하세요"-->
+                    <!--android:textSize="16dp"-->
+                    <!--android:textColorHint="#bfbfbf"-->
+                    <!--android:textColor="#4a4a4a"-->
+                    <!--app:theme="@style/EditTheme" />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:hint="전화번호를 입력하세요"
-                    android:textSize="16dp"
-                    android:textColorHint="#bfbfbf"
-                    android:textColor="#4a4a4a"
-                    app:theme="@style/EditTheme" />
+                    android:text="로그아웃"
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/link_blue"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/tv_withdrawal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="탈퇴하기"
+                    android:textColor="@color/link_blue"
+                    android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -2,11 +2,13 @@ package org.simplesns.simplesns.ui.main.profile;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.GlobalUser;
@@ -14,6 +16,7 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
+import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -31,12 +34,14 @@ public class ProfileChangeActivity extends AppCompatActivity {
     ImageView btnClose;
     ImageView btnSave;
     CircleImageView ivProfilePhoto;
-    TextView tvProfilePhoto;
-    EditText etName;
+    LinearLayout llProfilePhotoChange;
+//    EditText etName;
     EditText etUsername;
     EditText etIntroduction;
     EditText etEmail;
-    EditText etPhone;
+//    EditText etPhone;
+    String newUsername;
+    String newIntroduction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,38 +55,52 @@ public class ProfileChangeActivity extends AppCompatActivity {
         btnClose.setOnClickListener(v -> finish());
         btnSave = findViewById(R.id.btn_save);
         btnSave.setOnClickListener(v -> {
+            newUsername = etUsername.getText().toString();
+            newIntroduction = etIntroduction.getText().toString();
+            // TODO : 수정한 내용 저장해야 함.
 
-            String new_name = etName.getText().toString();
-            String new_username = etUsername.getText().toString();
-            String new_introduction = etIntroduction.getText().toString();
-            // TODO : 수정한 내용 저장해야 함.  서버로 저장하나?
+//            setUserProfileFromServer(GlobalUser.getInstance().getMyId());
             finish();
         });
 
         ivProfilePhoto = findViewById(R.id.iv_profile_photo);
-        ivProfilePhoto.setOnClickListener(v -> {
+        llProfilePhotoChange = (LinearLayout) findViewById(R.id.ll_profile_photo_change);
+        llProfilePhotoChange.setOnClickListener(v -> {
             // TODO : 프로필 이미지 바꾸는 코드 작성하기
-        });
-        tvProfilePhoto = findViewById(R.id.tv_profile_photo);
-        tvProfilePhoto.setOnClickListener(v -> {
-            // TODO : 프로필 이미지 바꾸는 코드 작성하기
+            Toast.makeText(this, "이미지 바꾸기", Toast.LENGTH_SHORT).show();
         });
 
-        // TODO : 서버에서 받은 값으로 설정하기
-        etName = findViewById(R.id.et_name);
-//        et_name.setText("");
-
+//        etName = findViewById(R.id.et_name);
         etUsername = findViewById(R.id.et_username);
-        etUsername.setText(GlobalUser.getInstance().getMyId());
-
         etIntroduction = findViewById(R.id.et_introduction);
-//        et_introduction.setText("");
-
         etEmail = findViewById(R.id.et_email);
-//        et_email.setText("");
+//        etPhone = findViewById(R.id.et_phone);
+//        etUsername.setText(GlobalUser.getInstance().getMyId());
 
-        etPhone = findViewById(R.id.et_phone);
-//        et_phone.setText("");
+        etUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 입력되는 텍스트에 변화가 있을 때
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // 입력이 끝났을 때
+                newUsername = etUsername.getText().toString();
+                if (newUsername.equals(GlobalUser.getInstance().getMyId())){
+
+                } else {
+                    checkUsernameFromServer(newUsername);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 입력하기 전에
+            }
+        });
+
+
     }
 
     private void getUserProfileFromServer(String username) {
@@ -101,6 +120,9 @@ public class ProfileChangeActivity extends AppCompatActivity {
                             MemberItem memberItem = profileResult.data;
                             etUsername.setText(memberItem.getUsername());
                             etEmail.setText(memberItem.getEmail());
+                            if (memberItem.getIntroduction() != null) {
+                                etIntroduction.setText(memberItem.getIntroduction()+"");
+                            }
 
                             Log.d(TAG, memberItem.toString());
                             break;
@@ -112,6 +134,42 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ProfileResult> call, Throwable throwable) {
+                    Toast.makeText(ProfileChangeActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
+                    throwable.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void checkUsernameFromServer(String newUsername) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        Call<CheckUsernameResult> call = remoteService.checkUsername(newUsername);
+        try {
+            call.enqueue(new Callback<CheckUsernameResult>() {
+                @Override
+                public void onResponse(Call<CheckUsernameResult> call, Response<CheckUsernameResult> response) {
+                    CheckUsernameResult checkUsernameResult = response.body();
+                    Log.d(TAG, checkUsernameResult.toString());
+
+                    switch (checkUsernameResult.code) {
+                        case 200:
+                            boolean doesUsernameExist = checkUsernameResult.result;
+                            if (doesUsernameExist){
+                                Toast toast = Toast.makeText(ProfileChangeActivity.this, "사용자 이름 " +newUsername+"을(를) 사용할 수 없습니다.", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.TOP,0,120);
+                                toast.show();
+                            }
+                            break;
+                        default:
+                            Log.d(TAG, checkUsernameResult.code + "");
+                            break;
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CheckUsernameResult> call, Throwable throwable) {
                     Toast.makeText(ProfileChangeActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
                     throwable.printStackTrace();
                 }

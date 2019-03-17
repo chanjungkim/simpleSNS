@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.lib.remote;
 
+import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.sign.model.SignUpData;
@@ -44,6 +45,10 @@ public interface RemoteService {
 
     @GET("/profile/{username}")
     Call<ProfileResult> getUserProfile(@Path("username") String username); // path != param
+
+    // newUsername을 서버로 보내서 체크 후 이미 있는지(true) 없는지(false)를 리턴함
+    @GET("/profile/newuser/{newUsername}")
+    Call<CheckUsernameResult> checkUsername(@Path("newUsername") String newUsername);
 
     @PUT("/member")
     Call<String> updateMember(@Body MemberItem memberItem);

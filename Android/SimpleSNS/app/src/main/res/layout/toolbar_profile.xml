@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="11">
+        android:weightSum="10">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -44,19 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:src="@drawable/baseline_menu_24"
-            android:layout_weight="1"
-            android:layout_marginRight="15dp"/>
-
-        <ImageView
-            android:id="@+id/btn_setting"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:src="@drawable/baseline_settings"
-            android:layout_weight="1"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="15dp"/>
-
-
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

@@ -40,7 +40,6 @@ public class ProfileFragment extends BaseFragment {
     TextView tvFollowingCount;
 
     TextView tvUsername;
-    ImageView btnSetting;
 
     public static ProfileFragment newInstance(int instance) {
         Bundle args = new Bundle();
@@ -75,8 +74,6 @@ public class ProfileFragment extends BaseFragment {
         tvUsername = view.findViewById(R.id.tv_username);
         tvUsername.setText(GlobalUser.getInstance().getMyId());
 
-        btnSetting = view.findViewById(R.id.btn_setting);
-
         profileBadukFragment = new ProfileBadukFragment();
         profileLineFragment = new ProfileLineFragment();
         profileTagFragment = new ProfileTagFragment();
@@ -104,8 +101,6 @@ public class ProfileFragment extends BaseFragment {
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             v.getContext().startActivity(intent);
         });
-
-        btnSetting.setOnClickListener(v -> Toast.makeText(getActivity(), "Setting 페이지로 이동/로그아웃 구현", Toast.LENGTH_SHORT).show());
 
         return view;
     }

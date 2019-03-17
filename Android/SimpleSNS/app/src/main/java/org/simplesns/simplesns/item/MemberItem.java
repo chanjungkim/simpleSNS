@@ -19,10 +19,11 @@ public class MemberItem {
 
     }
 
-    public MemberItem(String email, String username, String password){
+    public MemberItem(String email, String username, String password, String introduction){
         this.email = email;
         this.username = username;
         this.password = password;
+        this.introduction = introduction;
     }
 
     /**
@@ -45,6 +46,10 @@ public class MemberItem {
         this.follows = follows;
         this.followed_by = followed_by;
     }
+
+    public String getIntroduction() { return introduction; }
+
+    public void setIntroduction(String introduction) { this.introduction = introduction; }
 
     public String getEmail() {
         return email;
