@@ -1,4 +1,6 @@
-# Documentation
+# SimpleSNS
+
+## Documentation
 
 We started this `open source` project from 2019.01.13 at WeWork, Gangnam, Seoul.
 
@@ -52,3 +54,40 @@ For more details, go to [db](./DB)
 ### Our channel(Discord) ###
 
 https://discord.gg/JV9Wk6R
+
+## Git Management
+
+### Environment
+
+Tool: [SourceTree](https://www.sourcetreeapp.com/)
+Method: Git Flow
+
+#### Why Git Flow?
+
+1. Less conflictions & confusions between members while working on a team project.
+2. Easy to check the history in the future.
+3. Each branches have roles and the developers can be in charge of one branch and take responsibility.
+4. Productive way for Version Controlling and fast appropriate actions for users' feedback.
+
+### 용어 설명
+
+- fetch: 서버에서 상태를 가져옴.
+- pull: 서버에서 가져옴.
+- stage: 서버에 보낼 파일들을 준비함.
+- commit: 서버에 보낼 준비함.
+- push: 서버로 보냄.
+- stash: 미완료된 작업을 숨겨둠.
+- branch: 작업을 따로 함.
+- merge: 브런치를 합침.
+- rebase: 히스토리를 다시 시작해서 브런치를 합침.
+- fork: 자신의 repository로 가져옴.
+- Pull Request: 브런치에 합치기 위해 요청을 보냄.
+- tag: 버전을 넣을 때 사용됨.
+
+### How Git Flow work?
+
+- features: 기능들의 브랜치들.
+- development: 개발 중인 프로젝트의 큰 줄기. features들이 여기에 merge됨.
+- release: master로 보내기 전에 버그 수정 등 QA를 하는 브랜치.
+- hotfixes: master에서 버그 등이 발생했을 때 잠시 만들어 버그 수정을 하고 master에 다시 합치는 브랜치.
+- master: 프로젝트 최종본. merge 때마다 tag를 달아 버전을 하나씩 올리게 됨.
