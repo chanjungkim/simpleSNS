@@ -100,4 +100,4 @@ Method: Git Flow
 
 Sourcetree offers an icon button for `Git Flow`. You just need to click and `OK`.
 
-<image src="./gitflow-start.jpg" style="width:100%; height:auto;"/>
+<image src="./gitflow-start.png" style="width:100%; height:auto;"/>
