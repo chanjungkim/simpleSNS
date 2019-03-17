@@ -94,3 +94,10 @@ Method: Git Flow
 - master: 프로젝트 최종본. merge 때마다 tag를 달아 버전을 하나씩 올리게 됨.
 
 <image src="http://woowabros.github.io/img/2017-10-30/git-flow_overall_graph.png" style="width:40%; height:auto;"/>
+
+
+### How to start Git Flow?
+
+Sourcetree offers an icon button for `Git Flow`. You just need to click and `OK`.
+
+<image src="./gitflow-start.jpg" style="width:100%; height:auto;"/>
