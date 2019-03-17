@@ -72,10 +72,10 @@ CREATE TABLE member (
   `password` VARCHAR(20) NOT NULL,
   `introduction` VARCHAR(300) NULL DEFAULT NULL,
   `photo_url` VARCHAR(50) NULL DEFAULT NULL,
-  `token` VARCHAR(32) NOT NULL,
-  `login_method` INTEGER(11) NOT NULL,
-  `device_id` VARCHAR(100) NULL DEFAULT NULL,
-  `last_login_date` DATETIME NOT NULL,
+  `token` VARCHAR(32) DEFAULT "no token",
+  `login_method` INTEGER(11) DEFAULT 0,
+  `device_id` VARCHAR(100) DEFAULT "no device_id",
+  `last_login_date` DATETIME DEFAULT now(),
   PRIMARY KEY (`uid`)
 );	
 ```
