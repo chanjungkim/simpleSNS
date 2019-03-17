@@ -96,12 +96,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
                     android:hint="소개"
-                    android:textSize="16dp"
-                    android:textColorHint="#bfbfbf"
+                    android:inputType="textMultiLine"
                     android:textColor="#4a4a4a"
-                    app:theme="@style/EditTheme"/>
+                    android:textColorHint="#bfbfbf"
+                    android:textSize="16dp"
+                    app:theme="@style/EditTheme" />
             </LinearLayout>
 
             <TextView

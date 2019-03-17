@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.ui.main.profile;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -13,10 +14,12 @@ import android.widget.Toast;
 
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.item.ChangeProfileItem;
 import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
+import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,25 +46,17 @@ public class ProfileChangeActivity extends AppCompatActivity {
     String newUsername;
     String newIntroduction;
 
+    boolean isUsernameOK;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-
+        isUsernameOK = true;
         getUserProfileFromServer(GlobalUser.getInstance().getMyId());
 
 //        체크나 X 버튼을 누르면 ProfileFragment.java(fragment_profile.xml) 파일로 돌아감
         btnClose = findViewById(R.id.btn_close);
         btnClose.setOnClickListener(v -> finish());
-        btnSave = findViewById(R.id.btn_save);
-        btnSave.setOnClickListener(v -> {
-            newUsername = etUsername.getText().toString();
-            newIntroduction = etIntroduction.getText().toString();
-            // TODO : 수정한 내용 저장해야 함.
-
-//            setUserProfileFromServer(GlobalUser.getInstance().getMyId());
-            finish();
-        });
 
         ivProfilePhoto = findViewById(R.id.iv_profile_photo);
         llProfilePhotoChange = (LinearLayout) findViewById(R.id.ll_profile_photo_change);
@@ -100,6 +95,19 @@ public class ProfileChangeActivity extends AppCompatActivity {
             }
         });
 
+        btnSave = findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(v -> {
+            if (isUsernameOK) {
+                newUsername = etUsername.getText().toString();
+                newIntroduction = etIntroduction.getText().toString();
+                setUserProfileFromServer(GlobalUser.getInstance().getMyId(),newUsername,newIntroduction);
+                finish();
+            } else {
+                Toast toast = Toast.makeText(this, "사용할 수 없는 사용자 이름입니다.\n  다른 사용자 이름을 사용하세요", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP,0,120);
+                toast.show();
+            }
+        });
 
     }
 
@@ -160,6 +168,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
                                 Toast toast = Toast.makeText(ProfileChangeActivity.this, "사용자 이름 " +newUsername+"을(를) 사용할 수 없습니다.", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.TOP,0,120);
                                 toast.show();
+                                isUsernameOK = false;
                             }
                             break;
                         default:
@@ -170,6 +179,39 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<CheckUsernameResult> call, Throwable throwable) {
+                    Toast.makeText(ProfileChangeActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
+                    throwable.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setUserProfileFromServer(String username, String newUsername, String introduction) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+        ChangeProfileItem changeProfileItem = new ChangeProfileItem(username, newUsername, introduction);
+        Call<ProfileChangeResult> call = remoteService.setUserProfile(changeProfileItem);
+
+        try {
+            call.enqueue(new Callback<ProfileChangeResult>() {
+                @Override
+                public void onResponse(Call<ProfileChangeResult> call, Response<ProfileChangeResult> response) {
+                    ProfileChangeResult profileChangeResult = response.body();
+                    Log.d(TAG, profileChangeResult.toString());
+
+                    switch (profileChangeResult.code) {
+                        case 200:
+                            Log.d(TAG, profileChangeResult.result);
+                            break;
+                        default:
+                            Log.d(TAG, profileChangeResult.code + "");
+                            break;
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ProfileChangeResult> call, Throwable throwable) {
                     Toast.makeText(ProfileChangeActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
                     throwable.printStackTrace();
                 }
