@@ -176,12 +176,7 @@ public class FirstActivity extends AppCompatActivity {
         // backCount 세지 않음.
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        Call<BasicResult> call = null;
-        try {
-            call = remoteService.validateEmail(to);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        Call<BasicResult> call = remoteService.validateEmail(to);
 
         try {
             call.enqueue(new Callback<BasicResult>() {

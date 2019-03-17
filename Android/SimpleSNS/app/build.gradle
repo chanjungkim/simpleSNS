@@ -40,10 +40,9 @@ dependencies {
     // TedPermission: https://github.com/GitDeveloperKim/TedPermission
     implementation 'gun0912.ted:tedpermission:2.2.2'
 
-    // BottomNavigationViewEx: https://github.com/ittianyu/BottomNavigationViewEx
-    implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.2'
+    // Frag Nav, https://github.com/prashant31191/FragNav
+    implementation 'com.ncapdevi:frag-nav:2.4.0'
     implementation "com.roughike:bottom-bar:2.3.1"
-    implementation "com.android.support:design:28.0.0"
 
     // Circle Image View: https://github.com/hdodenhof/CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'
@@ -68,7 +67,4 @@ dependencies {
 
     // Retrofit Adapters, https://github.com/square/retrofit/tree/master/retrofit-adapters
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
-
-    // Frag Nav, https://github.com/prashant31191/FragNav
-    implementation 'com.ncapdevi:frag-nav:2.4.0'
 }

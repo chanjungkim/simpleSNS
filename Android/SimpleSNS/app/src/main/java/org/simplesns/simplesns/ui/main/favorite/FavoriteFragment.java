@@ -91,7 +91,6 @@ public class FavoriteFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         return view;

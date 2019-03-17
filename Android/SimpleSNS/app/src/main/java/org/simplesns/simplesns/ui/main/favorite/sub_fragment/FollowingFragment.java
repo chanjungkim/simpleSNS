@@ -19,7 +19,6 @@ public class FollowingFragment extends Fragment implements SwipeRefreshLayout.On
     private SwipeRefreshLayout swipeLayout;
 
     public static FollowingFragment newInstance() {
-
         // TODO Parameters
         return new FollowingFragment();
     }

@@ -38,7 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.main.camera.ImageRegisterActivity" />
         <activity android:name=".ui.main.camera.ImageModifyActivity" />

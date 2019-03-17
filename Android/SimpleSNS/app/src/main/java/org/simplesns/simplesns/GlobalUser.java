@@ -53,7 +53,7 @@ public class GlobalUser {
 //    public void setJwt(String jwt) {
 //        this.jwt = jwt;
 //    }
-//
+
     public String getMyId() {
         return my_id;
     }

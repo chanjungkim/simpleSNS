@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.lib.remote;
 
+import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.sign.model.SignUpData;
 import org.simplesns.simplesns.ui.sign.model.SignUpResult;
@@ -14,6 +15,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RemoteService {
@@ -39,6 +41,9 @@ public interface RemoteService {
     @FormUrlEncoded
     @POST("/email/verify")
     Call<BasicResult> verifyEmailAndCode(@Field("email") String email, @Field("code") String code);
+
+    @GET("/profile/{username}")
+    Call<ProfileResult> getUserProfile(@Path("username") String username); // path != param
 
     @PUT("/member")
     Call<String> updateMember(@Body MemberItem memberItem);

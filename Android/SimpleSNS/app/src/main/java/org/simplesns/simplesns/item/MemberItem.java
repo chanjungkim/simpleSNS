@@ -4,32 +4,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class MemberItem {
-    @SerializedName("email")
-    @Expose
     private String email;
-    @SerializedName("username")
-    @Expose
     private String username;
-    @SerializedName("full_name")
-    @Expose
+    private String introduction;
     private String full_name;
-    @SerializedName("password")
-    @Expose
     private String password;
-    @SerializedName("profile_picture")
-    @Expose
     private String profilePicture;
-    @SerializedName("bio")
-    @Expose
     private String bio;
-    @SerializedName("feed_count")
-    @Expose
     private int feed_count;
-    @SerializedName("follows")
-    @Expose
     private int follows;
-    @SerializedName("followed_by")
-    @Expose
     private int followed_by;
 
     public MemberItem(){
@@ -132,7 +115,9 @@ public class MemberItem {
         return "MemberItem{" +
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
+                ", introduction='" + introduction + '\'' +
                 ", full_name='" + full_name + '\'' +
+                ", password='" + password + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
                 ", bio='" + bio + '\'' +
                 ", feed_count=" + feed_count +
