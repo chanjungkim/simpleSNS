@@ -85,7 +85,7 @@ Method: Git Flow
 - Pull Request: 브런치에 합치기 위해 요청을 보냄.
 - tag: 버전을 넣을 때 사용됨.
 
-### How Git Flow work?
+### How does Git Flow work?
 
 - features: 기능들의 브랜치들.
 - development: 개발 중인 프로젝트의 큰 줄기. features들이 여기에 merge되며, release로 넘어가는데, QA가 끝나고 release 브랜치와 합쳐지기도 한다.
