@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
     android:background="@color/default_toolbar_color">
 
     <!--  Toolbar 추후 Custom -->
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/insta_logo" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_shadow_height"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/toolbar_dropshadow"
-        android:orientation="vertical"
-        />
-</LinearLayout>
+        android:orientation="vertical" />
+</RelativeLayout>

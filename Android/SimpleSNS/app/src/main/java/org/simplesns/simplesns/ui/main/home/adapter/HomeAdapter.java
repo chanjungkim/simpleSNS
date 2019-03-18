@@ -1,8 +1,10 @@
 package org.simplesns.simplesns.ui.main.home.adapter;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         this.context = context;
     }
 
-    public void addItem(ArrayList<FeedItem> data) {
+    public void setItemList(ArrayList<FeedItem> data) {
         this.dataArrayList = data;
         Log.d(TAG, "data: " + data.toString());
         notifyDataSetChanged();
@@ -44,9 +46,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder Holder, int i) {
-        try{
+        try {
             Holder.tv_user_name.setText(dataArrayList.get(i).getUser().getUsername());
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Log.d(TAG, "No MemberItem FeedItem");
             e.printStackTrace();
             return;
@@ -56,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .fitCenter()
-                .override(360,360);
+                .override(360, 360);
 
         Glide.with(context)
                 .load(dataArrayList.get(i).getUser().getProfilePicture())
@@ -87,4 +89,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             iv_home_feed_img = itemView.findViewById(R.id.iv_home_feed_img);
         }
     }
+
+    public void removeList() {
+        dataArrayList.clear();
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<FeedItem> getList() {
+        return dataArrayList;
+    }
+
 }

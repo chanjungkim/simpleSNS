@@ -1,12 +1,12 @@
 package org.simplesns.simplesns.ui.main.home;
 
 import android.os.Bundle;
-import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +18,8 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.FeedImageItem;
 import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.item.MemberItem;
+import org.simplesns.simplesns.lib.remote.RemoteService;
+import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.BaseFragment;
 import org.simplesns.simplesns.ui.main.home.adapter.HomeAdapter;
 
@@ -33,6 +35,8 @@ public class HomeFragment extends BaseFragment {
     private HomeAdapter homeAdapter;
     private RecyclerView recyclerView;
     private PullRefreshLayout prlRefresh;
+    ArrayList<FeedItem> items;
+    long lastFeedNum = -1;
 
     public static HomeFragment newInstance(int instance) {
         Bundle args = new Bundle();
@@ -64,12 +68,20 @@ public class HomeFragment extends BaseFragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        homeAdapter = new HomeAdapter(getContext());
+        homeAdapter = new HomeAdapter(getActivity());
         recyclerView.setAdapter(homeAdapter);
-        insertDummyData();
 
+        items = getFeedItems(lastFeedNum);
+        homeAdapter.setItemList(items);
 
-        prlRefresh.setOnRefreshListener(() -> prlRefresh.postDelayed(() -> prlRefresh.setRefreshing(false), 1000));
+        prlRefresh.setOnRefreshListener(() -> {
+            prlRefresh.postDelayed(() -> {
+                homeAdapter.removeList();
+                items = getFeedItems(lastFeedNum);
+                homeAdapter.setItemList(items);
+                prlRefresh.setRefreshing(false);
+            }, 1000);
+        });
 
         return view;
     }
@@ -80,9 +92,10 @@ public class HomeFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
     }
 
-    private void insertDummyData() {
-        Log.d(TAG, "insertDummyData()");
+    private ArrayList<FeedItem> getFeedItems(Long lastFeedNum) {
+        Log.d(TAG, "getFeedItems()");
 
+        // 더미 시작
         ArrayList<FeedItem> feedList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -100,7 +113,13 @@ public class HomeFragment extends BaseFragment {
             feedItem.setImages(images);
             feedList.add(feedItem);
         }
-        homeAdapter.addItem(feedList);
-    }
+        // 더미 끝
 
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        // 구현해야할 부분
+//        Call<FeedResult> call = remoteService.getFeedItemsFromServer(lastFeedNum);
+
+        return feedList;
+    }
 }
