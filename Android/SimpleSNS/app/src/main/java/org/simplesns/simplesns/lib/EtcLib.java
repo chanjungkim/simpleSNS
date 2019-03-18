@@ -4,13 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.telephony.TelephonyManager;
-
-import java.util.Locale;
-import java.util.regex.Pattern;
-
-import static android.os.Build.VERSION_CODES.FROYO;
 
 /**
  * Created by Chanj on 17/02/2018.

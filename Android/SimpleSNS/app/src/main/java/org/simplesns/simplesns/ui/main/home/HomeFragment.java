@@ -2,22 +2,23 @@ package org.simplesns.simplesns.ui.main.home;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.baoyz.widget.PullRefreshLayout;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.FeedImageItem;
 import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.ui.main.BaseFragment;
-import org.simplesns.simplesns.ui.main.favorite.FavoriteFragment;
 import org.simplesns.simplesns.ui.main.home.adapter.HomeAdapter;
 
 import java.util.ArrayList;
@@ -25,13 +26,13 @@ import java.util.ArrayList;
 /**
  * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6155
  */
-public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment {
     private static String TAG = "HomeFragment";
 
     private LinearLayoutManager layoutManager;
     private HomeAdapter homeAdapter;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeLayout;
+    private PullRefreshLayout prlRefresh;
 
     public static HomeFragment newInstance(int instance) {
         Bundle args = new Bundle();
@@ -54,22 +55,21 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        swipeLayout = view.findViewById(R.id.home_swipe_container);
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
         // TODO RecyclerView
         recyclerView = view.findViewById(R.id.view_home);
+        prlRefresh = view.findViewById(R.id.prl_refresh);
+
         recyclerView.setHasFixedSize(true);
+
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         homeAdapter = new HomeAdapter(getContext());
         recyclerView.setAdapter(homeAdapter);
         insertDummyData();
+
+
+        prlRefresh.setOnRefreshListener(() -> prlRefresh.postDelayed(() -> prlRefresh.setRefreshing(false), 1000));
 
         return view;
     }
@@ -103,9 +103,4 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         homeAdapter.addItem(feedList);
     }
 
-    @Override
-    public void onRefresh() {
-        Log.d(TAG, "Refreshing...");
-        new Handler().postDelayed(() -> swipeLayout.setRefreshing(false), 2000);
-    }
 }

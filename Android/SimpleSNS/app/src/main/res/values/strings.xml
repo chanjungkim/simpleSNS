@@ -64,6 +64,8 @@
     <string name="image_post_person_tag">사람 태그하기</string>
     <string name="image_post_other_media">다른 미디어에 게시</string>
     <string name="capital_search">SEARCH</string>
+    <string name="update_profile">프로필 수정</string>
+    <string name="todo">TODO</string>
 
     <!-- Favprote -->
     <string-array name="favorite_titles">

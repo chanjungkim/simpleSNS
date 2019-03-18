@@ -3,18 +3,21 @@ package org.simplesns.simplesns.ui.main.profile;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.LocaleList;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewCompat;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.baoyz.widget.PullRefreshLayout;
 
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
@@ -23,10 +26,15 @@ import org.simplesns.simplesns.ui.main.profile.fragment.ProfileBadukFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileLineFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileTagFragment;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6657
  */
 public class ProfileFragment extends BaseFragment {
+    private static final String TAG = ProfileFragment.class.getSimpleName();
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     TextView tvProfileChange;             // 프로필 내용 수정 관련
     ImageView ivProfilePhoto;             // 프로필 이미지 수정 관련
     ImageView ivGrid;
@@ -41,8 +49,8 @@ public class ProfileFragment extends BaseFragment {
     TextView tvPostCount;
     TextView tvFollowerCount;
     TextView tvFollowingCount;
-
     TextView tvUsername;
+    PullRefreshLayout prlRefresh;
 
     public static ProfileFragment newInstance(int instance) {
         Bundle args = new Bundle();
@@ -69,11 +77,15 @@ public class ProfileFragment extends BaseFragment {
         ivGrid = view.findViewById(R.id.iv_grid);
         ivList = view.findViewById(R.id.iv_list);
         ivTag = view.findViewById(R.id.iv_tag);
+        prlRefresh = view.findViewById(R.id.prl_refresh);
 
         // TODO : 서버에서 숫자 받아오기. 클릭하면 해당 페이지로 넘어가기.
         tvPostCount = view.findViewById(R.id.tv_post_count);
         tvFollowerCount = view.findViewById(R.id.tv_follower_count);
         tvFollowingCount = view.findViewById(R.id.tv_following_count);
+        RelativeLayout relativeLayout = view.findViewById(R.id.rl_profile_photo_container);
+
+        prlRefresh.setOnRefreshListener(() -> prlRefresh.postDelayed(() -> prlRefresh.setRefreshing(false), 1000));
 
         tvUsername = view.findViewById(R.id.tv_username);
         tvUsername.setText(GlobalUser.getInstance().getMyId());
@@ -111,15 +123,7 @@ public class ProfileFragment extends BaseFragment {
         });
 
 
-        ivProfilePhoto = view.findViewById(R.id.iv_profile_photo);
-
-
-        ivProfilePhoto.setOnClickListener(v ->
-
-        {
-            // TODO : 서버에서 사진 받아와서 띄워놓기, 클릭하면 카메라로 이동하기
-            Toast.makeText(getActivity(), "TODO : 프로필 사진 바꾸기", Toast.LENGTH_SHORT).show();
-        });
+        ivProfilePhoto = view.findViewById(R.id.civ_profile_photo);
 
         tvProfileChange.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ProfileChangeActivity.class);
@@ -134,5 +138,14 @@ public class ProfileFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ivProfilePhoto.setImageBitmap(imageBitmap);
+        }
     }
 }

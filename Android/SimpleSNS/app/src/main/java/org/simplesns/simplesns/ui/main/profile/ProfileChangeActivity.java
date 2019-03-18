@@ -1,7 +1,7 @@
 package org.simplesns.simplesns.ui.main.profile;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -58,10 +58,10 @@ public class ProfileChangeActivity extends AppCompatActivity {
         getUserProfileFromServer(GlobalUser.getInstance().getMyId());
 
 //        체크나 X 버튼을 누르면 ProfileFragment.java(fragment_profile.xml) 파일로 돌아감
-        btnClose = findViewById(R.id.btn_close);
+        btnClose = findViewById(R.id.iv_close);
         btnClose.setOnClickListener(v -> finish());
 
-        ivProfilePhoto = findViewById(R.id.iv_profile_photo);
+        ivProfilePhoto = findViewById(R.id.civ_profile_photo);
         llProfilePhotoChange = (LinearLayout) findViewById(R.id.ll_profile_photo_change);
         llProfilePhotoChange.setOnClickListener(v -> {
             // TODO : 프로필 이미지 바꾸는 코드 작성하기

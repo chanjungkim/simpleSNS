@@ -1,15 +1,14 @@
 package org.simplesns.simplesns.ui.main.search;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,10 +24,6 @@ import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.BaseFragment;
-import org.simplesns.simplesns.ui.main.favorite.FavoriteFragment;
-import org.simplesns.simplesns.ui.main.favorite.sub_fragment.FollowingFragment;
-import org.simplesns.simplesns.ui.main.favorite.sub_fragment.MyPostFragment;
-import org.simplesns.simplesns.ui.main.home.HomeFragment;
 import org.simplesns.simplesns.ui.main.search.sub_fragment.HotFragment;
 import org.simplesns.simplesns.ui.main.search.sub_fragment.PeopleFragment;
 import org.simplesns.simplesns.ui.main.search.sub_fragment.PlaceFragment;

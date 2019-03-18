@@ -3,8 +3,8 @@ package org.simplesns.simplesns.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -24,8 +24,6 @@ import org.simplesns.simplesns.ui.main.favorite.FavoriteFragment;
 import org.simplesns.simplesns.ui.main.home.HomeFragment;
 import org.simplesns.simplesns.ui.main.profile.ProfileFragment;
 import org.simplesns.simplesns.ui.main.search.RecommendFragment;
-import org.simplesns.simplesns.ui.main.search.SearchFragment;
-import org.simplesns.simplesns.ui.main.BaseFragment;
 
 /**
  * 리뷰: https://youtu.be/3l3kQCNef28?t=5667

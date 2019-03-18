@@ -28,7 +28,7 @@
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_profile_photo"
+                    android:id="@+id/civ_profile_photo"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
@@ -84,10 +84,9 @@
                     android:background="@drawable/default_edittext_style"
                     android:ems="10"
                     android:hint="사용자 이름"
-                    android:textStyle="bold"
                     android:inputType="textPersonName"
                     android:paddingLeft="0dp"
-                    android:textColor="#4a4a4a"
+                    android:textColor="@color/black"
                     android:textColorHint="#bfbfbf"
                     android:textCursorDrawable="@drawable/cursor_blue"
                     android:textSize="@dimen/body_text_size"
@@ -104,12 +103,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/default_edittext_style"
-                    android:textStyle="bold"
                     android:ems="10"
                     android:hint="소개"
                     android:inputType="textMultiLine"
                     android:paddingLeft="0dp"
-                    android:textColor="#4a4a4a"
+                    android:textColor="@color/black"
                     android:textColorHint="#bfbfbf"
                     android:textCursorDrawable="@drawable/cursor_blue"
                     android:textSize="@dimen/body_text_size"
@@ -145,11 +143,10 @@
                     android:hint="user@email.address"
                     android:inputType="textPersonName"
                     android:paddingLeft="0dp"
-                    android:textColor="#4a4a4a"
+                    android:textColor="@color/black"
                     android:textColorHint="#bfbfbf"
                     android:textCursorDrawable="@drawable/cursor_blue"
                     android:textSize="@dimen/body_text_size"
-                    android:textStyle="bold"
                     app:theme="@style/EditTheme" />
 
                 <!--<TextView-->
