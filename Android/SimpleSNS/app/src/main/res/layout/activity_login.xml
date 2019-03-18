@@ -30,7 +30,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="10dp"
             android:background="#5999"
-            android:hint="@string/username"
+            android:hint="@string/login_username"
             android:inputType="text"
             android:imeOptions="actionNext"
             android:lines="1"

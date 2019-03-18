@@ -5,6 +5,7 @@
     <string name="title_plus">plus</string>
     <string name="title_like">like</string>
     <string name="title_profile">profile</string>
+    <string name="username">username</string>
 
     <!-- image_modify_menu -->
     <string name="menu_next">다음</string>
@@ -19,7 +20,7 @@
     <string name="add">add</string>
 
     <!-- LoginActivity -->
-    <string name="username">username or email</string>
+    <string name="login_username">username or email</string>
     <string name="password">password</string>
     <string name="fullname">Full name</string>
     <string name="cpassword">Password</string>
@@ -62,6 +63,7 @@
     <string name="image_post_add_location">위치 추가</string>
     <string name="image_post_person_tag">사람 태그하기</string>
     <string name="image_post_other_media">다른 미디어에 게시</string>
+    <string name="capital_search">SEARCH</string>
 
     <!-- Favprote -->
     <string-array name="favorite_titles">
@@ -69,4 +71,11 @@
         <item>My Post</item>
     </string-array>
 
+    <!-- Search -->
+    <string-array name="search_titles">
+        <item>Hot</item>
+        <item>People</item>
+        <item>Tag</item>
+        <item>Place</item>
+    </string-array>
 </resources>

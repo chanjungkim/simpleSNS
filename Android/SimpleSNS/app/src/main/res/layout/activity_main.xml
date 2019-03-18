@@ -16,13 +16,20 @@
         android:layout_weight="1" />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_shadow_height"
+        android:background="@drawable/bottomnavi_aboveshadow"
+        android:layout_above="@id/bottombar"
+        />
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottombar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="@dimen/toolbar_height"
         android:layout_alignParentBottom="true"
         app:bb_activeTabColor="#000"
         app:bb_behavior="iconsOnly"
+        android:background="@color/default_toolbar_color"
         app:bb_showShadow="false"
         app:bb_inActiveTabAlpha="0.4"
         app:bb_inActiveTabColor="#444"

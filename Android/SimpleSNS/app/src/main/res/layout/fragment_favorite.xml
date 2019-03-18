@@ -16,14 +16,14 @@
         android:layout_height="?android:actionBarSize"
         android:background="@drawable/tab_bottom_shadow"
         app:nts_active_color="#000"
-        app:nts_animation_duration="300"
+        app:nts_animation_duration="100"
         app:nts_color="#000"
         app:nts_corners_radius="1.5dp"
         app:nts_factor="2.5"
-        app:nts_gravity="top"
+        app:nts_gravity="bottom"
         app:nts_inactive_color="#c4c4c4"
-        app:nts_size="20sp"
+        app:nts_size="@dimen/legend_text_size"
         app:nts_titles="@array/favorite_titles"
-        app:nts_type="point"
-        app:nts_weight="3dp" />
+        app:nts_type="line"
+        app:nts_weight="1dp" />
 </RelativeLayout>

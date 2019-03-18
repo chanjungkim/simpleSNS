@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_profile_change" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_profile_photo_change"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_profile_photo"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_margin="20dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_profile_samplephoto"/>
+                    android:layout_margin="20dp"
+                    android:src="@drawable/ic_profile_samplephoto" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -38,8 +41,9 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="사진 변경"
-                    android:textSize="20dp"
-                    android:textColor="@color/link_blue"/>
+                    android:textColor="@color/default_blue"
+                    android:textSize="@dimen/header_size"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 
@@ -50,57 +54,65 @@
                 android:orientation="vertical">
 
                 <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="이름"-->
-                    <!--android:textSize="16dp" />-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="이름"-->
+                <!--android:textSize="16dp" />-->
 
                 <!--<EditText-->
-                    <!--android:id="@+id/et_name"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:ems="10"-->
-                    <!--android:inputType="textPersonName"-->
-                    <!--android:hint="이름"-->
-                    <!--android:textSize="16dp"-->
-                    <!--android:textColorHint="#bfbfbf"-->
-                    <!--android:textColor="#4a4a4a"-->
-                    <!--app:theme="@style/EditTheme"/>-->
+                <!--android:id="@+id/et_name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:hint="이름"-->
+                <!--android:textSize="16dp"-->
+                <!--android:textColorHint="#bfbfbf"-->
+                <!--android:textColor="#4a4a4a"-->
+                <!--app:theme="@style/EditTheme"/>-->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="사용자 이름"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/body_text_size" />
 
                 <EditText
                     android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/default_edittext_style"
                     android:ems="10"
-                    android:inputType="textPersonName"
                     android:hint="사용자 이름"
-                    android:textSize="16dp"
-                    android:textColorHint="#bfbfbf"
+                    android:textStyle="bold"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="0dp"
                     android:textColor="#4a4a4a"
-                    app:theme="@style/EditTheme"/>
+                    android:textColorHint="#bfbfbf"
+                    android:textCursorDrawable="@drawable/cursor_blue"
+                    android:textSize="@dimen/body_text_size"
+                    app:theme="@style/EditTheme" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="소개"
-                    android:textSize="16dp"/>
+                    android:textSize="@dimen/body_text_size" />
 
                 <EditText
                     android:id="@+id/et_introduction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/default_edittext_style"
+                    android:textStyle="bold"
                     android:ems="10"
                     android:hint="소개"
                     android:inputType="textMultiLine"
+                    android:paddingLeft="0dp"
                     android:textColor="#4a4a4a"
                     android:textColorHint="#bfbfbf"
-                    android:textSize="16dp"
+                    android:textCursorDrawable="@drawable/cursor_blue"
+                    android:textSize="@dimen/body_text_size"
                     app:theme="@style/EditTheme" />
             </LinearLayout>
 
@@ -108,9 +120,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text = "개인정보"
-                android:textSize="18dp"
-                android:textColor="@color/black"/>
+                android:text="개인정보"
+                android:textColor="@color/black"
+                android:textSize="@dimen/header2_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,38 +134,41 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="이메일 주소"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/body_text_size" />
 
                 <EditText
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/default_edittext_style"
                     android:ems="10"
-                    android:inputType="textPersonName"
                     android:hint="user@email.address"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:textColorHint="#bfbfbf"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="0dp"
                     android:textColor="#4a4a4a"
+                    android:textColorHint="#bfbfbf"
+                    android:textCursorDrawable="@drawable/cursor_blue"
+                    android:textSize="@dimen/body_text_size"
+                    android:textStyle="bold"
                     app:theme="@style/EditTheme" />
 
                 <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="전화번호"-->
-                    <!--android:textSize="16dp"/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="전화번호"-->
+                <!--android:textSize="16dp"/>-->
 
                 <!--<EditText-->
-                    <!--android:id="@+id/et_phone"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:ems="10"-->
-                    <!--android:inputType="textPersonName"-->
-                    <!--android:hint="전화번호를 입력하세요"-->
-                    <!--android:textSize="16dp"-->
-                    <!--android:textColorHint="#bfbfbf"-->
-                    <!--android:textColor="#4a4a4a"-->
-                    <!--app:theme="@style/EditTheme" />-->
+                <!--android:id="@+id/et_phone"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:hint="전화번호를 입력하세요"-->
+                <!--android:textSize="16dp"-->
+                <!--android:textColorHint="#bfbfbf"-->
+                <!--android:textColor="#4a4a4a"-->
+                <!--app:theme="@style/EditTheme" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -166,18 +181,18 @@
                     android:id="@+id/tv_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="로그아웃"
                     android:layout_marginBottom="15dp"
-                    android:textColor="@color/link_blue"
-                    android:textSize="16dp" />
+                    android:text="로그아웃"
+                    android:textColor="@color/default_blue"
+                    android:textSize="@dimen/body_text_size" />
 
                 <TextView
                     android:id="@+id/tv_withdrawal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="탈퇴하기"
-                    android:textColor="@color/link_blue"
-                    android:textSize="16dp" />
+                    android:textColor="@color/default_blue"
+                    android:textSize="@dimen/body_text_size" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

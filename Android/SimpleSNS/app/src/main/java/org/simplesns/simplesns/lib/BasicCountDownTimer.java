@@ -56,7 +56,7 @@ public class BasicCountDownTimer {
     public void startTimer(TextView countDownTV, Button nextBTN) {
         countDownTV.setTextColor(Color.RED);
         nextBTN.setClickable(true);
-        nextBTN.setBackgroundColor(mContext.getResources().getColor(R.color.link_blue));
+        nextBTN.setBackgroundColor(mContext.getResources().getColor(R.color.default_blue));
 
         countDownTimer = new CountDownTimer(timeLeftInMilliseconds, countDownInterval) {
             @Override

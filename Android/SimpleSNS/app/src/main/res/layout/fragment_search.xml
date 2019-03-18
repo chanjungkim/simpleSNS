@@ -1,17 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/link_blue">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/tb_search"
         layout="@layout/toolbar_search" />
 
-    <ListView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_below="@id/tb_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tb_search">
+        android:layout_height="match_parent"
+        />
 
-    </ListView>
+    <com.gigamole.navigationtabstrip.NavigationTabStrip
+        android:id="@+id/nts"
+        android:layout_below="@id/tb_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sub_toolbar_height"
+        android:background="@drawable/tab_bottom_shadow"
+        app:nts_active_color="#000"
+        app:nts_animation_duration="100"
+        app:nts_color="#000"
+        app:nts_corners_radius="1.5dp"
+        app:nts_factor="2.5"
+        app:nts_gravity="bottom"
+        app:nts_inactive_color="#c4c4c4"
+        app:nts_size="@dimen/legend_text_size"
+        app:nts_titles="@array/search_titles"
+        app:nts_type="line"
+        app:nts_weight="1dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/toolbar_shadow"
+        android:layout_below="@id/nts"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_shadow_height"
+        android:background="@drawable/toolbar_dropshadow"
+        android:orientation="vertical" />
 </RelativeLayout>

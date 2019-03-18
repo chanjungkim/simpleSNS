@@ -13,4 +13,20 @@
     <dimen name="edittext_height">50dp</dimen>
     <dimen name="default_button_width">350dp</dimen>
     <dimen name="default_side_margin">30dp</dimen>
+
+    <!-- theme -->
+    <dimen name="default_text_size">15dp</dimen>
+    <dimen name="legend_text_size">16dp</dimen>
+    <dimen name="header_size">18dp</dimen>
+    <dimen name="header2_size">16dp</dimen>
+    <dimen name="body_text_size">14dp</dimen>
+    <dimen name="toolbar_text_size">22dp</dimen>
+    <dimen name="toolbar_height">50dp</dimen>
+    <dimen name="toolbar_content_height">48dp</dimen>
+    <dimen name="toolbar_shadow_height">2dp</dimen>
+    <dimen name="toolbar_img">40dp</dimen>
+    <dimen name="sub_toolbar_height">40dp</dimen>
+    <dimen name="bottom_nav_icon_size">40dp</dimen>
+    <dimen name="help_text_size">15dp</dimen>
+
 </resources>

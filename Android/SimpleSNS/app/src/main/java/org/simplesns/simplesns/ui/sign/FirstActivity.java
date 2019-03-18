@@ -25,7 +25,6 @@ import org.simplesns.simplesns.lib.BasicCountDownTimer;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.util.SharedPreferenceUtil;
-import org.w3c.dom.Text;
 
 import java.util.regex.Pattern;
 
@@ -190,7 +189,7 @@ public class FirstActivity extends AppCompatActivity {
                         switch (validResult.getCode()) {
                             case 100:
                                 nextBTN.setClickable(true);
-                                nextBTN.setBackgroundColor(getResources().getColor(R.color.link_blue));
+                                nextBTN.setBackgroundColor(getResources().getColor(R.color.default_blue));
                                 countDownTimerTV.setVisibility(View.VISIBLE);
                                 BasicCountDownTimer basicCountDownTimer = BasicCountDownTimer.getInstance(FirstActivity.this);
                                 if (!basicCountDownTimer.isTimerRunning()) { // not running. initialize.

@@ -43,19 +43,6 @@ public class FavoriteFragment extends BaseFragment {
 
         mViewPager = view.findViewById(R.id.vp);
         navigationTabStrip = view.findViewById(R.id.nts);
-        navigationTabStrip.setTitles("FOLLOWING", "MY POST");
-        navigationTabStrip.setTabIndex(0, true);
-        navigationTabStrip.setStripColor(Color.BLACK);
-        navigationTabStrip.setInactiveColor(getResources().getColor(R.color.grey));
-        navigationTabStrip.setActiveColor(Color.BLACK);
-        navigationTabStrip.setTitleSize(30);
-        navigationTabStrip.setStripWeight(2); // allows you to set weight(height) of strip.
-        navigationTabStrip.setStripFactor(2); // allows you to set strip resize factor.
-        navigationTabStrip.setStripType(NavigationTabStrip.StripType.LINE); // allows you to set strip type - line or point.
-        navigationTabStrip.setStripGravity(NavigationTabStrip.StripGravity.BOTTOM);
-//        navigationTabStrip.setTypeface("fonts/typeface.ttf");
-        navigationTabStrip.setCornersRadius(0); // allows you to set corners radius of strip.
-        navigationTabStrip.setAnimationDuration(100);
         setUI();
         navigationTabStrip.setViewPager(mViewPager, 0);
         navigationTabStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

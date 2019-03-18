@@ -10,7 +10,7 @@
         android:title="Search" />
     <item
         android:id="@+id/bb_menu_camera"
-        android:icon="@drawable/baseline_control_point_24"
+        android:icon="@drawable/baseline_plus_24"
         android:title="Camera" />
     <item
         android:id="@+id/bb_menu_favorite"

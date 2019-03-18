@@ -11,7 +11,7 @@
         title="@string/search" />
 
     <tab
-        icon="@drawable/baseline_control_point_24"
+        icon="@drawable/baseline_plus_24"
         id="@+id/bb_menu_camera"
         title="@string/add" />
 

@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="56dp">
-
+    android:layout_height="@dimen/toolbar_height"
+    android:background="@color/default_toolbar_color"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="@dimen/toolbar_content_height"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:weightSum="30">
 
         <ImageView
             android:id="@+id/btn_close"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/baseline_x_24"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@drawable/baseline_x_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text = "프로필 수정"
-            android:textSize="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_weight="28"
+            android:text="프로필 수정"
             android:textColor="@color/color_dark"
-            android:layout_weight="28"/>
+            android:textSize="20dp" />
 
 
         <ImageView
             android:id="@+id/btn_save"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/baseline_check_24"
+            android:layout_marginRight="15dp"
             android:layout_weight="1"
-            android:layout_marginRight="15dp"/>
+            android:src="@drawable/baseline_check_24" />
 
     </LinearLayout>
 
-</android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_shadow_height"
+        android:background="@drawable/toolbar_dropshadow"
+        android:orientation="vertical" />
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.BaseFragment;
@@ -38,7 +39,7 @@ public class RecommendFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_recommend, container, false);
 
-        Toolbar toolbar = view.findViewById(R.id.tb_recommend);
+        RelativeLayout toolbar = view.findViewById(R.id.tb_recommend);
 
         toolbar.setOnClickListener((v) -> {
             if (mFragmentNavigation != null) {

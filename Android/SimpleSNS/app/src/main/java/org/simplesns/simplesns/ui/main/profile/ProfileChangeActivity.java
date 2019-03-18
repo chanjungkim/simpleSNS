@@ -1,6 +1,5 @@
 package org.simplesns.simplesns.ui.main.profile;
 
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -26,10 +25,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 /*
 폴더를 어떻게 구성하는건지 몰라서 일단 밖으로 빼놓고 구현했습니다.
 문제가 있을 경우 조언 부탁드립니다.
- */
+
+파팅 - 괜찮아 보입니다. 수정 버튼을 누르고 나서 EditText 때문에 소프트키보드가 나오는데, 안 나오게 하는 게 좋을 거 같습니다.
+*/
 
 public class ProfileChangeActivity extends AppCompatActivity {
     public static final String TAG = ProfileChangeActivity.class.getSimpleName();
@@ -38,15 +40,16 @@ public class ProfileChangeActivity extends AppCompatActivity {
     ImageView btnSave;
     CircleImageView ivProfilePhoto;
     LinearLayout llProfilePhotoChange;
-//    EditText etName;
+    //    EditText etName;
     EditText etUsername;
     EditText etIntroduction;
     EditText etEmail;
-//    EditText etPhone;
+    //    EditText etPhone;
     String newUsername;
     String newIntroduction;
 
     boolean isUsernameOK;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +85,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 // 입력이 끝났을 때
                 newUsername = etUsername.getText().toString();
-                if (newUsername.equals(GlobalUser.getInstance().getMyId())){
+                if (newUsername.equals(GlobalUser.getInstance().getMyId())) {
 
                 } else {
                     checkUsernameFromServer(newUsername);
@@ -100,11 +103,11 @@ public class ProfileChangeActivity extends AppCompatActivity {
             if (isUsernameOK) {
                 newUsername = etUsername.getText().toString();
                 newIntroduction = etIntroduction.getText().toString();
-                setUserProfileFromServer(GlobalUser.getInstance().getMyId(),newUsername,newIntroduction);
+                setUserProfileFromServer(GlobalUser.getInstance().getMyId(), newUsername, newIntroduction);
                 finish();
             } else {
                 Toast toast = Toast.makeText(this, "사용할 수 없는 사용자 이름입니다.\n  다른 사용자 이름을 사용하세요", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.TOP,0,120);
+                toast.setGravity(Gravity.TOP, 0, 120);
                 toast.show();
             }
         });
@@ -129,7 +132,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
                             etUsername.setText(memberItem.getUsername());
                             etEmail.setText(memberItem.getEmail());
                             if (memberItem.getIntroduction() != null) {
-                                etIntroduction.setText(memberItem.getIntroduction()+"");
+                                etIntroduction.setText(memberItem.getIntroduction() + "");
                             }
 
                             Log.d(TAG, memberItem.toString());
@@ -150,6 +153,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void checkUsernameFromServer(String newUsername) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
@@ -164,9 +168,9 @@ public class ProfileChangeActivity extends AppCompatActivity {
                     switch (checkUsernameResult.code) {
                         case 200:
                             boolean doesUsernameExist = checkUsernameResult.result;
-                            if (doesUsernameExist){
-                                Toast toast = Toast.makeText(ProfileChangeActivity.this, "사용자 이름 " +newUsername+"을(를) 사용할 수 없습니다.", Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.TOP,0,120);
+                            if (doesUsernameExist) {
+                                Toast toast = Toast.makeText(ProfileChangeActivity.this, "사용자 이름 " + newUsername + "을(를) 사용할 수 없습니다.", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.TOP, 0, 120);
                                 toast.show();
                                 isUsernameOK = false;
                             }

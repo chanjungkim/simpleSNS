@@ -16,7 +16,7 @@ public class ProfileLineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile_line, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_list, container, false);
 
         return view;
     }

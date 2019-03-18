@@ -19,7 +19,7 @@
     </declare-styleable>
 
     <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorAccent">@color/link_blue</item>
+        <item name="colorAccent">@color/default_blue</item>
     </style>
 
 </resources>

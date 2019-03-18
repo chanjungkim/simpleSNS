@@ -37,7 +37,7 @@
                 android:maxLength="64"
                 android:padding="15dp"
                 android:textAllCaps="false"
-                android:textColor="@color/link_blue"
+                android:textColor="@color/default_blue"
                 android:imeOptions="actionDone"
                 android:textColorHint="@color/grey2" />
 
@@ -48,7 +48,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:background="@color/link_blue"
+                android:background="@color/default_blue"
                 android:text="@string/send_email"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -66,7 +66,7 @@
                 android:imeOptions="actionDone"
                 android:maxLength="10"
                 android:textAllCaps="false"
-                android:textColor="@color/link_blue"
+                android:textColor="@color/default_blue"
                 android:textColorHint="@color/grey2" />
             <TextView
                 android:id="@+id/tv_timecount"

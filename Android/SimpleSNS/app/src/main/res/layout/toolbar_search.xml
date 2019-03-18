@@ -12,22 +12,22 @@
         android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
+        android:scaleY="0.85"
         android:background="@drawable/arrow_back" />
 
     <EditText
         android:id="@+id/et_search"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@id/iv_back_button"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@id/iv_back_button"
         android:background="#0000"
-        android:hint="SEARCH"
+        android:hint="@string/capital_search"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:lines="1"
+        android:textCursorDrawable="@drawable/cursor_black_1dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="22sp" />
-
+        android:textSize="@dimen/toolbar_text_size" />
 </RelativeLayout>

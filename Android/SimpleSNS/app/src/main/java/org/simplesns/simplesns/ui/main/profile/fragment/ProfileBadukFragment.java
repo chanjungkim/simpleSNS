@@ -16,7 +16,7 @@ public class ProfileBadukFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile_baduk, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_grid, container, false);
 
         return view;
     }
