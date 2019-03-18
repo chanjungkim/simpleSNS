@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import org.simplesns.simplesns.ui.sign.FirstActivity;
 import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.main.MainActivity;
 import org.simplesns.simplesns.lib.remote.RemoteService;
@@ -266,23 +267,18 @@ public class GlobalUser {
 //     * @param activityContext
 //     * @param loginActivityClass
 //     */
-//    public void logOut(Context activityContext, Class<LoginActivity> loginActivityClass) {
-//        Log.d(TAG, "logOut()");
-//        //로그아웃 버튼 기능 추가
-//        SharedPreferences pref = activityContext.getSharedPreferences("pref", MODE_PRIVATE);
-//        pref.edit()
-//                .remove("jwt")
-//                .apply();
-//        SharedPreferences pref2 = activityContext.getSharedPreferences("pref2", MODE_PRIVATE);
-//        pref.edit()
-//                .remove("my_id")
-//                .apply();
-//
-//        Toast.makeText(activityContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-//
-//        Intent intent = new Intent(activityContext, loginActivityClass);
-//        activityContext.startActivity(intent);
-//    }
+    public void logOut(Context activityContext, Class<FirstActivity> firstActivityClass) {
+        Log.d(TAG, "logOut()");
+
+        // Delete all the sharedpreferences.
+        SharedPreferenceUtil sharedPreferenceUtil = new SharedPreferenceUtil(activityContext);
+        sharedPreferenceUtil.removeSharedPreference();
+
+        Toast.makeText(activityContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(activityContext, firstActivityClass);
+        activityContext.startActivity(intent);
+    }
 
     @Override
     public String toString() {

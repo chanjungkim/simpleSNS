@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.GlobalUser;
@@ -20,6 +21,7 @@ import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
+import org.simplesns.simplesns.ui.sign.FirstActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -62,7 +64,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
         btnClose.setOnClickListener(v -> finish());
 
         ivProfilePhoto = findViewById(R.id.civ_profile_photo);
-        llProfilePhotoChange = (LinearLayout) findViewById(R.id.ll_profile_photo_change);
+        llProfilePhotoChange = findViewById(R.id.ll_profile_photo_change);
         llProfilePhotoChange.setOnClickListener(v -> {
             // TODO : 프로필 이미지 바꾸는 코드 작성하기
             Toast.makeText(this, "이미지 바꾸기", Toast.LENGTH_SHORT).show();
@@ -74,6 +76,12 @@ public class ProfileChangeActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email);
 //        etPhone = findViewById(R.id.et_phone);
 //        etUsername.setText(GlobalUser.getInstance().getMyId());
+
+        TextView tvLogout = findViewById(R.id.tv_logout);
+
+        tvLogout.setOnClickListener(v->{
+            GlobalUser.getInstance().logOut(this, FirstActivity.class);
+        });
 
         etUsername.addTextChangedListener(new TextWatcher() {
             @Override

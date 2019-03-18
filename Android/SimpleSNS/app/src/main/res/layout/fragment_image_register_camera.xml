@@ -4,23 +4,21 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <!-- 파팅: dp를 주기보단 비율로 나누는 게 맞지 않을까요? -->
     <org.simplesns.simplesns.ui.main.camera.customview.AutoFitTextureView
         android:id="@+id/camera_texture"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp" />
+        android:layout_alignParentTop="true" />
 
     <RelativeLayout
         android:id="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="112dp"
-        android:layout_marginBottom="50dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
         android:background="@color/white">
 
         <ImageButton
@@ -30,23 +28,23 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:background="@color/white"
-            android:src="@drawable/button_circle"/>
+            android:src="@drawable/button_circle" />
 
         <ImageButton
             android:id="@+id/btn_switch_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:layout_alignParentStart="true"
+            android:background="@color/white"
             android:paddingStart="10dp"
-            android:src="@drawable/rear_camera"/>
+            android:src="@drawable/rear_camera" />
 
         <ImageButton
             android:id="@+id/btn_flash_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:layout_alignParentEnd="true"
+            android:background="@color/white"
             android:paddingEnd="10dp"
             android:src="@drawable/flash_off" />
     </RelativeLayout>

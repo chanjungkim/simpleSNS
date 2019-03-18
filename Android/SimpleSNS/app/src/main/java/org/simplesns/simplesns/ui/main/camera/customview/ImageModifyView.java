@@ -38,9 +38,9 @@ public class ImageModifyView extends LinearLayout {
         View view = inflater.inflate(R.layout.image_modify_view, this, false);
         addView(view);
 
-        bg = (LinearLayout) findViewById(R.id.bg);
-        symbol = (ImageView) findViewById(R.id.symbol);
-        text = (TextView) findViewById(R.id.text);
+        bg = findViewById(R.id.bg);
+        symbol = findViewById(R.id.symbol);
+        text = findViewById(R.id.text);
     }
 
     private void getAttrs (AttributeSet attrs) {

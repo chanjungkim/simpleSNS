@@ -3,9 +3,13 @@ package org.simplesns.simplesns.ui.main.camera;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -42,13 +46,13 @@ public class ImageRegisterActivity extends AppCompatActivity {
             @Override
             public void onPermissionGranted() {
                 //Toast.makeText(ImageRegisterActivity.this,"Permission Granted", Toast.LENGTH_SHORT).show();
-                initView ();
+                initView();
                 registerTypeCheck();
             }
 
             @Override
             public void onPermissionDenied(List<String> deniedPermissions) {
-                Toast.makeText(ImageRegisterActivity.this,"Permission Denied\n"
+                Toast.makeText(ImageRegisterActivity.this, "Permission Denied\n"
                         + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -62,12 +66,12 @@ public class ImageRegisterActivity extends AppCompatActivity {
                 .check();
     }
 
-    private void initView () {
-        pager      = findViewById (R.id.image_register_viewpager);
-        container  = findViewById (R.id.image_register_container);
-        tabLayout  = findViewById (R.id.image_register_tabs);
-        tv_next    = findViewById (R.id.tv_next);
-        btn_back   = findViewById (R.id.btn_back);
+    private void initView() {
+        pager = findViewById(R.id.image_register_viewpager);
+        container = findViewById(R.id.image_register_container);
+        tabLayout = findViewById(R.id.image_register_tabs);
+        tv_next = findViewById(R.id.tv_next);
+        btn_back = findViewById(R.id.btn_back);
 
         tv_next.setText(getString(R.string.menu_next));
         tv_next.setVisibility(View.VISIBLE);
@@ -77,7 +81,7 @@ public class ImageRegisterActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(pager);
 
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
                 // not used yet
@@ -104,28 +108,28 @@ public class ImageRegisterActivity extends AppCompatActivity {
             }
         });
 
-        tv_next.setOnClickListener(v->{
-            if (ImageUtil.pFile != null)  {
+        tv_next.setOnClickListener(v -> {
+            if (ImageUtil.pFile != null) {
                 sendToImageModify(ImageUtil.pFile);
             } else {
-                Toast.makeText(this,getString(R.string.image_register_capture_first), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.image_register_capture_first), Toast.LENGTH_SHORT).show();
             }
 
         });
 
-        btn_back.setOnClickListener(v->{
+        btn_back.setOnClickListener(v -> {
             finish();
         });
     }
 
-    private void registerTypeCheck () {
+    private void registerTypeCheck() {
         Intent registerIntent = getIntent();
         RegisterType.registerType = (RegisterType) registerIntent.getSerializableExtra(RESISTER_TYPE_FROM_IMAGE_REGISTER); // 상수로 보내는 쪽, 받는 쪽 맞추기.
         if (RegisterType.registerType == null) {
             throw new AssertionError(); // developer error: register 타입을 주어야함
         }
         switch (RegisterType.registerType) {
-            case FEED :
+            case FEED:
                 // todo FEED 등록을 위해 이미지를 사각형으로 표시
                 break;
             case PROFILE:
@@ -134,7 +138,7 @@ public class ImageRegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void setBtnVisibility (boolean flag) {
+    public void setBtnVisibility(boolean flag) {
         if (flag) {
             tv_next.setVisibility(View.VISIBLE); // next btn is visible in gallery page
         } else {
@@ -142,7 +146,7 @@ public class ImageRegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void sendToImageModify (File mFile) {
+    public void sendToImageModify(File mFile) {
         if (mFile != null) {
             Intent registerIntent = new Intent(ImageRegisterActivity.this, ImageModifyActivity.class);
             startActivity(registerIntent);
