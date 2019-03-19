@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common"></include>
+    <include layout="@layout/toolbar_common"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:hint="@string/image_post_title_hint"/>
+            android:textSize="@dimen/body_text_size"
+            android:textCursorDrawable="@drawable/cursor_blue"
+            android:hint="@string/image_post_title_hint"
+            android:drawableBottom="@color/default_blue"
+            />
     </LinearLayout>
 
     <!--line-->
@@ -37,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="위치기반 서비스 to do "
-        android:textSize="20sp"
+        android:textSize="@dimen/header2_size"
         android:lines="2"
         android:padding="5dp"/>
 
@@ -51,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/image_post_person_tag"
-        android:textSize="20sp"
+        android:textSize="@dimen/header2_size"
         android:lines="2"
         android:padding="5dp"/>
 
@@ -64,8 +68,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/header2_size"
         android:text="@string/image_post_other_media"
-        android:textSize="20sp"
         android:lines="2"
         android:padding="2dp"/>
 

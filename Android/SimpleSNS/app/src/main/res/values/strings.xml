@@ -66,6 +66,7 @@
     <string name="capital_search">SEARCH</string>
     <string name="update_profile">프로필 수정</string>
     <string name="todo">TODO</string>
+    <string name="text">text</string>
 
     <!-- Favprote -->
     <string-array name="favorite_titles">

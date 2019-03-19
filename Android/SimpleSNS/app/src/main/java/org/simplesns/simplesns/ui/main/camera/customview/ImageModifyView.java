@@ -33,7 +33,7 @@ public class ImageModifyView extends LinearLayout {
         getAttrs(attrs, defStyleAttr);
     }
 
-    private void initView () {
+    private void initView() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.image_modify_view, this, false);
         addView(view);
@@ -43,24 +43,24 @@ public class ImageModifyView extends LinearLayout {
         text = findViewById(R.id.text);
     }
 
-    private void getAttrs (AttributeSet attrs) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImageModifyButton);
+    private void getAttrs(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImageModifyView);
         setTypeArray(typedArray);
     }
 
-    private void getAttrs (AttributeSet attrs, int defStyle) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImageModifyButton, defStyle, 0);
+    private void getAttrs(AttributeSet attrs, int defStyle) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImageModifyView, defStyle, 0);
         setTypeArray(typedArray);
     }
 
-    private void setTypeArray (TypedArray typedArray) {
-        //int bg_resID = typedArray.getResourceId(R.styleable.LoginButton_bg, R.drawable.lena);
-        //bg.setBackgroundResource(bg_resID);
+    private void setTypeArray(TypedArray typedArray) {
+        int bg_resID = typedArray.getResourceId(R.styleable.ImageModifyView_bg, R.drawable.round_blue);
+        bg.setBackgroundResource(bg_resID);
 
-        int symbol_resID = typedArray.getResourceId(R.styleable.ImageModifyButton_symbol, R.drawable.lena);
+        int symbol_resID = typedArray.getResourceId(R.styleable.ImageModifyView_symbol, R.drawable.lena);
         symbol.setImageResource(symbol_resID);
 
-        String text_string = typedArray.getString(R.styleable.ImageModifyButton_text);
+        String text_string = typedArray.getString(R.styleable.ImageModifyView_text);
         text.setText(text_string);
 
         typedArray.recycle();
@@ -69,9 +69,11 @@ public class ImageModifyView extends LinearLayout {
     public void setBg(int bg_resID) {
         bg.setBackgroundResource(bg_resID);
     }
+
     public void setSymbol(int symbol_resID) {
         symbol.setImageResource(symbol_resID);
     }
+
     public void setText(String text_string) {
         text.setText(text_string);
     }

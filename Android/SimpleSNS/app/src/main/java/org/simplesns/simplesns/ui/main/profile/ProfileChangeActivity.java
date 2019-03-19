@@ -1,7 +1,11 @@
 package org.simplesns.simplesns.ui.main.profile;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -9,6 +13,7 @@ import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +42,7 @@ import retrofit2.Response;
 
 public class ProfileChangeActivity extends AppCompatActivity {
     public static final String TAG = ProfileChangeActivity.class.getSimpleName();
-
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView btnClose;
     ImageView btnSave;
     CircleImageView ivProfilePhoto;
@@ -81,6 +86,11 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
         tvLogout.setOnClickListener(v->{
             GlobalUser.getInstance().logOut(this, FirstActivity.class);
+        });
+
+        LinearLayout rlProfilePhotoContainer = findViewById(R.id.ll_profile_photo_change);
+        rlProfilePhotoContainer.setOnClickListener(v -> {
+            dispatchTakePictureIntent();
         });
 
         etUsername.addTextChangedListener(new TextWatcher() {
@@ -230,6 +240,23 @@ public class ProfileChangeActivity extends AppCompatActivity {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ivProfilePhoto.setImageBitmap(imageBitmap);
         }
     }
 }
