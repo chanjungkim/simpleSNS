@@ -1,6 +1,7 @@
 package org.simplesns.simplesns.lib.remote;
 
 import org.simplesns.simplesns.item.ChangeProfileItem;
+import org.simplesns.simplesns.ui.main.camera.model.ImagePostResult;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
@@ -10,14 +11,17 @@ import org.simplesns.simplesns.ui.sign.model.SignUpResult;
 import org.simplesns.simplesns.ui.sign.model.BasicResult;
 import org.simplesns.simplesns.item.MemberItem;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -62,4 +66,8 @@ public interface RemoteService {
 
     @GET("/member")
     Call<String> getMyId(@Body MemberItem memberItem);
+
+    @Multipart
+    @POST ("/image")
+    Call<ImagePostResult> uploadFeedImage (@Part MultipartBody.Part file);
 }

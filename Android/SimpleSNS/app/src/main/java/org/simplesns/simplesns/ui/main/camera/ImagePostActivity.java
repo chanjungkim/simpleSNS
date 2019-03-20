@@ -13,7 +13,17 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.adapter.rxjava2.Result;
+
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,9 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.lib.remote.RemoteService;
+import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.MainActivity;
+import org.simplesns.simplesns.ui.main.camera.model.ImagePostResult;
 import org.simplesns.simplesns.ui.main.camera.utils.ImageUtil;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,15 +86,65 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
         }
 
         tv_next.setOnClickListener(v->{
-            Intent home_intent = new Intent(ImagePostActivity.this, MainActivity.class);
-            home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   // activity stack clear
-            startActivity(home_intent);
+            sendFiles ();
         });
 
         btn_back.setOnClickListener(v->{
             finish();
         });
 
+    }
+
+    // multipart
+    private void sendFiles () {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), ImageUtil.pFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", ImageUtil.pFile.getName(), requestFile);
+        Call<ImagePostResult> call = remoteService.uploadFeedImage(body);
+        // todo add user id (uid)
+        // todo add file type (image, video)
+        // todo add location string
+        // todo add title string
+        // todo add image size ???
+
+        try {
+            call.enqueue(new Callback<ImagePostResult>() {
+                @Override
+                public void onResponse(Call<ImagePostResult> call, Response<ImagePostResult> response) {
+                    ImagePostResult imagePostResult = response.body();
+                    if (imagePostResult != null) {
+                        switch (imagePostResult.code) {
+                            case 100:   // 성공
+                                String image_url = imagePostResult.result;
+                                Toast toast = Toast.makeText(ImagePostActivity.this, image_url, Toast.LENGTH_SHORT); // todo change comment
+                                toast.setGravity(Gravity.TOP, 0, 120);
+                                toast.show();
+                                break;
+                            case 400 :  // 실패
+                                break;
+                            default:
+                                Log.d(TAG, imagePostResult.code + "");
+                                break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ImagePostResult> call, Throwable t) {
+                    Toast.makeText(ImagePostActivity.this, "fail", Toast.LENGTH_SHORT).show(); // todo change comment
+                }
+            });
+        } catch (Exception e) {
+
+        } finally {
+            goToMainActivity ();
+        }
+    }
+
+    private void goToMainActivity () {
+        Intent home_intent = new Intent(ImagePostActivity.this, MainActivity.class);
+        home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   // activity stack clear
+        startActivity(home_intent);
     }
 
     @Override
