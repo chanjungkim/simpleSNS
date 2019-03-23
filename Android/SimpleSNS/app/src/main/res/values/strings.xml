@@ -53,7 +53,7 @@
     <string name="image_modify_shape_temp">온도</string>
     <string name="image_modify_shape_saturation">채도</string>
     <string name="image_modify_shape_color">색</string>
-    <string name="image_modify_shape_cloudy">흐라게</string>
+    <string name="image_modify_shape_cloudy">배경 흐리게</string>
     <string name="image_modify_shape_highlight">하이라이트</string>
     <string name="image_modify_shape_blur">흐리게</string>
     <string name="image_modify_shape_mini">미니어쳐</string>
