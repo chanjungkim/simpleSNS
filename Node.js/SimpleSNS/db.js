@@ -7,7 +7,7 @@ exports.connect = function(done){
 	pool = mysql.createPool({
 		host: 'localhost',
 		user: 'root',
-		password: 'simple123SNS',
+		password: 'simple1234',
 		database:"SimpleSNS",
 		connectionLimit: 100 // Why 5 ???
 	});
@@ -23,6 +23,7 @@ exports.connect = function(done){
 */
 }
 
+/*
 function makeToken(){
 	console.log("makeToken()");
   var text = "";
@@ -164,8 +165,8 @@ function dbHelper() {
     return result;
   }
 }
-
+*/
 exports.get = function(){
-	pool.dbHelper = new dbHelper();
+//	pool.dbHelper = new dbHelper();
   return pool;
 }
