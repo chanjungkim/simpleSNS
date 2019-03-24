@@ -6,46 +6,56 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="@dimen/space_x_small"
+        android:layout_height="30dp"
+        android:layout_margin="@dimen/space_small"
         android:gravity="center_vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_home_profile_photo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:civ_border_width="1.5dp"
+            app:civ_border_color="@color/colorAccent"
             android:src="@drawable/ic_launcher_foreground"
-            app:civ_circle_background_color="@color/black"/>
+            app:civ_circle_background_color="@color/black" />
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/space_small"
-            android:text="simpleSNS" />
+            android:layout_toEndOf="@id/iv_home_profile_photo"
+            android:gravity="center_vertical"
+            android:text="@string/username"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
-        <!-- 메뉴 셀렉터 자리 -->
-
-    </LinearLayout>
+        <Button
+            android:id="@+id/bt_feed_dialog"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/button_dialog" />
+    </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/frame_imgs"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="wrap_content"
         android:background="@color/white">
 
         <ImageView
             android:id="@+id/iv_home_feed_img"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/light_grey"
-             />
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey" />
 
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_margin="@dimen/space_x_small"
         android:gravity="center_vertical">
@@ -55,7 +65,8 @@
             android:id="@+id/iv_like"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:src="@drawable/baseline_favorite_24" />
+            android:contentDescription="@string/todo"
+            android:src="@drawable/feed_default_like_24" />
 
         <!-- 댓글달기 -->
         <ImageView
@@ -63,7 +74,8 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="@dimen/space_small"
-            android:src="@drawable/baseline_chat_bubble_outline_24" />
+            android:contentDescription="@string/todo"
+            android:src="@drawable/feed_balloon_24" />
 
         <!-- 공유 -->
         <ImageView
@@ -71,9 +83,51 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="@dimen/space_small"
-            android:src="@drawable/baseline_send_24" />
+            android:contentDescription="@string/todo"
+            android:src="@drawable/feed_send_24" />
 
     </LinearLayout>
 
-    <!-- 하단 부는 나중에.. -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_small"
+        android:text="@string/capital_like"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_small"
+        android:layout_marginRight="@dimen/space_small"
+        android:text="Hello"
+        android:textColor="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_small"
+        android:layout_marginTop="@dimen/space_x_small"
+        android:layout_marginRight="@dimen/space_small"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_my_comment"
+            android:layout_width="28dp"
+            app:civ_border_width="1.5dp"
+            app:civ_border_color="@color/grey2"
+            android:layout_height="28dp"
+            android:src="@drawable/my" />
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/space_x_small"
+            android:text="comment...." />
+    </LinearLayout>
 </LinearLayout>
