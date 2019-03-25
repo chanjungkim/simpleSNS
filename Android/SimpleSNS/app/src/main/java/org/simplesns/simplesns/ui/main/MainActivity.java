@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
 
     @Override
     public void onTabTransaction(Fragment fragment, int index) {
-        // If we have a backstack, show the back button
+        // If we have a backstack, show the back camera_button_animated
         if (getSupportActionBar() != null && mNavController != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
         }
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
     @Override
     public void onFragmentTransaction(Fragment fragment, FragNavController.TransactionType transactionType) {
         //do fragmentty stuff. Maybe change title, I'm not going to tell you how to live your life
-        // If we have a backstack, show the back button
+        // If we have a backstack, show the back camera_button_animated
         if (getSupportActionBar() != null && mNavController != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
         }

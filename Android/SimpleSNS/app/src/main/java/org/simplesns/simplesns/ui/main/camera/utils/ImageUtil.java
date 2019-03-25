@@ -1,9 +1,13 @@
 package org.simplesns.simplesns.ui.main.camera.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import java.io.File;
@@ -14,12 +18,12 @@ import java.io.IOException;
 public class ImageUtil {
     public static File pFile;   // post 파일
 
-    private ImageUtil () {
+    private ImageUtil() {
         // 인스턴스화 방지
         throw new AssertionError(); // developer error
     }
 
-    public static Bitmap resizeBitmap (@NonNull Bitmap src, int width, int height) {
+    public static Bitmap resizeBitmap(@NonNull Bitmap src, int width, int height) {
         Bitmap rst = Bitmap.createScaledBitmap(src, width, height, true);
         src.recycle();
         return rst;
@@ -30,9 +34,14 @@ public class ImageUtil {
         bounds.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(file_path, bounds);
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        Bitmap bm = BitmapFactory.decodeFile(file_path, opts);
+        Bitmap bm = null;
+        try {
+            bm = BitmapFactory.decodeFile(file_path, opts);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
 
-        if (bm==null) {
+        if (bm == null) {
             return null;    // 코린이 - file path 가 있어도 이미지를 못만드는 경우가 있음 .....
         }
 
