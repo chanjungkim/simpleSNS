@@ -30,6 +30,7 @@ import org.simplesns.simplesns.BuildConfig;
 import org.simplesns.simplesns.MyApp;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.FeedItem;
+import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.ui.main.MainActivity;
 
 import java.util.ArrayList;
@@ -41,6 +42,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     private ArrayList<FeedItem> dataArrayList;
 
     public HomeAdapter(Context context) {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
         this.context = context;
     }
 
@@ -57,7 +61,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int i) {
         try {
-            holder.tvUserName.setText(dataArrayList.get(i).getUser().getUsername());
+            holder.tvUserName.setText(dataArrayList.get(i).getUsername());
         } catch (NullPointerException e) {
             Log.d(TAG, "No MemberItem FeedItem");
             e.printStackTrace();
@@ -70,12 +74,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 .fitCenter();
 
         Glide.with(context)
-                .load(dataArrayList.get(i).getUser().getProfilePicture())
+                .load(RemoteService.BASE_URL+dataArrayList.get(i).getPhoto_url())
                 .apply(requestOptions)
                 .into(holder.ivHomeProfilePhoto);
 
         Glide.with(context)
-                .load(dataArrayList.get(i).getImages().getUrl())
+                .load(RemoteService.BASE_URL+dataArrayList.get(i).getUrl())
                 .apply(requestOptions)
                 .into(holder.ivHomeFeedImg)
                 .getSize((width, height) -> {

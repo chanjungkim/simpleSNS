@@ -6,154 +6,95 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class FeedItem {
-
-    @SerializedName("comments")
-    @Expose
-    private FeedCommentItem comments;
-
-    @SerializedName("comment_count")
-    @Expose
-    private int comment_count;
-
-    @SerializedName("caption")
-    @Expose
-    private FeedDescriptionItem caption;
-
-    @SerializedName("like_count")
-    @Expose
-    private int like_count;
-
-    @SerializedName("user")
-    @Expose
-    private MemberItem user;
-
-    @SerializedName("created_time")
-    @Expose
-    private String createdTime;
-
-    @SerializedName("images")
-    @Expose
-    private FeedImageItem images;
+//    private FeedCommentItem comments;
+//    private int comment_count;
+//    private FeedDescriptionItem caption;
+//    private int like_count;
+//    private MemberItem user;
+//    private String createdTime;
+//    private FeedImageItem images;
 
     // 현재는 이미지 뿐이지만 추후 비디오를 넣을수도 있으니..?
-    @SerializedName("type")
-    @Expose
-    private String type;
+//    private String type;
+//    private List<String> tags = null;
+//    private String id;
+//    private FeedLocationItem location;
 
-    @SerializedName("tags")
-    @Expose
-    private List<String> tags = null;
+    // 파팅 - 나중에 수정
+    private long fid;
+    private String username;
+    private String photo_url;
+    private String reg_time;
+    private String url;
+    private int width;
+    private int height;
 
-    @SerializedName("id")
-    @Expose
-    private String id;
-
-    @SerializedName("location")
-    @Expose
-    private FeedLocationItem location;
-
-    public FeedCommentItem getComments() {
-        return comments;
+    public long getFid() {
+        return fid;
     }
 
-    public void setComments(FeedCommentItem comments) {
-        this.comments = comments;
+    public void setFid(long fid) {
+        this.fid = fid;
     }
 
-    public int getComment_count() {
-        return comment_count;
+    public String getUsername() {
+        return username;
     }
 
-    public void setComment_count(int comment_count) {
-        this.comment_count = comment_count;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public FeedDescriptionItem getCaption() {
-        return caption;
+    public String getPhoto_url() {
+        return photo_url;
     }
 
-    public void setCaption(FeedDescriptionItem caption) {
-        this.caption = caption;
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 
-    public int getLike_count() {
-        return like_count;
+    public String getReg_time() {
+        return reg_time;
     }
 
-    public void setLike_count(int like_count) {
-        this.like_count = like_count;
+    public void setReg_time(String reg_time) {
+        this.reg_time = reg_time;
     }
 
-    public MemberItem getUser() {
-        return user;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUser(MemberItem user) {
-        this.user = user;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getCreatedTime() {
-        return createdTime;
+    public int getWidth() {
+        return width;
     }
 
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    public FeedImageItem getImages() {
-        return images;
+    public int getHeight() {
+        return height;
     }
 
-    public void setImages(FeedImageItem images) {
-        this.images = images;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public FeedLocationItem getLocation() {
-        return location;
-    }
-
-    public void setLocation(FeedLocationItem location) {
-        this.location = location;
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     @Override
     public String toString() {
         return "FeedItem{" +
-                "comments=" + comments +
-                ", comment_count=" + comment_count +
-                ", caption=" + caption +
-                ", like_count=" + like_count +
-                ", user=" + user +
-                ", createdTime='" + createdTime + '\'' +
-                ", images=" + images +
-                ", type='" + type + '\'' +
-                ", tags=" + tags +
-                ", id='" + id + '\'' +
-                ", location=" + location +
+                "fid=" + fid +
+                ", username='" + username + '\'' +
+                ", photo_url='" + photo_url + '\'' +
+                ", reg_time='" + reg_time + '\'' +
+                ", url='" + url + '\'' +
+                ", width=" + width +
+                ", height=" + height +
                 '}';
     }
 }

@@ -6,18 +6,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 
+import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.FeedImageItem;
 import org.simplesns.simplesns.item.FeedItem;
+import org.simplesns.simplesns.item.FeedResult;
 import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
@@ -36,7 +42,6 @@ public class HomeFragment extends BaseFragment {
     private HomeAdapter homeAdapter;
     private RecyclerView recyclerView;
     private PullRefreshLayout prlRefresh;
-    ArrayList<FeedItem> items;
     long lastFeedNum = -1;
 
     public static HomeFragment newInstance(int instance) {
@@ -68,18 +73,12 @@ public class HomeFragment extends BaseFragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-
         homeAdapter = new HomeAdapter(getActivity());
-        recyclerView.setAdapter(homeAdapter);
-
-        items = getFeedItems(lastFeedNum);
-        homeAdapter.setItemList(items);
-
+        getFeedItems(lastFeedNum);
         prlRefresh.setOnRefreshListener(() -> {
             prlRefresh.postDelayed(() -> {
                 homeAdapter.removeList();
-                items = getFeedItems(lastFeedNum);
-                homeAdapter.setItemList(items);
+                getFeedItems(lastFeedNum);
                 prlRefresh.setRefreshing(false);
             }, 1000);
         });
@@ -93,34 +92,37 @@ public class HomeFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
     }
 
-    private ArrayList<FeedItem> getFeedItems(Long lastFeedNum) {
+    private void getFeedItems(long lastFeedNum) {
         Timber.d("getFeedItems()");
-
-        // 더미 시작
-        ArrayList<FeedItem> feedList = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            FeedItem feedItem = new FeedItem();
-            FeedImageItem images = new FeedImageItem();
-            images.setUrl("https://source.unsplash.com/random");
-            feedItem.setUser(new MemberItem(null,
-                    "TestID::" + i,
-                    null,
-                    "https://picsum.photos/200/300/?random",
-                    null,
-                    0,
-                    0,
-                    0));
-            feedItem.setImages(images);
-            feedList.add(feedItem);
-        }
-        // 더미 끝
 
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
         // 구현해야할 부분
-//        Call<FeedResult> call = remoteService.getFeedItemsFromServer(lastFeedNum);
+        Call<FeedResult> call = remoteService.getFeedItemsFromServer(GlobalUser.getInstance().getMyId(), lastFeedNum);
 
-        return feedList;
+        call.enqueue(new Callback<FeedResult>() {
+            @Override
+            public void onResponse(Call<FeedResult> call, Response<FeedResult> response) {
+                FeedResult result = response.body();
+
+                switch (result.code) {
+                    case 200:
+                        Timber.d(result.message);
+                        ArrayList<FeedItem> feedList = result.data;
+                        recyclerView.setAdapter(homeAdapter);
+                        homeAdapter.setItemList(feedList);
+                        break;
+                    default:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FeedResult> call, Throwable t) {
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
     }
 }

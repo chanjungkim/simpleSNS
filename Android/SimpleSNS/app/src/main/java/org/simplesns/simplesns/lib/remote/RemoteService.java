@@ -1,15 +1,16 @@
 package org.simplesns.simplesns.lib.remote;
 
 import org.simplesns.simplesns.item.ChangeProfileItem;
+import org.simplesns.simplesns.item.FeedResult;
+import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.ui.main.camera.model.ImagePostResult;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
+import org.simplesns.simplesns.ui.sign.model.BasicResult;
 import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.sign.model.SignUpData;
 import org.simplesns.simplesns.ui.sign.model.SignUpResult;
-import org.simplesns.simplesns.ui.sign.model.BasicResult;
-import org.simplesns.simplesns.item.MemberItem;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -70,4 +71,7 @@ public interface RemoteService {
     @Multipart
     @POST ("/image")
     Call<ImagePostResult> uploadFeedImage (@Part MultipartBody.Part file);
+
+    @GET("/feed")
+    Call<FeedResult> getFeedItemsFromServer(@Query("username") String username, @Query("lastFeedNum") long lastFeedNum); // 파팅 - Username은 없애고 JWT를 헤더로 보내야함.
 }
