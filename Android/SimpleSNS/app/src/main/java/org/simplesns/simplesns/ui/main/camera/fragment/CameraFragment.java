@@ -43,7 +43,6 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.media.MediaActionSound;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -483,7 +482,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        LinearLayout llPreviewContainer = view.findViewById(R.id.ll_preview_container);
+        LinearLayout llPreviewContainer = view.findViewById(R.id.rl_preview_container);
         mTextureView = view.findViewById(R.id.camera_texture);
         cameraSwitchButton = view.findViewById(R.id.btn_switch_camera);
         flashModeButton = view.findViewById(R.id.btn_flash_mode);
