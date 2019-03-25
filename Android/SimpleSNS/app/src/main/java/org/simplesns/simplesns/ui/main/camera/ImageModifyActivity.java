@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import org.simplesns.simplesns.BuildConfig;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.camera.utils.ImageUtil;
 

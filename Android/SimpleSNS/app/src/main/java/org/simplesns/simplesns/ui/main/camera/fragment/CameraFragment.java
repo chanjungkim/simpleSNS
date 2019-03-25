@@ -16,6 +16,7 @@ package org.simplesns.simplesns.ui.main.camera.fragment;
  */
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,16 +42,20 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
+import android.media.MediaActionSound;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -60,9 +65,13 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.simplesns.simplesns.MyApp;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.camera.ImageRegisterActivity;
 import org.simplesns.simplesns.ui.main.camera.customview.AutoFitTextureView;
@@ -77,39 +86,43 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 //@TargetApi(Build.VERSION_CODES.LOLLIPOP|22|23|24|25|26|27|28)
-@TargetApi(Build.VERSION_CODES.LOLLIPOP )
-public class CameraFragment extends Fragment
-        implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+public class CameraFragment extends Fragment implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     // image save path
     private static final String saveDir = Environment.getExternalStorageDirectory()
-            +File.separator+"DCIM"
-            +File.separator+"Camera"
-            +File.separator;
+            + File.separator + "DCIM"
+            + File.separator + "Camera"
+            + File.separator;
     /**
      * variable
      */
-    CameraModeHelper cameraModeHelper;
-    public float finger_spacing = 0;
-    public float zoom_level = 1.0f;
-    Rect mCropRect;
+    private CameraModeHelper cameraModeHelper;
+    private float finger_spacing = 0;
+    private float zoom_level = 1.0f;
+    private Rect mCropRect;
 
     /**
      * view
      */
-    ImageButton cameraSwitchButton;
-    ImageButton flashModeButton;
+    private ImageButton cameraSwitchButton;
+    private ImageButton flashModeButton;
 
     /**
      * flag
      */
-    enum SNS_FLASH_MODE {AUTO, TORCH, ALWAYS ,OFF};
-    static SNS_FLASH_MODE FLASH_MODE= SNS_FLASH_MODE.OFF;
-    Integer mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+    enum SNS_FLASH_MODE {
+        AUTO, TORCH, ALWAYS, OFF
+    }
+
+    ;
+    private static SNS_FLASH_MODE FLASH_MODE = SNS_FLASH_MODE.OFF;
+    private Integer mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
 
     /**
      * Conversion from screen rotation to JPEG orientation.
@@ -351,7 +364,7 @@ public class CameraFragment extends Fragment
                             mState = STATE_PICTURE_TAKEN;
                             captureStillPicture();
                         } else {
-                            runPrecaptureSequence();
+                            runPreCaptureSequence();
                         }
                     }
                     break;
@@ -402,8 +415,8 @@ public class CameraFragment extends Fragment
     private void showToast(final String text) {
         final Activity activity = getActivity();
         if (activity != null) {
-            activity.runOnUiThread(()-> {
-                    Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
+            activity.runOnUiThread(() -> {
+                Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
             });
         }
     }
@@ -467,53 +480,82 @@ public class CameraFragment extends Fragment
         return inflater.inflate(R.layout.fragment_image_register_camera, container, false);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        mTextureView            = view.findViewById(R.id.camera_texture);
-        cameraSwitchButton      = view.findViewById (R.id.btn_switch_camera);
-        flashModeButton         = view.findViewById(R.id.btn_flash_mode);
+        LinearLayout llPreviewContainer = view.findViewById(R.id.ll_preview_container);
+        mTextureView = view.findViewById(R.id.camera_texture);
+        cameraSwitchButton = view.findViewById(R.id.btn_switch_camera);
+        flashModeButton = view.findViewById(R.id.btn_flash_mode);
 
-        view.findViewById(R.id.picture).setOnClickListener(this);
+        Button btTakePicture = view.findViewById(R.id.bt_take_picture);
+
+        btTakePicture.setOnClickListener(this);
         cameraSwitchButton.setOnClickListener(this);
         flashModeButton.setOnClickListener(this);
 
-        mTextureView.setOnTouchListener((v,event)->{
+        llPreviewContainer.setLayoutParams(new RelativeLayout.LayoutParams(MyApp.getScreenWidth(getActivity()), MyApp.getScreenWidth(getActivity())));
+
+        mTextureView.setOnTouchListener((v, event) -> {
             try {
                 Activity activity = getActivity();
+
+                /**
+                 * Assertions enables you to test your assumptions about your program logic.
+                 * - preconditions
+                 * - post conditions
+                 * - variants
+                 * each assertion contains boolean expression. if it's true, it executes, if it's false, JVM will throw an assertion error.
+                 * Using assert is better than using if-else statements for performance liability in production environment.
+                 *
+                 * assert statement has two forms:
+                 * - assert booleanExpr.
+                 * - assert booleanExpr : errorMessageExpr.
+                 * ex1) assert message.size() == 0 : "messages: should be empty.";
+                 * ex2) assert s != null : "String null";
+                 */
+                assert activity != null : "This Activity is null";
                 CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
-                float maxzoom = (characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM))*6;
+                float maxzoom = (characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)) * 6;
 
                 Rect m = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
                 int action = event.getAction();
                 float current_finger_spacing;
 
-                if (event.getPointerCount() > 1) {
-                    // Multi touch logic
-                    current_finger_spacing = getFingerSpacing(event);
-
-                    if(finger_spacing != 0){
-                        if(current_finger_spacing > finger_spacing && maxzoom > zoom_level){
-                            zoom_level += 0.1f;
-                        } else if (current_finger_spacing < finger_spacing && zoom_level > 1.0f){
-                            zoom_level -= 0.2f;
-                            if (zoom_level <= 1.0f)
-                                zoom_level = 1.0f;
+                // Pinch Mode
+                switch (event.getPointerCount()) {
+                    case 1:
+                        // Focus Mode
+                        if (action == MotionEvent.ACTION_UP) {
+                            //single touch logic
+                            refocus();
+                            Toast.makeText(activity, "FOCUS MODE hasn't been implemented yet.", Toast.LENGTH_SHORT).show();
                         }
+                        break;
+                    case 2:
+                        // Multi touch logic
+                        current_finger_spacing = getFingerSpacing(event);
 
-                        int xCenter = m.width() / 2;
-                        int yCenter = m.height() / 2;
-                        int xDelta = (int) (m.width() / (2 * zoom_level));
-                        int yDelta = (int) (m.height() / (2 * zoom_level));
-                        mCropRect = new Rect(xCenter - xDelta, yCenter - yDelta, xCenter + xDelta,
-                                yCenter + yDelta);
-                        mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, mCropRect);
-                    }
-                    finger_spacing = current_finger_spacing;
-                } else{
-                    if (action == MotionEvent.ACTION_UP) {
-                        //single touch logic
-                    }
+                        if (finger_spacing != 0) {
+                            if (current_finger_spacing > finger_spacing && maxzoom > zoom_level) {
+                                zoom_level += 0.1f;
+                            } else if (current_finger_spacing < finger_spacing && zoom_level > 1.0f) {
+                                zoom_level -= 0.2f;
+                                if (zoom_level <= 1.0f)
+                                    zoom_level = 1.0f;
+                            }
+
+                            int xCenter = m.width() / 2;
+                            int yCenter = m.height() / 2;
+                            int xDelta = (int) (m.width() / (2 * zoom_level));
+                            int yDelta = (int) (m.height() / (2 * zoom_level));
+                            mCropRect = new Rect(xCenter - xDelta, yCenter - yDelta, xCenter + xDelta,
+                                    yCenter + yDelta);
+                            mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, mCropRect);
+                        }
+                        finger_spacing = current_finger_spacing;
+                        break;
                 }
 
                 try {
@@ -550,8 +592,10 @@ public class CameraFragment extends Fragment
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
         zoom_level = 1.0f;
+
+        //
         if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+            openCamera(MyApp.getScreenWidth(getActivity()), MyApp.getScreenWidth(getActivity()));
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
@@ -611,6 +655,7 @@ public class CameraFragment extends Fragment
             activity.finish();
         }
     }
+
     /**
      * Sets up member variables related to camera.
      *
@@ -695,18 +740,14 @@ public class CameraFragment extends Fragment
                 // Danger, W.R.! Attempting to use too large a preview size could  exceed the camera
                 // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
                 // garbage capture data.
-                mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                        rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth,
-                        maxPreviewHeight, largest);
+                mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth, maxPreviewHeight, largest);
 
                 // We fit the aspect ratio of TextureView to the size of preview we picked.
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    mTextureView.setAspectRatio(
-                            mPreviewSize.getWidth(), mPreviewSize.getHeight());
+                    mTextureView.setAspectRatio(MyApp.getScreenWidth(getActivity()), MyApp.getScreenWidth(getActivity()));
                 } else {
-                    mTextureView.setAspectRatio(
-                            mPreviewSize.getHeight(), mPreviewSize.getWidth());
+                    mTextureView.setAspectRatio(MyApp.getScreenWidth(getActivity()), MyApp.getScreenWidth(getActivity()));
                 }
 
                 // Check if the flash is supported.
@@ -821,8 +862,7 @@ public class CameraFragment extends Fragment
             Surface surface = new Surface(texture);
 
             // We set up a CaptureRequest.Builder with the output Surface.
-            mPreviewRequestBuilder
-                    = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
@@ -838,13 +878,11 @@ public class CameraFragment extends Fragment
 
                             // When the session is ready, we start displaying the preview.
                             mCaptureSession = cameraCaptureSession;
-                            cameraModeHelper = new CameraModeHelper(mPreviewRequestBuilder
-                                    ,mCaptureSession, mCaptureCallback, mBackgroundHandler);
+                            cameraModeHelper = new CameraModeHelper(mPreviewRequestBuilder, mCaptureSession, mCaptureCallback, mBackgroundHandler);
 
                             try {
                                 // Auto focus should be continuous for camera preview.
-                                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+                                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                                 // Flash is automatically enabled when necessary.
                                 // 코린이
                                 setAutoFlash();
@@ -853,8 +891,7 @@ public class CameraFragment extends Fragment
 
                                 // Finally, we start displaying the camera preview.
                                 mPreviewRequest = mPreviewRequestBuilder.build();
-                                mCaptureSession.setRepeatingRequest(mPreviewRequest,
-                                        mCaptureCallback, mBackgroundHandler);
+                                mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback, mBackgroundHandler);
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
                             }
@@ -909,8 +946,13 @@ public class CameraFragment extends Fragment
      * Initiate a still image capture.
      */
     private void takePicture() {
-        mFile = new File(saveDir+"IMG"
-                +DateFormatUtil.getCurrentDateForCapture()+".jpg");
+//        final MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.camera_shutter_sound);
+//        mp.start();
+
+        MediaActionSound sound = new MediaActionSound();
+        sound.play(MediaActionSound.SHUTTER_CLICK);
+
+        mFile = new File(saveDir + "IMG" + DateFormatUtil.getCurrentDateForCapture() + ".jpg");
         lockFocus();
     }
 
@@ -920,22 +962,20 @@ public class CameraFragment extends Fragment
     private void lockFocus() {
         try {
             // This is how to tell the camera to lock focus.
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                    CameraMetadata.CONTROL_AF_TRIGGER_START);
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the lock.
             mState = STATE_WAITING_LOCK;
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
-                    mBackgroundHandler);
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Run the precapture sequence for capturing a still image. This method should be called when
+     * Run the preCapture sequence for capturing a still image. This method should be called when
      * we get a response in {@link #mCaptureCallback} from {@link #lockFocus()}.
      */
-    private void runPrecaptureSequence() {
+    private void runPreCaptureSequence() {
         try {
             // This is how to tell the camera to trigger.
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
@@ -990,7 +1030,7 @@ public class CameraFragment extends Fragment
                     unlockFocus();
 
                     ImageUtil.pFile = mFile;
-                    ((ImageRegisterActivity)getActivity()).sendToImageModify(mFile);
+                    ((ImageRegisterActivity) getActivity()).sendToImageModify(mFile);
                 }
             };
 
@@ -1003,6 +1043,7 @@ public class CameraFragment extends Fragment
     }
 
     /**
+     * 파팅 - Glide 사용하면 자동으로 해결 가능한 걸로 알고 있습니다.
      * Retrieves the JPEG orientation from the specified screen rotation.
      *
      * @param rotation The screen rotation.
@@ -1021,17 +1062,15 @@ public class CameraFragment extends Fragment
      * finished.
      */
     private void unlockFocus() {
+        Log.d(TAG, "unlockFocus()");
         try {
             // Reset the auto-focus trigger
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                    CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             setAutoFlash();
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
-                    mBackgroundHandler);
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback, mBackgroundHandler);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
-            mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback,
-                    mBackgroundHandler);
+            mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -1040,7 +1079,7 @@ public class CameraFragment extends Fragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.picture: {
+            case R.id.bt_take_picture: {
                 takePicture();
                 break;
             }
@@ -1050,15 +1089,15 @@ public class CameraFragment extends Fragment
             }
             case R.id.btn_flash_mode: {
                 switch (FLASH_MODE) {
-                    case ALWAYS :
+                    case ALWAYS:
                         // always -> off
                         FLASH_MODE = SNS_FLASH_MODE.OFF;
-                        flashModeButton.setImageResource(R.drawable.flash_off);
+                        flashModeButton.setBackground(getResources().getDrawable(R.drawable.flash_off));
                         break;
-                    case OFF :
+                    case OFF:
                         // off -> always
                         FLASH_MODE = SNS_FLASH_MODE.ALWAYS;
-                        flashModeButton.setImageResource(R.drawable.flash_on);
+                        flashModeButton.setBackground(getResources().getDrawable(R.drawable.flash_on));
                         break;
                 }
                 setAutoFlash();
@@ -1083,19 +1122,19 @@ public class CameraFragment extends Fragment
             mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
             closeCamera();
             reopenCamera();
-            cameraSwitchButton.setImageResource(R.drawable.rear_camera);
+//            cameraSwitchButton.setImageResource(R.drawable.rear_camera);
 
         } else if (mCameraLensFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
             mCameraLensFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
             closeCamera();
             reopenCamera();
-            cameraSwitchButton.setImageResource(R.drawable.front_camera);
+//            cameraSwitchButton.setImageResource(R.drawable.front_camera);
         }
     }
 
     public void reopenCamera() {
         if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+            openCamera(MyApp.getScreenWidth(getActivity()), MyApp.getScreenWidth(getActivity()));
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
@@ -1103,12 +1142,12 @@ public class CameraFragment extends Fragment
 
     private void setAutoFlash() {
         if (mFlashSupported && cameraModeHelper != null) {
-            switch(FLASH_MODE) {
-                case ALWAYS :
+            switch (FLASH_MODE) {
+                case ALWAYS:
                     //showToast("always mode");   // 디버깅용
                     cameraModeHelper.resetAutoExposure().setOnAlwaysFlash().setModeRequest();
                     break;
-                case OFF :
+                case OFF:
                     //showToast("off mode");      // 디버깅용
                     // todo 코린이 always 모드 끄는 방법 다시한번 생각...
                     // always 모드였다가 torch flash off 모드로 가면 플래시가 터지는 이슈가 있음
@@ -1191,17 +1230,18 @@ public class CameraFragment extends Fragment
                         }
                     })
                     .setNegativeButton(android.R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Activity activity = parent.getActivity();
-                                    if (activity != null) {
-                                        activity.finish();
-                                    }
+                            (dialog, which) -> {
+                                Activity activity = parent.getActivity();
+                                if (activity != null) {
+                                    activity.finish();
                                 }
                             })
                     .create();
         }
     }
 
+    private void refocus() throws CameraAccessException {
+        CameraManager manager = (CameraManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CAMERA_SERVICE);
+        CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
+    }
 }

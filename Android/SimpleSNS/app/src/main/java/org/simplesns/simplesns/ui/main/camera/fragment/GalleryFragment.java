@@ -4,18 +4,25 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.camera.adapter.ImageGalleryAdapter;
@@ -33,17 +40,17 @@ public class GalleryFragment extends Fragment {
     Activity mActivity;
     Context mContext;
 
-    RecyclerView        rv_gallery;
+    RecyclerView rvGallery;
     ImageGalleryAdapter galleryAdapter;
-    static List<String> gallery_paths;
+    static List<String> galleryPaths;
 
-    ImageView iv_gallery;
+    ImageView ivGallery;
     Cursor cursor;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_image_register_gallery,container, false);
+        return inflater.inflate(R.layout.fragment_image_register_gallery, container, false);
     }
 
     @Override
@@ -52,27 +59,38 @@ public class GalleryFragment extends Fragment {
         mActivity = getActivity();
         mContext = getContext();
 
-        rv_gallery = mActivity.findViewById(R.id.rv_gallery);
-        iv_gallery = mActivity.findViewById(R.id.iv_gallery);
+        rvGallery = mActivity.findViewById(R.id.rv_gallery);
+        ivGallery = mActivity.findViewById(R.id.iv_gallery);
 
-        gallery_paths = new ArrayList<>();
+        // Get screen dimension.
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+//        int height = size.y;
+        Log.e("Width", "" + width);
+//        Log.e("height", "" + height);
+
+        ivGallery.setLayoutParams(new RelativeLayout.LayoutParams(width, width));
+
+        galleryPaths = new ArrayList<>();
         setImagePath();
-        Collections.reverse(gallery_paths);
+        Collections.reverse(galleryPaths);
 
-        galleryAdapter = new ImageGalleryAdapter (getContext(), gallery_paths, R.layout.item_gallery, iv_gallery);
-        rv_gallery.setAdapter(galleryAdapter);
+        galleryAdapter = new ImageGalleryAdapter(getContext(), galleryPaths, R.layout.item_gallery, ivGallery);
+        rvGallery.setAdapter(galleryAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        rv_gallery.setLayoutManager(gridLayoutManager);
-        rv_gallery.setItemAnimator(new DefaultItemAnimator());
+        rvGallery.setLayoutManager(gridLayoutManager);
+        rvGallery.setItemAnimator(new DefaultItemAnimator());
 
 
-        if (gallery_paths.size() > 0) {
+        if (galleryPaths.size() > 0) {
             // 저장소에 이미지가 있는 경우
-            iv_gallery.setImageBitmap(ImageUtil.rotateBitmapOrientation(gallery_paths.get(0)));
-            ImageUtil.pFile = new File(gallery_paths.get(0));
+            ivGallery.setImageBitmap(ImageUtil.rotateBitmapOrientation(galleryPaths.get(0)));
+            ImageUtil.pFile = new File(galleryPaths.get(0));
         } else {
             // 저장소에 이미지가 없는 경우
-            iv_gallery.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.no_image));
+            ivGallery.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.no_image));
         }
     }
 
@@ -82,21 +100,18 @@ public class GalleryFragment extends Fragment {
         cursor.close();
     }
 
-    private void setImagePath () {
-        String[] STAR = { "*" };
+    private void setImagePath() {
+        String[] STAR = {"*"};
 
         cursor = getActivity().managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 , STAR, null, null, null);
 
-        if (cursor != null)
-        {
-            if (cursor.moveToFirst())
-            {
-                do
-                {
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
                     String path = cursor.getString(cursor
                             .getColumnIndex(MediaStore.Images.Media.DATA));
-                    gallery_paths.add(path);
+                    galleryPaths.add(path);
                 } while (cursor.moveToNext());
 
             }
