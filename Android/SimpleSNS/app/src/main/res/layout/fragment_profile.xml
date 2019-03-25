@@ -219,6 +219,7 @@
                         android:id="@+id/profile_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/grey"
                         android:text="Seoul.Korea"
                         android:textSize="@dimen/body_text_size" />
 

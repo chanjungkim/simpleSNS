@@ -42,6 +42,7 @@ public class SharedPreferenceUtil {
     public void removeSharedPreference() {
         sharedPreferences.edit()
                 .remove(APP_SHARED_PREFS)
+                .clear()
                 .apply();
     }
 

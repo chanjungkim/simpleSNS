@@ -1,7 +1,11 @@
 package org.simplesns.simplesns.ui.main.profile;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -9,6 +13,8 @@ import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.simplesns.simplesns.GlobalUser;
@@ -20,6 +26,7 @@ import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
+import org.simplesns.simplesns.ui.sign.FirstActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -35,7 +42,7 @@ import retrofit2.Response;
 
 public class ProfileChangeActivity extends AppCompatActivity {
     public static final String TAG = ProfileChangeActivity.class.getSimpleName();
-
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView btnClose;
     ImageView btnSave;
     CircleImageView ivProfilePhoto;
@@ -62,7 +69,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
         btnClose.setOnClickListener(v -> finish());
 
         ivProfilePhoto = findViewById(R.id.civ_profile_photo);
-        llProfilePhotoChange = (LinearLayout) findViewById(R.id.ll_profile_photo_change);
+        llProfilePhotoChange = findViewById(R.id.ll_profile_photo_change);
         llProfilePhotoChange.setOnClickListener(v -> {
             // TODO : 프로필 이미지 바꾸는 코드 작성하기
             Toast.makeText(this, "이미지 바꾸기", Toast.LENGTH_SHORT).show();
@@ -74,6 +81,17 @@ public class ProfileChangeActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email);
 //        etPhone = findViewById(R.id.et_phone);
 //        etUsername.setText(GlobalUser.getInstance().getMyId());
+
+        TextView tvLogout = findViewById(R.id.tv_logout);
+
+        tvLogout.setOnClickListener(v->{
+            GlobalUser.getInstance().logOut(this, FirstActivity.class);
+        });
+
+        LinearLayout rlProfilePhotoContainer = findViewById(R.id.ll_profile_photo_change);
+        rlProfilePhotoContainer.setOnClickListener(v -> {
+            dispatchTakePictureIntent();
+        });
 
         etUsername.addTextChangedListener(new TextWatcher() {
             @Override
@@ -222,6 +240,23 @@ public class ProfileChangeActivity extends AppCompatActivity {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ivProfilePhoto.setImageBitmap(imageBitmap);
         }
     }
 }

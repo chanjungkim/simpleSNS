@@ -10,10 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.core.view.ViewCompat;
+
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +30,7 @@ import org.simplesns.simplesns.ui.main.profile.fragment.ProfileLineFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileTagFragment;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.CAMERA_SERVICE;
 
 /**
  * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6657
@@ -124,6 +128,10 @@ public class ProfileFragment extends BaseFragment {
 
 
         ivProfilePhoto = view.findViewById(R.id.civ_profile_photo);
+        RelativeLayout rlProfilePhotoContainer = view.findViewById(R.id.rl_profile_photo_container);
+        rlProfilePhotoContainer.setOnClickListener(v -> {
+            dispatchTakePictureIntent();
+        });
 
         tvProfileChange.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ProfileChangeActivity.class);
@@ -138,6 +146,13 @@ public class ProfileFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @Override

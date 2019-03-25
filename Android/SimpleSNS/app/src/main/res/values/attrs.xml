@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ImageModifyView attr -->
+    <declare-styleable name="ImageModifyView">
+        <attr name="bg" format="reference|integer"/>
+        <attr name="ic_bg" format="reference|integer" />
+        <attr name="ic_bg_tint" format="reference|integer" />
+        <attr name="text_bg" format="reference|integer" />
+        <attr name="symbol" format="reference|integer"/>
+        <attr name="text" format="reference|string"/>
+        <attr name="textStyle" format="reference|string" />
+        <attr name="textColor" format="reference|integer" />
+    </declare-styleable>
+</resources>
