@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
@@ -46,7 +47,7 @@ public class GalleryFragment extends Fragment {
     ImageGalleryAdapter galleryAdapter;
     static List<String> galleryPaths;
 
-    CustomZoomableImageView ivGallery;
+    ImageView ivGallery;
     Cursor cursor;
 
     // 파팅 - preview motion
