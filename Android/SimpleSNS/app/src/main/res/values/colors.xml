@@ -18,7 +18,8 @@
 
     <color name="light_grey">#F3F3F3</color>
     <color name="color_dark">#424242</color>
-
+    <color name="transparent">#0FFF</color>
     <!-- theme -->
     <color name="default_toolbar_color">#F8F8F8</color>
+
 </resources>

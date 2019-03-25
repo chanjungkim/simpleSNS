@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.camera.utils.ImageUtil;
+import org.simplesns.simplesns.util.AnimationUtil;
 
 import java.io.File;
 import java.util.List;
@@ -31,6 +33,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     private List<String> items;
     private int itemLayout;
     private ImageView mainView;
+    private LinearLayout selectedView;
 
     public ImageGalleryAdapter(Context context, List<String> items, int itemLayout, ImageView mainView) {
         this.context = context;
@@ -77,7 +80,13 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
                     ImageUtil.pFile = null;
                     Toast.makeText(context,context.getString(R.string.image_register_cant_open_file), Toast.LENGTH_SHORT).show();
                 }
-                mainView.setImageBitmap(bitmap);
+                AnimationUtil.fideIn(mainView,500,null).start();
+                mainView.setImageBitmap(bitmap);    // 코린이 glide로 바꿔야하나 아님 쓰레드?
+                if (selectedView != null) {
+                    selectedView.setAlpha(1.0f);
+                }
+                selectedView = (LinearLayout)v;
+                v.setAlpha(0.3f);
         });
     }
 

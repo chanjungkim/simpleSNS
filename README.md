@@ -16,6 +16,7 @@ And also learning how to set AWS, MariaDB, technics of Java and its improvement.
     - AppName: Simple SNS
     - Fundamental Package: org.simplesns
     - [Convention(HEYDEALER)](https://github.com/PRNDcompany/android-style-guide)
+    - Resources from [material.io](https://material.io/icons)
 
 2. Server
     - OS: Ubuntu

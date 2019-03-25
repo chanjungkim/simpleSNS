@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import timber.log.Timber;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Log.d(TAG, "onCreateView");
+        Timber.d("onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // TODO RecyclerView
@@ -88,12 +89,12 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+        Timber.d("onCreate");
         super.onCreate(savedInstanceState);
     }
 
     private ArrayList<FeedItem> getFeedItems(Long lastFeedNum) {
-        Log.d(TAG, "getFeedItems()");
+        Timber.d("getFeedItems()");
 
         // 더미 시작
         ArrayList<FeedItem> feedList = new ArrayList<>();

@@ -53,7 +53,7 @@
     <string name="image_modify_shape_temp">온도</string>
     <string name="image_modify_shape_saturation">채도</string>
     <string name="image_modify_shape_color">색</string>
-    <string name="image_modify_shape_cloudy">흐라게</string>
+    <string name="image_modify_shape_cloudy">배경 흐리게</string>
     <string name="image_modify_shape_highlight">하이라이트</string>
     <string name="image_modify_shape_blur">흐리게</string>
     <string name="image_modify_shape_mini">미니어쳐</string>
@@ -67,6 +67,7 @@
     <string name="update_profile">프로필 수정</string>
     <string name="todo">TODO</string>
     <string name="text">text</string>
+    <string name="capital_like">LIKE</string>
 
     <!-- Favprote -->
     <string-array name="favorite_titles">

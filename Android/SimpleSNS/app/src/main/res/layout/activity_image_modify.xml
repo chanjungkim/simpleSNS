@@ -35,50 +35,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true">
-
-                    <HorizontalScrollView
+                  
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_image_modify"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <LinearLayout
-                            android:id="@+id/color_filter_menu_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <!-- temp -->
-                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:symbol="@drawable/lena"
-                                app:text="normal" />
-
-                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:symbol="@drawable/lena"
-                                app:text="normal" />
-
-                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:symbol="@drawable/lena"
-                                app:text="normal" />
-
-                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:symbol="@drawable/lena"
-                                app:text="normal" />
-
-                            <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:symbol="@drawable/lena"
-                                app:text="normal" />
-
-                        </LinearLayout>
-                    </HorizontalScrollView>
+                        android:layout_height="wrap_content"/>
 
                     <HorizontalScrollView
                         android:layout_width="match_parent"
@@ -92,6 +53,7 @@
                             android:orientation="horizontal">
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_bright"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -99,6 +61,7 @@
                                 app:text="@string/image_modify_shape_bright" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_contrast"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -106,6 +69,7 @@
                                 app:text="@string/image_modify_shape_compare" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_awb"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -113,6 +77,7 @@
                                 app:text="@string/image_modify_shape_temp" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_saturation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -120,6 +85,7 @@
                                 app:text="@string/image_modify_shape_saturation" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_color"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -127,6 +93,7 @@
                                 app:text="@string/image_modify_shape_color" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_cloudy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -134,6 +101,7 @@
                                 app:text="@string/image_modify_shape_cloudy" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_highlight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -141,6 +109,7 @@
                                 app:text="@string/image_modify_shape_highlight" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_blur"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -148,6 +117,7 @@
                                 app:text="@string/image_modify_shape_blur" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_miniature"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -155,6 +125,7 @@
                                 app:text="@string/image_modify_shape_mini" />
 
                             <org.simplesns.simplesns.ui.main.camera.customview.ImageModifyView
+                                android:id="@+id/modify_structure"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:bg="@drawable/round"
@@ -168,7 +139,7 @@
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true" />
+                    android:layout_alignParentBottom="true"/>
             </RelativeLayout>
         </TabHost>
     </LinearLayout>
