@@ -9,17 +9,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:weightSum="30">
 
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_weight="1"
             android:background="@color/light_grey"
-            android:src="@drawable/baseline_x_24"
-            android:layout_weight="1"/>
+            android:src="@drawable/baseline_x_24" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -29,7 +29,7 @@
             android:textSize="@dimen/toolbar_text_size"
             android:layout_marginStart="20dp"
             android:textColor="@color/color_dark"
-            android:layout_weight="28"/>
+            android:textSize="@dimen/toolbar_text_size" />
 
         <!--해당 레이아웃에서 visibility, text 정의 해야함  -->
         <TextView
@@ -41,7 +41,8 @@
             android:layout_weight="1"
             android:layout_marginEnd="15dp"
             android:gravity="center"
-            android:visibility="gone"/>
+            android:src="@drawable/baseline_check_24"
+            android:visibility="gone" />
 
         <!--해당 레이아웃에서 visibility 정의 해야함  -->
         <ImageButton
@@ -53,7 +54,5 @@
             android:layout_weight="1"
             android:layout_marginEnd="15dp"
             android:visibility="gone"/>
-
     </LinearLayout>
-
 </androidx.appcompat.widget.Toolbar>

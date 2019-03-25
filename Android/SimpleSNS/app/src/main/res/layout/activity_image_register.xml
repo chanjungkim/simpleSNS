@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar_common"></include>
+    <include layout="@layout/toolbar_common"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/image_register_viewpager"
