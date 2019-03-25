@@ -12,7 +12,6 @@
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="2dp"
-        android:textStyle="italic"
         android:gravity="center"
         android:text="@string/text"
         android:textSize="15sp"
