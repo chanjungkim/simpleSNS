@@ -4,20 +4,27 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/iv_gallery"
+    <RelativeLayout
+        android:id="@+id/rl_preview_container"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="5dp"
-        android:contentDescription="Todo" />
+        android:layout_height="wrap_content"
+        android:background="@color/light_grey">
+
+        <org.simplesns.simplesns.ui.main.camera.customview.CustomZoomableImageView
+            android:id="@+id/iv_preview_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="5dp"
+            android:contentDescription="Todo"
+            android:scaleType="centerCrop" />
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_below="@id/iv_gallery"
         tools:listitem=""
-        />
+        android:layout_below="@id/rl_preview_container"
+        android:scrollbars="vertical" />
 </RelativeLayout>

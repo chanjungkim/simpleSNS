@@ -100,7 +100,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
         ViewHolder (View itemView) {
             super(itemView);
-            iv_grid_gallery = itemView.findViewById(R.id.iv_gallery);
+            iv_grid_gallery = itemView.findViewById(R.id.iv_preview_gallery);
         }
     }
 }

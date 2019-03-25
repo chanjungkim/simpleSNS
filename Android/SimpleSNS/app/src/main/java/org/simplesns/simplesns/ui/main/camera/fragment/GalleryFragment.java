@@ -18,14 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import org.simplesns.simplesns.MyApp;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.camera.adapter.ImageGalleryAdapter;
+import org.simplesns.simplesns.ui.main.camera.customview.CustomZoomableImageView;
 import org.simplesns.simplesns.ui.main.camera.utils.ImageUtil;
 
 import java.io.File;
@@ -44,8 +46,13 @@ public class GalleryFragment extends Fragment {
     ImageGalleryAdapter galleryAdapter;
     static List<String> galleryPaths;
 
-    ImageView ivGallery;
+    CustomZoomableImageView ivGallery;
     Cursor cursor;
+
+    // 파팅 - preview motion
+    private int _xDelta;
+    private int _yDelta;
+    private RelativeLayout rlPreviewContainer;
 
     @Nullable
     @Override
@@ -59,8 +66,9 @@ public class GalleryFragment extends Fragment {
         mActivity = getActivity();
         mContext = getContext();
 
+        rlPreviewContainer = mActivity.findViewById(R.id.rl_preview_container);
+        ivGallery = mActivity.findViewById(R.id.iv_preview_gallery);
         rvGallery = mActivity.findViewById(R.id.rv_gallery);
-        ivGallery = mActivity.findViewById(R.id.iv_gallery);
 
         // Get screen dimension.
         Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -71,7 +79,8 @@ public class GalleryFragment extends Fragment {
         Log.e("Width", "" + width);
 //        Log.e("height", "" + height);
 
-        ivGallery.setLayoutParams(new RelativeLayout.LayoutParams(width, width));
+        rlPreviewContainer.setLayoutParams(new RelativeLayout.LayoutParams(MyApp.getScreenWidth(getActivity()), MyApp.getScreenWidth(getActivity())));
+        ivGallery.setLayoutParams(new RelativeLayout.LayoutParams(MyApp.getScreenWidth(getActivity()), MyApp.getScreenWidth(getActivity())));
 
         galleryPaths = new ArrayList<>();
         setImagePath();
