@@ -2,7 +2,7 @@ package org.simplesns.simplesns.ui.main.camera.model;
 
 public class ImagePostResult {
     public int code;        // 100 : success, 400 : fail
-    public String message;  //
+    public String message;  // result message
     public String result;   // image url
 
     @Override
