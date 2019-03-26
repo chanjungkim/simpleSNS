@@ -79,7 +79,7 @@ public class CustomZoomableImageView extends AppCompatImageView {
                 final float x = ev.getX(pointerIndex);
                 final float y = ev.getY(pointerIndex);
 
-                // Only move if the ScaleGestureDetector isn't processing a gesture.
+                // Only move if the ScaleGestureDetector isn't processing profile_a gesture.
                 if (!mScaleDetector.isInProgress()) {
                     final float dx = x - mLastTouchX;
                     final float dy = y - mLastTouchY;
@@ -109,7 +109,7 @@ public class CustomZoomableImageView extends AppCompatImageView {
                 final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
                 final int pointerId = ev.getPointerId(pointerIndex);
                 if (pointerId == mActivePointerId) {
-                    // This was our active pointer going up. Choose a new
+                    // This was our active pointer going up. Choose profile_a new
                     // active pointer and adjust accordingly.
                     final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
                     mLastTouchX = ev.getX(newPointerIndex);

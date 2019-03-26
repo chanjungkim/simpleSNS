@@ -4,7 +4,7 @@ package org.simplesns.simplesns.ui.main.camera.fragment;
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * You may obtain profile_a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -138,7 +138,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Permissions required to take a picture.
+     * Permissions required to take profile_a picture.
      */
     private static final String[] CAMERA_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -187,7 +187,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     private static final int MAX_PREVIEW_HEIGHT = 1080;
 
     /**
-     * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
+     * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on profile_a
      * {@link TextureView}.
      */
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener
@@ -293,7 +293,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     private File mFile;
 
     /**
-     * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
+     * This profile_a callback object for the {@link ImageReader}. "onImageAvailable" will be called when profile_a
      * still image is ready to be saved.
      */
     private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
@@ -407,7 +407,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     };
 
     /**
-     * Shows a {@link Toast} on the UI thread.
+     * Shows profile_a {@link Toast} on the UI thread.
      *
      * @param text The message to show
      */
@@ -421,7 +421,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
+     * Given {@code choices} of {@code Size}s supported by profile_a camera, choose the smallest one that
      * is at least as large as the respective texture view size, and that is at most as large as the
      * respective max size, and whose aspect ratio matches with the specified value. If such size
      * doesn't exist, choose the largest one that is at most as large as the respective max size,
@@ -588,7 +588,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
 
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
-        // a camera and start preview from here (otherwise, we wait until the surface is ready in
+        // profile_a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
         zoom_level = 1.0f;
 
@@ -670,7 +670,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
 
-                // We don't use a front facing camera in this sample.
+                // We don't use profile_a front facing camera in this sample.
                 Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
                 if (facing != null && facing == mCameraLensFacingDirection) {
                     continue;
@@ -736,7 +736,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
                     maxPreviewHeight = MAX_PREVIEW_HEIGHT;
                 }
 
-                // Danger, W.R.! Attempting to use too large a preview size could  exceed the camera
+                // Danger, W.R.! Attempting to use too large profile_a preview size could  exceed the camera
                 // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
                 // garbage capture data.
                 mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth, maxPreviewHeight, largest);
@@ -824,7 +824,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Starts a background thread and its {@link Handler}.
+     * Starts profile_a background thread and its {@link Handler}.
      */
     private void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("CameraBackground");
@@ -847,7 +847,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Creates a new {@link CameraCaptureSession} for camera preview.
+     * Creates profile_a new {@link CameraCaptureSession} for camera preview.
      */
     private void createCameraPreviewSession() {
         try {
@@ -860,11 +860,11 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
             // This is the output Surface we need to start preview.
             Surface surface = new Surface(texture);
 
-            // We set up a CaptureRequest.Builder with the output Surface.
+            // We set up profile_a CaptureRequest.Builder with the output Surface.
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(surface);
 
-            // Here, we create a CameraCaptureSession for camera preview.
+            // Here, we create profile_a CameraCaptureSession for camera preview.
             mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
 
@@ -942,7 +942,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Initiate a still image capture.
+     * Initiate profile_a still image capture.
      */
     private void takePicture() {
 //        final MediaPlayer mp = MediaPlayer.create(getActivity(), R.raw.camera_shutter_sound);
@@ -956,7 +956,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Lock the focus as the first step for a still image capture.
+     * Lock the focus as the first step for profile_a still image capture.
      */
     private void lockFocus() {
         try {
@@ -971,8 +971,8 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Run the preCapture sequence for capturing a still image. This method should be called when
-     * we get a response in {@link #mCaptureCallback} from {@link #lockFocus()}.
+     * Run the preCapture sequence for capturing profile_a still image. This method should be called when
+     * we get profile_a response in {@link #mCaptureCallback} from {@link #lockFocus()}.
      */
     private void runPreCaptureSequence() {
         try {
@@ -989,7 +989,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
     }
 
     /**
-     * Capture a still picture. This method should be called when we get a response in
+     * Capture profile_a still picture. This method should be called when we get profile_a response in
      * {@link #mCaptureCallback} from both {@link #lockFocus()}.
      */
     private void captureStillPicture() {
@@ -998,7 +998,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, Ac
             if (null == activity || null == mCameraDevice) {
                 return;
             }
-            // This is the CaptureRequest.Builder that we use to take a picture.
+            // This is the CaptureRequest.Builder that we use to take profile_a picture.
             final CaptureRequest.Builder captureBuilder =
                     mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureBuilder.addTarget(mImageReader.getSurface());

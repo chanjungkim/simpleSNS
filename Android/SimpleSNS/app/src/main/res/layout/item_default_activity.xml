@@ -6,7 +6,7 @@
     android:paddingTop="15dp">
 
     <ImageView
-        android:id="@+id/iv_user"
+        android:id="@+id/iv_user_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@color/colorAccent" />
@@ -19,7 +19,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/iv_feed"
-        android:layout_toRightOf="@id/iv_user"
+        android:layout_toRightOf="@id/iv_user_photo"
         android:text="abcd님이 efg님의 댓글을 좋아합니다: 안녕하세요 ㅎㅎ"
         android:textColor="@color/black" />
 

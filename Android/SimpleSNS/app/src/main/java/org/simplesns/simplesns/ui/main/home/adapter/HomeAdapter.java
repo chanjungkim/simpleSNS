@@ -1,30 +1,22 @@
 package org.simplesns.simplesns.ui.main.home.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import timber.log.Timber;
 
-import android.graphics.Point;
-import android.os.Handler;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SizeReadyCallback;
 
 import org.simplesns.simplesns.BuildConfig;
 import org.simplesns.simplesns.MyApp;
@@ -118,7 +110,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             super(itemView);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
             ivHomeProfilePhoto = itemView.findViewById(R.id.iv_home_profile_photo);
-            ivHomeFeedImg = itemView.findViewById(R.id.iv_home_feed_img);
+            ivHomeFeedImg = itemView.findViewById(R.id.iv_feed_img);
             frameLayout = itemView.findViewById(R.id.frame_imgs);
         }
     }

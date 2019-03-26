@@ -47,7 +47,7 @@
         android:background="@color/white">
 
         <ImageView
-            android:id="@+id/iv_home_feed_img"
+            android:id="@+id/iv_feed_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/light_grey" />

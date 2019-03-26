@@ -74,4 +74,7 @@ public interface RemoteService {
 
     @GET("/feed")
     Call<FeedResult> getFeedItemsFromServer(@Query("username") String username, @Query("lastFeedNum") long lastFeedNum); // 파팅 - Username은 없애고 JWT를 헤더로 보내야함.
+
+    @GET("/search")
+    Call<FeedResult> getRecoomendtemsFromServer(@Query("username") String username, @Query("lastFeedNum") long lastFeedNum); // 파팅 - Username은 없애고 JWT를 헤더로 보내야함.
 }

@@ -29,4 +29,7 @@
     <dimen name="bottom_nav_icon_size">40dp</dimen>
     <dimen name="help_text_size">15sp</dimen>
 
+    <!-- search -->
+    <dimen name="default_grid_gap">3dp</dimen>
+    <dimen name="recommend_category_container_height">110dp</dimen>
 </resources>

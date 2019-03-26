@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
 /**
- * Saves a JPEG {@link Image} into the specified {@link File}.
+ * Saves profile_a JPEG {@link Image} into the specified {@link File}.
  */
 public class ImageSaver implements Runnable {
 
