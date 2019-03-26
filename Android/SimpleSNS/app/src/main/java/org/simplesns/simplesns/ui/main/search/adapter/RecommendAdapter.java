@@ -1,6 +1,8 @@
 package org.simplesns.simplesns.ui.main.search.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,9 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Home
     private Context context;
     private ArrayList<FeedItem> dataArrayList;
     private RecommendFragment fragment;
+
+    public static final String FID = "fid";
+    public static final String USERNAME = "username";
 
     public RecommendAdapter(Context context, RecommendFragment fragment) {
         if (BuildConfig.DEBUG) {
@@ -75,7 +80,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Home
 
         holder.ivFeedImg.setOnClickListener(v -> {
             if (fragment.mFragmentNavigation != null) {
-                fragment.mFragmentNavigation.pushFragment(FeedRecommendFragment.newInstance(fragment.mInt + 1));
+                Bundle bundle = new Bundle();
+                bundle.putLong(FID, dataArrayList.get(i).getFid());
+                bundle.putString(USERNAME, dataArrayList.get(i).getUsername());
+                Timber.d(dataArrayList.toString());
+                FeedRecommendFragment feedRecommendFragment = FeedRecommendFragment.newInstance(fragment.mInt + 1);
+                feedRecommendFragment.setArguments(bundle);
+                fragment.mFragmentNavigation.pushFragment(feedRecommendFragment);
             }
         });
     }

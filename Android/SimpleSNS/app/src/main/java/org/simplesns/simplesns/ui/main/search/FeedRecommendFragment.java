@@ -17,6 +17,7 @@ import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.BaseFragment;
 import org.simplesns.simplesns.ui.main.home.adapter.HomeAdapter;
 import org.simplesns.simplesns.ui.main.search.adapter.FeedAdapter;
+import org.simplesns.simplesns.ui.main.search.adapter.RecommendAdapter;
 import org.simplesns.simplesns.ui.main.search.model.FeedRecommendResult;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class FeedRecommendFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private PullRefreshLayout prlRefresh;
     long lastFeedNum = -1;
-    String thisUsername = "test";
+    String thisUsername = "no username";
 
     public static FeedRecommendFragment newInstance(int instance) {
         Bundle args = new Bundle();
@@ -64,6 +65,11 @@ public class FeedRecommendFragment extends BaseFragment {
         Timber.d("onCreateView");
         View view = inflater.inflate(R.layout.fragment_feed_recommend, container, false);
 
+        lastFeedNum = getArguments().getLong(RecommendAdapter.FID);
+        thisUsername = getArguments().getString(RecommendAdapter.USERNAME);
+
+        Toast.makeText(getActivity(), "lastFeedNum: " + lastFeedNum + ", username: " + thisUsername, Toast.LENGTH_SHORT).show();
+
         // TODO RecyclerView
         recyclerView = view.findViewById(R.id.view_home);
         prlRefresh = view.findViewById(R.id.prl_refresh);
@@ -72,7 +78,7 @@ public class FeedRecommendFragment extends BaseFragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        feedAdapter = new FeedAdapter(getActivity());
+        feedAdapter = new FeedAdapter(getActivity(), this);
         getFeedItems(lastFeedNum);
         prlRefresh.setOnRefreshListener(() -> {
             prlRefresh.postDelayed(() -> {
