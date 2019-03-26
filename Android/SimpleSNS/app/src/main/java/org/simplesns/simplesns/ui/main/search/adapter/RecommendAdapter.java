@@ -16,22 +16,29 @@ import org.simplesns.simplesns.BuildConfig;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.lib.remote.RemoteService;
+import org.simplesns.simplesns.ui.main.BaseFragment;
+import org.simplesns.simplesns.ui.main.search.FeedRecommendFragment;
+import org.simplesns.simplesns.ui.main.search.RecommendFragment;
+import org.simplesns.simplesns.ui.main.search.SearchFragment;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import timber.log.Timber;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.HomeViewHolder> {
     private Context context;
     private ArrayList<FeedItem> dataArrayList;
+    private RecommendFragment fragment;
 
-    public RecommendAdapter(Context context) {
+    public RecommendAdapter(Context context, RecommendFragment fragment) {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
         this.context = context;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -53,7 +60,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Home
                 .fitCenter();
 
         Glide.with(context)
-                .load(RemoteService.BASE_URL+dataArrayList.get(i).getUrl())
+                .load(RemoteService.BASE_URL + dataArrayList.get(i).getUrl())
                 .apply(requestOptions)
                 .centerCrop()
                 .into(holder.ivFeedImg)
@@ -65,6 +72,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Home
 //                    holder.frameLayout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
 //                    holder.frameLayout.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 });
+
+        holder.ivFeedImg.setOnClickListener(v -> {
+            if (fragment.mFragmentNavigation != null) {
+                fragment.mFragmentNavigation.pushFragment(FeedRecommendFragment.newInstance(fragment.mInt + 1));
+            }
+        });
     }
 
     @Override

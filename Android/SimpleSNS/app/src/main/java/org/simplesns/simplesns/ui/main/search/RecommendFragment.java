@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -36,6 +35,7 @@ import org.simplesns.simplesns.ui.main.BaseFragment;
 import org.simplesns.simplesns.ui.main.search.adapter.CategoryAdapter;
 import org.simplesns.simplesns.ui.main.search.adapter.RecommendAdapter;
 import org.simplesns.simplesns.ui.main.search.model.CategoryItem;
+import org.simplesns.simplesns.ui.main.search.model.GridRecommendResult;
 
 import java.util.ArrayList;
 
@@ -80,7 +80,7 @@ public class RecommendFragment extends BaseFragment {
         rvCategory = view.findViewById(R.id.rv_category);
 
         categoryAdapter = new CategoryAdapter(getActivity());
-        recommendAdapter = new RecommendAdapter(getActivity());
+        recommendAdapter = new RecommendAdapter(getActivity(), this);
 
         toolbar.setOnClickListener((v) -> {
             if (mFragmentNavigation != null) {
@@ -135,12 +135,12 @@ public class RecommendFragment extends BaseFragment {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
         // 구현해야할 부분
-        Call<FeedResult> call = remoteService.getRecoomendtemsFromServer(GlobalUser.getInstance().getMyId(), lastFeedNum);
+        Call<GridRecommendResult> call = remoteService.getRecommendItemsFromServer(GlobalUser.getInstance().getMyId(), lastFeedNum);
 
-        call.enqueue(new Callback<FeedResult>() {
+        call.enqueue(new Callback<GridRecommendResult>() {
             @Override
-            public void onResponse(Call<FeedResult> call, Response<FeedResult> response) {
-                FeedResult result = response.body();
+            public void onResponse(Call<GridRecommendResult> call, Response<GridRecommendResult> response) {
+                GridRecommendResult result = response.body();
 
                 switch (result.code) {
                     case 200:
@@ -157,7 +157,7 @@ public class RecommendFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<FeedResult> call, Throwable t) {
+            public void onFailure(Call<GridRecommendResult> call, Throwable t) {
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }

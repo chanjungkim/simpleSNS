@@ -7,6 +7,8 @@ import org.simplesns.simplesns.ui.main.camera.model.ImagePostResult;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
+import org.simplesns.simplesns.ui.main.search.model.FeedRecommendResult;
+import org.simplesns.simplesns.ui.main.search.model.GridRecommendResult;
 import org.simplesns.simplesns.ui.sign.model.BasicResult;
 import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.sign.model.SignUpData;
@@ -32,6 +34,7 @@ public interface RemoteService {
     // ★★★ push 시에 주의할 것
     String BASE_URL = "http://13.124.241.89:3000";
 
+    // User
     @POST("/member")
     Call<SignUpResult> insertMember(@Body SignUpData signUpData);
 
@@ -50,6 +53,7 @@ public interface RemoteService {
     @POST("/email/verify")
     Call<BasicResult> verifyEmailAndCode(@Field("email") String email, @Field("code") String code);
 
+    // Profile
     @GET("/profile/{username}")
     Call<ProfileResult> getUserProfile(@Path("username") String username); // path != param
 
@@ -68,13 +72,19 @@ public interface RemoteService {
     @GET("/member")
     Call<String> getMyId(@Body MemberItem memberItem);
 
+    // Camera
     @Multipart
     @POST ("/image")
     Call<ImagePostResult> uploadFeedImage (@Part MultipartBody.Part file);
 
+    // Feed
     @GET("/feed")
     Call<FeedResult> getFeedItemsFromServer(@Query("username") String username, @Query("lastFeedNum") long lastFeedNum); // 파팅 - Username은 없애고 JWT를 헤더로 보내야함.
 
+    // Search
     @GET("/search")
-    Call<FeedResult> getRecoomendtemsFromServer(@Query("username") String username, @Query("lastFeedNum") long lastFeedNum); // 파팅 - Username은 없애고 JWT를 헤더로 보내야함.
+    Call<GridRecommendResult> getRecommendItemsFromServer(@Query("username") String username, @Query("lastFeedNum") long lastFeedNum); // 파팅 - Username은 없애고 JWT를 헤더로 보내야함.
+
+    @GET("/search/feed")
+    Call<FeedRecommendResult> getFeedRecommendItems(@Query("fid") long fid, @Query("username") String username);
 }
