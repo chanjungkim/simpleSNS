@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <include
         android:id="@+id/tb_recommend"
         layout="@layout/toolbar_recommend" />
 
-    <ListView
-        android:id="@+id/lv_category"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_category"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="@dimen/recommend_category_container_height"
         android:layout_below="@id/tb_recommend"
         android:orientation="horizontal"
-        tools:listitem="@layout/item_search_category"></ListView>
+        tools:listitem="@layout/item_recommend_category" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/prl_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/lv_category">
+        android:layout_below="@id/rv_category">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recommend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_recommend">
 
         </androidx.recyclerview.widget.RecyclerView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.baoyz.widget.PullRefreshLayout>
 </RelativeLayout>

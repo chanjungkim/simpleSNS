@@ -1,11 +1,6 @@
-package org.simplesns.simplesns.item;
+package org.simplesns.simplesns.ui.main.search.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
-public class FeedItem {
+public class FeedRecommendItem {
 //    private FeedCommentItem comments;
 //    private int comment_count;
 //    private FeedDescriptionItem caption;

@@ -1,6 +1,26 @@
-package org.simplesns.simplesns.ui.main.home;
+package org.simplesns.simplesns.ui.main.search;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.baoyz.widget.PullRefreshLayout;
+
+import org.simplesns.simplesns.GlobalUser;
+import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.item.FeedItem;
+import org.simplesns.simplesns.item.FeedResult;
+import org.simplesns.simplesns.lib.remote.RemoteService;
+import org.simplesns.simplesns.lib.remote.ServiceGenerator;
+import org.simplesns.simplesns.ui.main.BaseFragment;
+import org.simplesns.simplesns.ui.main.home.adapter.HomeAdapter;
+import org.simplesns.simplesns.ui.main.search.adapter.FeedAdapter;
+import org.simplesns.simplesns.ui.main.search.adapter.RecommendAdapter;
+import org.simplesns.simplesns.ui.main.search.model.FeedRecommendResult;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,43 +31,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.baoyz.widget.PullRefreshLayout;
-
-import org.simplesns.simplesns.GlobalUser;
-import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.item.FeedImageItem;
-import org.simplesns.simplesns.item.FeedItem;
-import org.simplesns.simplesns.item.FeedResult;
-import org.simplesns.simplesns.item.MemberItem;
-import org.simplesns.simplesns.lib.remote.RemoteService;
-import org.simplesns.simplesns.lib.remote.ServiceGenerator;
-import org.simplesns.simplesns.ui.main.BaseFragment;
-import org.simplesns.simplesns.ui.main.home.adapter.HomeAdapter;
-
-import java.util.ArrayList;
-
 /**
  * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6155
  */
-public class HomeFragment extends BaseFragment {
+public class FeedRecommendFragment extends BaseFragment {
     private static String TAG = "HomeFragment";
 
     private LinearLayoutManager layoutManager;
-    private HomeAdapter homeAdapter;
+    private FeedAdapter feedAdapter;
     private RecyclerView recyclerView;
     private PullRefreshLayout prlRefresh;
     long lastFeedNum = -1;
+    String thisUsername = "no username";
 
-    public static HomeFragment newInstance(int instance) {
+    public static FeedRecommendFragment newInstance(int instance) {
         Bundle args = new Bundle();
         args.putInt(ARGS_INSTANCE, instance);
-        HomeFragment fragment = new HomeFragment();
+        FeedRecommendFragment fragment = new FeedRecommendFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,7 +63,12 @@ public class HomeFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         Timber.d("onCreateView");
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_feed_recommend, container, false);
+
+        lastFeedNum = getArguments().getLong(RecommendAdapter.FID);
+        thisUsername = getArguments().getString(RecommendAdapter.USERNAME);
+
+        Toast.makeText(getActivity(), "lastFeedNum: " + lastFeedNum + ", username: " + thisUsername, Toast.LENGTH_SHORT).show();
 
         // TODO RecyclerView
         recyclerView = view.findViewById(R.id.view_home);
@@ -73,11 +78,11 @@ public class HomeFragment extends BaseFragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        homeAdapter = new HomeAdapter(getActivity());
+        feedAdapter = new FeedAdapter(getActivity(), this);
         getFeedItems(lastFeedNum);
         prlRefresh.setOnRefreshListener(() -> {
             prlRefresh.postDelayed(() -> {
-                homeAdapter.removeList();
+                feedAdapter.removeList();
                 getFeedItems(lastFeedNum);
                 prlRefresh.setRefreshing(false);
             }, 1000);
@@ -98,19 +103,19 @@ public class HomeFragment extends BaseFragment {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
         // 구현해야할 부분
-        Call<FeedResult> call = remoteService.getFeedItemsFromServer(GlobalUser.getInstance().getMyId(), lastFeedNum);
+        Call<FeedRecommendResult> call = remoteService.getFeedRecommendItems(lastFeedNum, thisUsername);
 
-        call.enqueue(new Callback<FeedResult>() {
+        call.enqueue(new Callback<FeedRecommendResult>() {
             @Override
-            public void onResponse(Call<FeedResult> call, Response<FeedResult> response) {
-                FeedResult result = response.body();
+            public void onResponse(Call<FeedRecommendResult> call, Response<FeedRecommendResult> response) {
+                FeedRecommendResult result = response.body();
 
                 switch (result.code) {
                     case 200:
                         Timber.d(result.message);
                         ArrayList<FeedItem> feedList = result.data;
-                        recyclerView.setAdapter(homeAdapter);
-                        homeAdapter.setItemList(feedList);
+                        recyclerView.setAdapter(feedAdapter);
+                        feedAdapter.setItemList(feedList);
                         break;
                     default:
                         Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
@@ -119,7 +124,7 @@ public class HomeFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<FeedResult> call, Throwable t) {
+            public void onFailure(Call<FeedRecommendResult> call, Throwable t) {
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }

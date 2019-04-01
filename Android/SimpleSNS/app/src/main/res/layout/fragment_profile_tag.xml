@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/c"/>
+        android:src="@drawable/profile_c"/>
 
     <!--<android.support.v7.widget.RecyclerView-->
     <!--android:id="@+id/recyclerView1"-->

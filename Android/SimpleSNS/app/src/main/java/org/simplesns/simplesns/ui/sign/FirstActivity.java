@@ -124,7 +124,7 @@ public class FirstActivity extends AppCompatActivity {
     /**
      * Username format validation for instagram, instagram.
      * <p>
-     * Only 'a-Z', '0-9', '_' are allowed.
+     * Only 'profile_a-Z', '0-9', '_' are allowed.
      *
      * @param username
      * @return
@@ -139,10 +139,10 @@ public class FirstActivity extends AppCompatActivity {
      * Password format validation.
      * <p>
      * ^                 # start-of-string
-     * (?=.*[0-9])       # a digit must occur at least once
-     * (?=.*[a-z])       # a lower case letter must occur at least once
+     * (?=.*[0-9])       # profile_a digit must occur at least once
+     * (?=.*[profile_a-z])       # profile_a lower case letter must occur at least once
      * (?=.*[A-Z])       # an upper case letter must occur at least once
-     * (?=.*[@#$%^&+=])  # a special character must occur at least once
+     * (?=.*[@#$%^&+=])  # profile_a special character must occur at least once
      * (?=\S+$)          # no whitespace allowed in the entire string
      * .{8,}             # anything, at least eight places though
      * $                 # end-of-string
@@ -168,7 +168,7 @@ public class FirstActivity extends AppCompatActivity {
 
         // Check email Regex
         if (!validEmail(email)) {
-            Toast.makeText(FirstActivity.this, "This is not a correct email format.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FirstActivity.this, "This is not profile_a correct email format.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -239,7 +239,7 @@ public class FirstActivity extends AppCompatActivity {
 
         Button btnContinue = findViewById(R.id.btn_continue);
 
-        tvInfo.setText(Html.fromHtml("Your contacts will be periodically synced and stored on instagram servers to help you and others find friends, and to help us provide a better service. To remove contacts, go to Settings and disconnect. <a href=''>Learn More</a>"));
+        tvInfo.setText(Html.fromHtml("Your contacts will be periodically synced and stored on instagram servers to help you and others find friends, and to help us provide profile_a better service. To remove contacts, go to Settings and disconnect. <profile_a href=''>Learn More</profile_a>"));
 
         // If the user ever input username or password before, keep them again.
         if (username != null) {
@@ -275,7 +275,7 @@ public class FirstActivity extends AppCompatActivity {
 
             // Check email Regex
             if (!validUsername(username)) {
-                Toast.makeText(FirstActivity.this, "You can only use a-z, 0-9, _ for username.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FirstActivity.this, "You can only use profile_a-z, 0-9, _ for username.", Toast.LENGTH_SHORT).show();
                 return;
             }
 

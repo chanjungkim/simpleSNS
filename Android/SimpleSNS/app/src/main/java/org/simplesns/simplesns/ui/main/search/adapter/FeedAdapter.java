@@ -1,11 +1,7 @@
-package org.simplesns.simplesns.ui.main.home.adapter;
+package org.simplesns.simplesns.ui.main.search.adapter;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import timber.log.Timber;
-
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,20 +20,31 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.FeedItem;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.ui.main.MainActivity;
+import org.simplesns.simplesns.ui.main.profile.ProfileFragment;
+import org.simplesns.simplesns.ui.main.search.FeedProfileFragment;
+import org.simplesns.simplesns.ui.main.search.FeedRecommendFragment;
 
 import java.util.ArrayList;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
-    private static final String TAG = HomeAdapter.class.getSimpleName();
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import timber.log.Timber;
+
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.HomeViewHolder> {
+    private static final String TAG = FeedAdapter.class.getSimpleName();
 
     private Context context;
     private ArrayList<FeedItem> dataArrayList;
+    private FeedRecommendFragment fragment;
 
-    public HomeAdapter(Context context) {
+    public static final String USERNAME = "username";
+
+    public FeedAdapter(Context context, FeedRecommendFragment fragment) {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
         this.context = context;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -66,12 +73,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 .fitCenter();
 
         Glide.with(context)
-                .load(RemoteService.BASE_URL+dataArrayList.get(i).getPhoto_url())
+                .load(RemoteService.BASE_URL + dataArrayList.get(i).getPhoto_url())
                 .apply(requestOptions)
                 .into(holder.ivHomeProfilePhoto);
 
         Glide.with(context)
-                .load(RemoteService.BASE_URL+dataArrayList.get(i).getUrl())
+                .load(RemoteService.BASE_URL + dataArrayList.get(i).getUrl())
                 .apply(requestOptions)
                 .into(holder.ivHomeFeedImg)
                 .getSize((width, height) -> {
@@ -92,6 +99,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 //                        holder.ivHomeFeedImg.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
 //                    }
                 });
+
+        holder.tvUserName.setOnClickListener((v) -> {
+            if (fragment.mFragmentNavigation != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString(USERNAME, dataArrayList.get(i).getUsername());
+                FeedProfileFragment feedProfileFragment = FeedProfileFragment.newInstance(fragment.mInt + 1);
+                feedProfileFragment.setArguments(bundle);
+                fragment.mFragmentNavigation.pushFragment(feedProfileFragment);
+            }
+        });
     }
 
     @Override

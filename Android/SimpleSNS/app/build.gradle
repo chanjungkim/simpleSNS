@@ -73,4 +73,10 @@ dependencies {
 
     // Timber, https://github.com/JakeWharton/timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Rebound, https://github.com/facebook/rebound
+    implementation 'com.facebook.rebound:rebound:0.3.8'
+
+    // https://github.com/Arasthel/SpannedGridLayoutManager
+    implementation 'com.arasthel:spannedgridlayoutmanager:3.0.2'
 }
