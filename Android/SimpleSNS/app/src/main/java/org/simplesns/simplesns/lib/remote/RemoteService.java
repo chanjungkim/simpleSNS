@@ -8,6 +8,7 @@ import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 import org.simplesns.simplesns.ui.main.search.model.FeedRecommendResult;
+import org.simplesns.simplesns.ui.main.search.model.FollowResult;
 import org.simplesns.simplesns.ui.main.search.model.GridRecommendResult;
 import org.simplesns.simplesns.ui.sign.model.BasicResult;
 import org.simplesns.simplesns.ui.sign.model.LoginResult;
@@ -87,4 +88,8 @@ public interface RemoteService {
 
     @GET("/search/feed")
     Call<FeedRecommendResult> getFeedRecommendItems(@Query("fid") long fid, @Query("username") String username);
+
+    // 미구현
+    @GET("/follow")
+    Call<FollowResult> insertFollow(@Query("my_username") String myUsername, @Query("his_username") String hisUsername);
 }

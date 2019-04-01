@@ -17,17 +17,23 @@ import com.baoyz.widget.PullRefreshLayout;
 
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
+import org.simplesns.simplesns.lib.remote.RemoteService;
+import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.BaseFragment;
 import org.simplesns.simplesns.ui.main.profile.ProfileChangeActivity;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileBadukFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileLineFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileTagFragment;
 import org.simplesns.simplesns.ui.main.search.adapter.FeedAdapter;
+import org.simplesns.simplesns.ui.main.search.model.FollowResult;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -38,7 +44,7 @@ public class FeedProfileFragment extends BaseFragment {
     private static final String TAG = FeedProfileFragment.class.getSimpleName();
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    TextView tvProfileChange;             // 프로필 내용 수정 관련
+    TextView tvFollowButton;             // 프로필 내용 수정 관련
     ImageView ivProfilePhoto;             // 프로필 이미지 수정 관련
     ImageView ivGrid;
     ImageView ivList;
@@ -78,7 +84,7 @@ public class FeedProfileFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_feed_profile, container, false);
 
-        tvProfileChange = view.findViewById(R.id.tv_profile_change);
+        tvFollowButton = view.findViewById(R.id.tv_follow_button);
         ivGrid = view.findViewById(R.id.iv_grid);
         ivList = view.findViewById(R.id.iv_list);
         ivTag = view.findViewById(R.id.iv_tag);
@@ -136,13 +142,29 @@ public class FeedProfileFragment extends BaseFragment {
             dispatchTakePictureIntent();
         });
 
-        tvProfileChange.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), ProfileChangeActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            v.getContext().startActivity(intent);
+        tvFollowButton.setOnClickListener(v -> {
+            follow(GlobalUser.getInstance().getMyId(), thisUsername);
         });
 
         return view;
+    }
+
+    public void follow(String myUsername, String hisUsername){
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        Call<FollowResult> call = remoteService.insertFollow(myUsername, hisUsername);
+
+        call.enqueue(new Callback<FollowResult>() {
+            @Override
+            public void onResponse(Call<FollowResult> call, Response<FollowResult> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<FollowResult> call, Throwable throwable) {
+
+            }
+        });
     }
 
     @Override
