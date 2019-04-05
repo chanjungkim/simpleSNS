@@ -33,7 +33,7 @@ public interface RemoteService {
     String TAG = RemoteService.class.getSimpleName();
 
     // ★★★ push 시에 주의할 것
-    String BASE_URL = "http://13.124.241.89:3000";
+    String BASE_URL = "http://ec2-13-124-229-143.ap-northeast-2.compute.amazonaws.com:3000";
 
     // User
     @POST("/member")

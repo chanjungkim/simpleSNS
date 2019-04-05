@@ -9,7 +9,8 @@ public class MemberItem {
     private String introduction;
     private String full_name;
     private String password;
-    private String profilePicture;
+//    private String profilePicture;       //csy
+    private String photo_url;              //csy
     private String bio;
     private int feed_count;
     private int follows;
@@ -30,17 +31,17 @@ public class MemberItem {
      * @param email
      * @param username
      * @param full_name
-     * @param profilePicture
+     * @param photo_url
      * @param bio
      * @param feed_count
      * @param follows
      * @param followed_by
      */
-    public MemberItem(String email, String username, String full_name, String profilePicture, String bio, int feed_count, int follows, int followed_by) {
+    public MemberItem(String email, String username, String full_name, String photo_url, String bio, int feed_count, int follows, int followed_by) {
         this.email = email;
         this.username = username;
         this.full_name = full_name;
-        this.profilePicture = profilePicture;
+        this.photo_url = photo_url;
         this.bio = bio;
         this.feed_count = feed_count;
         this.follows = follows;
@@ -75,12 +76,12 @@ public class MemberItem {
         this.full_name = full_name;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
+    public String getPhoto_url() {
+        return photo_url;
     }
 
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 
     public String getBio() {
@@ -123,7 +124,7 @@ public class MemberItem {
                 ", introduction='" + introduction + '\'' +
                 ", full_name='" + full_name + '\'' +
                 ", password='" + password + '\'' +
-                ", profilePicture='" + profilePicture + '\'' +
+                ", photo_url='" + photo_url + '\'' +
                 ", bio='" + bio + '\'' +
                 ", feed_count=" + feed_count +
                 ", follows=" + follows +

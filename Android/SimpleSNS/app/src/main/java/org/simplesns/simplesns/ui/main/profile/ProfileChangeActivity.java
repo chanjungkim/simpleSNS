@@ -17,6 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.ChangeProfileItem;
@@ -71,16 +75,17 @@ public class ProfileChangeActivity extends AppCompatActivity {
         ivProfilePhoto = findViewById(R.id.civ_profile_photo);
         llProfilePhotoChange = findViewById(R.id.ll_profile_photo_change);
         llProfilePhotoChange.setOnClickListener(v -> {
-            // TODO : 프로필 이미지 바꾸는 코드 작성하기
-            Toast.makeText(this, "이미지 바꾸기", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, 1);
+
         });
 
-//        etName = findViewById(R.id.et_name);
         etUsername = findViewById(R.id.et_username);
         etIntroduction = findViewById(R.id.et_introduction);
         etEmail = findViewById(R.id.et_email);
-//        etPhone = findViewById(R.id.et_phone);
-//        etUsername.setText(GlobalUser.getInstance().getMyId());
 
         TextView tvLogout = findViewById(R.id.tv_logout);
 
@@ -88,10 +93,10 @@ public class ProfileChangeActivity extends AppCompatActivity {
             GlobalUser.getInstance().logOut(this, FirstActivity.class);
         });
 
-        LinearLayout rlProfilePhotoContainer = findViewById(R.id.ll_profile_photo_change);
-        rlProfilePhotoContainer.setOnClickListener(v -> {
-            dispatchTakePictureIntent();
-        });
+//        LinearLayout rlProfilePhotoContainer = findViewById(R.id.ll_profile_photo_change);
+//        rlProfilePhotoContainer.setOnClickListener(v -> {
+//            dispatchTakePictureIntent();
+//        });
 
         etUsername.addTextChangedListener(new TextWatcher() {
             @Override
@@ -142,13 +147,18 @@ public class ProfileChangeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ProfileResult> call, Response<ProfileResult> response) {
                     ProfileResult profileResult = response.body();
-                    Log.d(TAG, profileResult.toString());
 
                     switch (profileResult.code) {
                         case 200:
                             MemberItem memberItem = profileResult.data;
                             etUsername.setText(memberItem.getUsername());
                             etEmail.setText(memberItem.getEmail());
+
+                            String profilePhotoUrl = "http://ec2-13-124-229-143.ap-northeast-2.compute.amazonaws.com:3000" + memberItem.getPhoto_url();
+                            Glide.with(getApplicationContext())
+                                    .load(profilePhotoUrl)
+                                    .into(ivProfilePhoto);
+
                             if (memberItem.getIntroduction() != null) {
                                 etIntroduction.setText(memberItem.getIntroduction() + "");
                             }
