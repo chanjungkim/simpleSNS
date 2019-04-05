@@ -33,10 +33,11 @@ app.use(ignoreFavicon);
 app.use('/', require("./routes/index"));
 app.use('/member', require("./routes/member"));
 app.use('/email', require("./routes/email"));
-//app.use('/google', require("./routes/google"));
-//app.use('/facebook', require("./routes/facebook"));
+app.use('/google', require("./routes/google"));
+app.use('/facebook', require("./routes/facebook"));
+app.use('/feed', require("./routes/feed"));
 app.use('/profile', require("./routes/profile"));
-app.use('/image', require("./routes/image"));
+app.use('/search', require("./routes/search"));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
