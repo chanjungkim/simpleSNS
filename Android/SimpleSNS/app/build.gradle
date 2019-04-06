@@ -79,4 +79,6 @@ dependencies {
 
     // https://github.com/Arasthel/SpannedGridLayoutManager
     implementation 'com.arasthel:spannedgridlayoutmanager:3.0.2'
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
 }

@@ -2,30 +2,27 @@ package org.simplesns.simplesns.ui.main.profile;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.simplesns.simplesns.BuildConfig;
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.ChangeProfileItem;
@@ -38,14 +35,20 @@ import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 import org.simplesns.simplesns.ui.sign.FirstActivity;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Logger;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 /*
 폴더를 어떻게 구성하는건지 몰라서 일단 밖으로 빼놓고 구현했습니다.
@@ -59,6 +62,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView btnClose;
     ImageView btnSave;
+    private static final int REQUEST_PICK_PHOTO = 2;
 
     CircleImageView ivProfilePhoto;
     LinearLayout llProfilePhotoChange;
@@ -69,9 +73,15 @@ public class ProfileChangeActivity extends AppCompatActivity {
     //    EditText etPhone;
     String newUsername;
     String newIntroduction;
-
-
     boolean isUsernameOK;
+
+    private String postPath;
+    private String mediaPath;
+    private static final int CAMERA_PIC_REQUEST = 1111;
+    public static final String IMAGE_DIRECTORY_NAME = "Android File Upload";
+    private String mImageFileLocation = "";
+    private Uri fileUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,15 +99,36 @@ public class ProfileChangeActivity extends AppCompatActivity {
         llProfilePhotoChange = findViewById(R.id.ll_profile_photo_change);
         llProfilePhotoChange.setOnClickListener(v -> {
 
-//            Intent intent = new Intent();
-//            intent.setType("image/*");
-//            intent.setAction(Intent.ACTION_GET_CONTENT);
-//            startActivityForResult(intent, 1);
+            new MaterialDialog.Builder(this)
+                    .title(R.string.uploadImages)
+                    .items(R.array.uploadImages)
+                    .itemsIds(R.array.itemIds)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                            switch (which) {
+                                case 0:
+                                    Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    startActivityForResult(galleryIntent, REQUEST_IMAGE_CAPTURE);
+                                    break;
+                                case 1:
+                                    captureImage();
 
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-            intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                                    break;
+                                case 2:
+                                    ivProfilePhoto.setImageResource(R.drawable.ic_profile_samplephoto);
+                                    break;
+                            }
+                        }
+                    })
+                    .show();
+
+
+//            Intent intent = new Intent(Intent.ACTION_PICK);
+//            intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+//            intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
         });
 
@@ -244,12 +275,14 @@ public class ProfileChangeActivity extends AppCompatActivity {
         ChangeProfileItem changeProfileItem = new ChangeProfileItem(username, newUsername, introduction, photo_url);
         Call<ProfileChangeResult> call = remoteService.setUserProfile(changeProfileItem);
 
+        String aaa = photo_url;
+        Log.d("DDDDD", username);
+
         try {
             call.enqueue(new Callback<ProfileChangeResult>() {
                 @Override
                 public void onResponse(Call<ProfileChangeResult> call, Response<ProfileChangeResult> response) {
                     ProfileChangeResult profileChangeResult = response.body();
-                    Log.d(TAG, profileChangeResult.toString());
 
                     switch (profileChangeResult.code) {
                         case 200:
@@ -283,130 +316,148 @@ public class ProfileChangeActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        Log.d("AAAAA", String.valueOf(resultCode));
+        Log.d("AAAAA", String.valueOf(RESULT_OK));
+        Log.d("AAAAA", String.valueOf(requestCode));
+        Log.d("AAAAA", String.valueOf(REQUEST_IMAGE_CAPTURE));
+
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+                // Get the Image from data
+            Log.d("AAAAA", "xhdrhk");
+
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                assert cursor != null;
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                mediaPath = cursor.getString(columnIndex);
+                // Set the Image in ImageView for Previewing the Media
+                ivProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(mediaPath));
+                cursor.close();
+
+
+                Log.d("AAAAA", mediaPath);
+
+
+                postPath = mediaPath;   ///storage/emulated/0/DCIM/Camera/20190317_110012.jpg
+
+        } else if (requestCode == CAMERA_PIC_REQUEST) {
+            if (Build.VERSION.SDK_INT > 21) {
+
+                Glide.with(this).load(mImageFileLocation).into(ivProfilePhoto);
+                postPath = mImageFileLocation;
+
+            } else {
+                Glide.with(this).load(fileUri).into(ivProfilePhoto);
+                postPath = fileUri.getPath();
+
+            }
+        } else if (resultCode != RESULT_CANCELED) {
+            Toast.makeText(this, "Sorry, there was an error!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void captureImage() {
+        if (Build.VERSION.SDK_INT > 21) { //use this if Lollipop_Mr1 (API 22) or above
+            Intent callCameraApplicationIntent = new Intent();
+            callCameraApplicationIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            // We give some instruction to the intent to save the image
+            File photoFile = null;
+
             try {
-
-                //Uri에서 이미지 이름을 얻어온다.
-                String name_Str = getImageNameToUri(data.getData());
-
-                Log.d("AAAAA", name_Str);  // 20190317_110012.jpg
-
-                Uri selPhotoUri = data.getData();
-
-                Log.d("AAAAA", String.valueOf(selPhotoUri)); //  content://media/external/images/media/18606
-
-                //절대경로 획득**
-                Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()),
-                        null, null, null, null);
-
-                Log.d("AAAAA", String.valueOf(c));  //  android.content.ContentResolver$CursorWrapperInner@dbbd835
-
-                c.moveToNext();
-                String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-
-                Log.d("AAAAA", absolutePath); //   /storage/emulated/0/DCIM/Camera/20190317_110012.jpg
-
-                //이미지 데이터를 비트맵으로 받아옴
-                Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-
-                Log.d("AAAAA", String.valueOf(image_bitmap));  //   android.graphics.Bitmap@2d964ca
-
-                ///리사이징
-                int height = image_bitmap.getHeight();   //  2448
-                int width = image_bitmap.getWidth();   // 3264
-
-                Log.d("AAAAA", String.valueOf(height));
-                Log.d("AAAAA", String.valueOf(width));
-
-                Bitmap src = BitmapFactory.decodeFile(absolutePath);
-
-                Log.d("AAAAA", String.valueOf(src));  //  android.graphics.Bitmap@e6b8f3d
-
-
-                Bitmap resized = Bitmap.createScaledBitmap( src, width/4, height/4, true );
-
-                saveBitmaptoJpeg(resized, "seatdot", name_Str);
-
-                //배치해놓은 ImageView에 set
-                ivProfilePhoto.setImageBitmap(resized);
-                ivProfilePhoto.setTag("exist");
-
-
-
-
-
-            }catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                // If the createImageFile will be successful, the photo file will have the address of the file
+                photoFile = createImageFile();
+                // Here we call the function that will try to catch the exception made by the throw function
             } catch (IOException e) {
-                // TODO Auto-generated catch block
+                Logger.getAnonymousLogger().info("Exception error in generating the file");
                 e.printStackTrace();
-            } catch (Exception e)
-            {
-                e.printStackTrace();
+            }
+            // Here we add an extra file to the intent to put the address on to. For this purpose we use the FileProvider, declared in the AndroidManifest.
+            Uri outputUri = FileProvider.getUriForFile(
+                    this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    photoFile);
+            callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+
+            // The following is a new line with a trying attempt
+            callCameraApplicationIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Logger.getAnonymousLogger().info("Calling the camera App by intent");
+
+            // The following strings calls the camera app and wait for his file in return.
+            startActivityForResult(callCameraApplicationIntent, CAMERA_PIC_REQUEST);
+        } else {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+            // start the image capture Intent
+            startActivityForResult(intent, CAMERA_PIC_REQUEST);
+        }
+    }
+
+    File createImageFile() throws IOException {
+        Logger.getAnonymousLogger().info("Generating the image - method started");
+
+        // Here we create a "non-collision file name", alternatively said, "an unique filename" using the "timeStamp" functionality
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
+        String imageFileName = "IMAGE_" + timeStamp;
+        // Here we specify the environment location and the exact path where we want to save the so-created file
+        File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/photo_saving_app");
+        Logger.getAnonymousLogger().info("Storage directory set");
+
+        // Then we create the storage directory if does not exists
+        if (!storageDirectory.exists()) storageDirectory.mkdir();
+
+        // Here we create the file using a prefix, a suffix and a directory
+        File image = new File(storageDirectory, imageFileName + ".jpg");
+        // File image = File.createTempFile(imageFileName, ".jpg", storageDirectory);
+
+        // Here the location is saved into the string mImageFileLocation
+        Logger.getAnonymousLogger().info("File name and path set");
+
+        mImageFileLocation = image.getAbsolutePath();
+        // fileUri = Uri.parse(mImageFileLocation);
+        // The file is returned to the previous intent across the camera application
+        return image;
+    }
+
+    public Uri getOutputMediaFileUri(int type) {
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    private static File getOutputMediaFile(int type) {
+
+        // External sdcard location
+        File mediaStorageDir = new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                IMAGE_DIRECTORY_NAME);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
             }
         }
 
-
-//        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            ivProfilePhoto.setImageBitmap(imageBitmap);
-
-//        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-//            Uri uri = data.getData();
-//
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-//                 Log.d("CCCCC", String.valueOf(uri));
-//
-//                ivProfilePhoto.setImageBitmap(bitmap);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-    }
-
-    /////   Uri 에서 파일명을 추출하는 로직
-    public String getImageNameToUri(Uri data)
-    {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(data, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-        cursor.moveToFirst();
-
-        String imgPath = cursor.getString(column_index);
-        String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-
-        return imgName;
-    }
-
-    //비트맵을 jpg로
-    public static void saveBitmaptoJpeg(Bitmap bitmap,String folder, String name){
-        String ex_storage = Environment.getExternalStorageDirectory().getAbsolutePath();
-        // Get Absolute Path in External Sdcard
-        String foler_name = "/"+folder+"/";
-        String file_name = name+".jpg";
-        String string_path = ex_storage+foler_name;
-        String UploadImgPath = string_path+file_name;
-
-
-        File file_path;
-        try{
-            file_path = new File(string_path);
-            if(!file_path.isDirectory()){
-                file_path.mkdirs();
-            }
-            FileOutputStream out = new FileOutputStream(string_path+file_name);
-
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.close();
-
-        }catch(FileNotFoundException exception){
-            Log.e("FileNotFoundException", exception.getMessage());
-        }catch(IOException exception){
-            Log.e("IOException", exception.getMessage());
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                    + "IMG_" + ".jpg");
+        }  else {
+            return null;
         }
+
+        return mediaFile;
     }
 }
