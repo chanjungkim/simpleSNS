@@ -29,6 +29,7 @@ import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.ChangeProfileItem;
 import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.lib.remote.RemoteService;
+import org.simplesns.simplesns.lib.remote.ServerResponse;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
@@ -116,6 +117,9 @@ public class ProfileChangeActivity extends AppCompatActivity {
                                     Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                     startActivityForResult(galleryIntent, REQUEST_IMAGE_CAPTURE);
+
+                                    uploadFile();
+
                                     break;
                                 case 1:
                                     captureImage();
@@ -456,4 +460,52 @@ public class ProfileChangeActivity extends AppCompatActivity {
     protected void showpDialog() {
         if (!pDialog.isShowing()) pDialog.show();
         }
+
+    protected void hidepDialog() {
+        if (pDialog.isShowing()) pDialog.dismiss();
+    }
+
+    // Uploading Image/Video
+    private void uploadFile() {
+        if (postPath == null || postPath.equals("")) {
+            Toast.makeText(this, "please select an image ", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            showpDialog();
+
+            // Map is used to multipart the file using okhttp3.RequestBody
+            Map<String, RequestBody> map = new HashMap<>();
+            File file = new File(postPath);
+
+            // Parsing any Media type file
+            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+            map.put("file\"; filename=\"" + file.getName() + "\"", requestBody);
+
+            RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+            Call<ServerResponse> call = remoteService.upload("token", map);
+            call.enqueue(new Callback<ServerResponse>() {
+                @Override
+                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                    if (response.isSuccessful()){
+                        if (response.body() != null){
+                            hidepDialog();
+                            ServerResponse serverResponse = response.body();
+                            Toast.makeText(getApplicationContext(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }else {
+                        hidepDialog();
+                        Toast.makeText(getApplicationContext(), "problem uploading image", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ServerResponse> call, Throwable t) {
+                    hidepDialog();
+                    Log.v("Response gotten is", t.getMessage());
+                }
+            });
+        }
+    }
 }
