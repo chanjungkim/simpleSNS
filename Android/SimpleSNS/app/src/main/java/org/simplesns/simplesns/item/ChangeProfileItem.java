@@ -4,14 +4,16 @@ public class ChangeProfileItem {
     private String username;
     private String newUsername;
     private String introduction;
+    private String photo_url;
 
     public ChangeProfileItem() {
 
     }
-    public ChangeProfileItem(String username, String newUsername, String introduction) {
+    public ChangeProfileItem(String username, String newUsername, String introduction, String photo_url) {
         this.username = username;
         this.newUsername = newUsername;
         this.introduction = introduction;
+        this.photo_url = photo_url;
     }
 
     public String getUsername() {
@@ -38,12 +40,21 @@ public class ChangeProfileItem {
         this.introduction = introduction;
     }
 
+    public String getPhoto_url() {
+        return photo_url;
+    }
+
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
+    }
+
     @Override
     public String toString() {
         return "ChangeProfileItem{" +
                 "username='" + username + '\'' +
                 ", newUsername='" + newUsername + '\'' +
                 ", introduction='" + introduction + '\'' +
+                ", photo_url='" + photo_url + '\'' +
                 '}';
     }
 }

@@ -1,10 +1,15 @@
 package org.simplesns.simplesns.ui.main.profile;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,6 +37,11 @@ import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 import org.simplesns.simplesns.ui.sign.FirstActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +59,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView btnClose;
     ImageView btnSave;
+
     CircleImageView ivProfilePhoto;
     LinearLayout llProfilePhotoChange;
     //    EditText etName;
@@ -59,12 +70,14 @@ public class ProfileChangeActivity extends AppCompatActivity {
     String newUsername;
     String newIntroduction;
 
+
     boolean isUsernameOK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
+
         isUsernameOK = true;
         getUserProfileFromServer(GlobalUser.getInstance().getMyId());
 
@@ -76,10 +89,15 @@ public class ProfileChangeActivity extends AppCompatActivity {
         llProfilePhotoChange = findViewById(R.id.ll_profile_photo_change);
         llProfilePhotoChange.setOnClickListener(v -> {
 
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent, 1);
+//            Intent intent = new Intent();
+//            intent.setType("image/*");
+//            intent.setAction(Intent.ACTION_GET_CONTENT);
+//            startActivityForResult(intent, 1);
+
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+            intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
         });
 
@@ -126,7 +144,8 @@ public class ProfileChangeActivity extends AppCompatActivity {
             if (isUsernameOK) {
                 newUsername = etUsername.getText().toString();
                 newIntroduction = etIntroduction.getText().toString();
-                setUserProfileFromServer(GlobalUser.getInstance().getMyId(), newUsername, newIntroduction);
+
+                setUserProfileFromServer(GlobalUser.getInstance().getMyId(), newUsername, newIntroduction, null);
                 finish();
             } else {
                 Toast toast = Toast.makeText(this, "사용할 수 없는 사용자 이름입니다.\n  다른 사용자 이름을 사용하세요", Toast.LENGTH_SHORT);
@@ -220,9 +239,9 @@ public class ProfileChangeActivity extends AppCompatActivity {
         }
     }
 
-    private void setUserProfileFromServer(String username, String newUsername, String introduction) {
+    private void setUserProfileFromServer(String username, String newUsername, String introduction, String photo_url) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-        ChangeProfileItem changeProfileItem = new ChangeProfileItem(username, newUsername, introduction);
+        ChangeProfileItem changeProfileItem = new ChangeProfileItem(username, newUsername, introduction, photo_url);
         Call<ProfileChangeResult> call = remoteService.setUserProfile(changeProfileItem);
 
         try {
@@ -263,10 +282,131 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ivProfilePhoto.setImageBitmap(imageBitmap);
+            try {
+
+                //Uri에서 이미지 이름을 얻어온다.
+                String name_Str = getImageNameToUri(data.getData());
+
+                Log.d("AAAAA", name_Str);  // 20190317_110012.jpg
+
+                Uri selPhotoUri = data.getData();
+
+                Log.d("AAAAA", String.valueOf(selPhotoUri)); //  content://media/external/images/media/18606
+
+                //절대경로 획득**
+                Cursor c = getContentResolver().query(Uri.parse(selPhotoUri.toString()),
+                        null, null, null, null);
+
+                Log.d("AAAAA", String.valueOf(c));  //  android.content.ContentResolver$CursorWrapperInner@dbbd835
+
+                c.moveToNext();
+                String absolutePath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+
+                Log.d("AAAAA", absolutePath); //   /storage/emulated/0/DCIM/Camera/20190317_110012.jpg
+
+                //이미지 데이터를 비트맵으로 받아옴
+                Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+
+                Log.d("AAAAA", String.valueOf(image_bitmap));  //   android.graphics.Bitmap@2d964ca
+
+                ///리사이징
+                int height = image_bitmap.getHeight();   //  2448
+                int width = image_bitmap.getWidth();   // 3264
+
+                Log.d("AAAAA", String.valueOf(height));
+                Log.d("AAAAA", String.valueOf(width));
+
+                Bitmap src = BitmapFactory.decodeFile(absolutePath);
+
+                Log.d("AAAAA", String.valueOf(src));  //  android.graphics.Bitmap@e6b8f3d
+
+
+                Bitmap resized = Bitmap.createScaledBitmap( src, width/4, height/4, true );
+
+                saveBitmaptoJpeg(resized, "seatdot", name_Str);
+
+                //배치해놓은 ImageView에 set
+                ivProfilePhoto.setImageBitmap(resized);
+                ivProfilePhoto.setTag("exist");
+
+
+
+
+
+            }catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+//        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            ivProfilePhoto.setImageBitmap(imageBitmap);
+
+//        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+//            Uri uri = data.getData();
+//
+//            try {
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+//                 Log.d("CCCCC", String.valueOf(uri));
+//
+//                ivProfilePhoto.setImageBitmap(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+    }
+
+    /////   Uri 에서 파일명을 추출하는 로직
+    public String getImageNameToUri(Uri data)
+    {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(data, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cursor.moveToFirst();
+
+        String imgPath = cursor.getString(column_index);
+        String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
+
+        return imgName;
+    }
+
+    //비트맵을 jpg로
+    public static void saveBitmaptoJpeg(Bitmap bitmap,String folder, String name){
+        String ex_storage = Environment.getExternalStorageDirectory().getAbsolutePath();
+        // Get Absolute Path in External Sdcard
+        String foler_name = "/"+folder+"/";
+        String file_name = name+".jpg";
+        String string_path = ex_storage+foler_name;
+        String UploadImgPath = string_path+file_name;
+
+
+        File file_path;
+        try{
+            file_path = new File(string_path);
+            if(!file_path.isDirectory()){
+                file_path.mkdirs();
+            }
+            FileOutputStream out = new FileOutputStream(string_path+file_name);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+
+        }catch(FileNotFoundException exception){
+            Log.e("FileNotFoundException", exception.getMessage());
+        }catch(IOException exception){
+            Log.e("IOException", exception.getMessage());
         }
     }
 }
