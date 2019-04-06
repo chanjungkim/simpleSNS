@@ -1,5 +1,6 @@
 package org.simplesns.simplesns.ui.main.profile;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -38,12 +39,16 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,7 +86,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
     public static final String IMAGE_DIRECTORY_NAME = "Android File Upload";
     private String mImageFileLocation = "";
     private Uri fileUri;
-
+    ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,12 +114,11 @@ public class ProfileChangeActivity extends AppCompatActivity {
                             switch (which) {
                                 case 0:
                                     Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                     startActivityForResult(galleryIntent, REQUEST_IMAGE_CAPTURE);
                                     break;
                                 case 1:
                                     captureImage();
-
                                     break;
                                 case 2:
                                     ivProfilePhoto.setImageResource(R.drawable.ic_profile_samplephoto);
@@ -271,12 +275,10 @@ public class ProfileChangeActivity extends AppCompatActivity {
     }
 
     private void setUserProfileFromServer(String username, String newUsername, String introduction, String photo_url) {
+
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
         ChangeProfileItem changeProfileItem = new ChangeProfileItem(username, newUsername, introduction, photo_url);
         Call<ProfileChangeResult> call = remoteService.setUserProfile(changeProfileItem);
-
-        String aaa = photo_url;
-        Log.d("DDDDD", username);
 
         try {
             call.enqueue(new Callback<ProfileChangeResult>() {
@@ -316,14 +318,8 @@ public class ProfileChangeActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Log.d("AAAAA", String.valueOf(resultCode));
-        Log.d("AAAAA", String.valueOf(RESULT_OK));
-        Log.d("AAAAA", String.valueOf(requestCode));
-        Log.d("AAAAA", String.valueOf(REQUEST_IMAGE_CAPTURE));
-
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
                 // Get the Image from data
-            Log.d("AAAAA", "xhdrhk");
 
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -337,10 +333,6 @@ public class ProfileChangeActivity extends AppCompatActivity {
                 // Set the Image in ImageView for Previewing the Media
                 ivProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(mediaPath));
                 cursor.close();
-
-
-                Log.d("AAAAA", mediaPath);
-
 
                 postPath = mediaPath;   ///storage/emulated/0/DCIM/Camera/20190317_110012.jpg
 
@@ -460,4 +452,8 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
         return mediaFile;
     }
+
+    protected void showpDialog() {
+        if (!pDialog.isShowing()) pDialog.show();
+        }
 }
