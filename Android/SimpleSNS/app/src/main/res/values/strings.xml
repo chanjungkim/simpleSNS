@@ -68,6 +68,7 @@
     <string name="todo">TODO</string>
     <string name="text">text</string>
     <string name="capital_like">LIKE</string>
+    <string name="uploadImages">Set your image</string>
 
     <!-- Favprote -->
     <string-array name="favorite_titles">

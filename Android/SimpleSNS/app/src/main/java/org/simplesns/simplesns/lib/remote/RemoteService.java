@@ -15,17 +15,22 @@ import org.simplesns.simplesns.ui.sign.model.LoginResult;
 import org.simplesns.simplesns.ui.sign.model.SignUpData;
 import org.simplesns.simplesns.ui.sign.model.SignUpResult;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -33,7 +38,7 @@ public interface RemoteService {
     String TAG = RemoteService.class.getSimpleName();
 
     // ★★★ push 시에 주의할 것
-    String BASE_URL = "http://13.124.241.89:3000";
+    String BASE_URL = "http://ec2-13-124-229-143.ap-northeast-2.compute.amazonaws.com:3000";
 
     // User
     @POST("/member")
@@ -63,6 +68,13 @@ public interface RemoteService {
 
     @PUT("/profile/{username}")
     Call<ProfileChangeResult> setUserProfile(@Body ChangeProfileItem changeProfileItem);
+
+    @Multipart
+    @POST("images/upload_image.php")
+    Call<ServerResponse> upload(
+            @Header("Authorization") String authorization,
+            @PartMap Map<String, RequestBody> map
+    );
 
     @PUT("/member")
     Call<String> updateMember(@Body MemberItem memberItem);
