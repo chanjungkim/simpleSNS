@@ -457,13 +457,13 @@ public class ProfileChangeActivity extends AppCompatActivity {
         return mediaFile;
     }
 
-    protected void showpDialog() {
-        if (!pDialog.isShowing()) pDialog.show();
-        }
-
-    protected void hidepDialog() {
-        if (pDialog.isShowing()) pDialog.dismiss();
-    }
+//    protected void showpDialog() {
+//        if (!pDialog.isShowing()) pDialog.show();
+//        }
+//
+//    protected void hidepDialog() {
+//        if (pDialog.isShowing()) pDialog.dismiss();
+//    }
 
     // Uploading Image/Video
     private void uploadFile() {
@@ -471,7 +471,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
             Toast.makeText(this, "please select an image ", Toast.LENGTH_LONG).show();
             return;
         } else {
-            showpDialog();
+//            showpDialog();
 
             // Map is used to multipart the file using okhttp3.RequestBody
             Map<String, RequestBody> map = new HashMap<>();
@@ -489,20 +489,20 @@ public class ProfileChangeActivity extends AppCompatActivity {
                 public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                     if (response.isSuccessful()){
                         if (response.body() != null){
-                            hidepDialog();
+//                            hidepDialog();
                             ServerResponse serverResponse = response.body();
                             Toast.makeText(getApplicationContext(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     }else {
-                        hidepDialog();
+//                        hidepDialog();
                         Toast.makeText(getApplicationContext(), "problem uploading image", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ServerResponse> call, Throwable t) {
-                    hidepDialog();
+//                    hidepDialog();
                     Log.v("Response gotten is", t.getMessage());
                 }
             });
