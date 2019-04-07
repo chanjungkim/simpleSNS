@@ -6,6 +6,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -26,6 +27,8 @@ import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.util.SharedPreferenceUtil;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -388,7 +391,12 @@ public class FirstActivity extends AppCompatActivity {
         btnLogin.setOnClickListener((v) -> {
             String username = etUsername.getText().toString();
             String password = etPassword.getText().toString();
+            String shaPassword = testSHA256(password);
+            Log.d("TEST PASSWORD : ", shaPassword);
+            String encryptionPassword = Base64.encodeToString(shaPassword.getBytes(), 0);
+            Log.d("TEST PASSWORD : ", encryptionPassword);
 
+//            TODO : password를 shaPassword로 교체, DB에 기존 password 입력받은 것들도 교체
             if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
                 GlobalUser.getInstance().login(FirstActivity.this, username, password);
 //                tempPass();
@@ -397,6 +405,26 @@ public class FirstActivity extends AppCompatActivity {
             }
         });
     }
+
+//    패스워드 암호화
+        public String testSHA256(String str){
+        String SHA = "";
+        try{
+            MessageDigest sh = MessageDigest.getInstance("SHA-256");
+            sh.update(str.getBytes());
+            byte byteData[] = sh.digest();
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0 ; i < byteData.length ; i++){
+                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            }
+            SHA = sb.toString();
+        }catch(NoSuchAlgorithmException e){
+            e.printStackTrace();
+            SHA = null;
+        }
+        return SHA;
+    }
+
 
     /**
      * 임피 패스를 위한 메소드
