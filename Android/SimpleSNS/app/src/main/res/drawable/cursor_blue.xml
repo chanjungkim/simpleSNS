@@ -4,5 +4,5 @@
     <size
         android:width="2.5dip" />
     <solid
-        android:color="@color/default_blue" />
+        android:color="@color/defaultBlue" />
 </shape>

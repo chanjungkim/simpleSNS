@@ -1,9 +1,10 @@
 package org.simplesns.simplesns.ui.sign;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -18,7 +19,6 @@ import android.widget.Toast;
 
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
-import org.simplesns.simplesns.ui.main.MainActivity;
 import org.simplesns.simplesns.ui.sign.model.BasicResult;
 import org.simplesns.simplesns.ui.sign.model.SignUpData;
 import org.simplesns.simplesns.ui.sign.model.SignUpResult;
@@ -88,7 +88,7 @@ public class FirstActivity extends AppCompatActivity {
         }
 
         etEmail.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        // Why it's not working?
+
         etEmail.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_DONE) {
                 btnNext.performClick();
@@ -104,7 +104,7 @@ public class FirstActivity extends AppCompatActivity {
                 sendVerificationEmail(email, btnNext, tvCountDown);
 //                initCreateUserView(email);
             } catch (NullPointerException e) {
-                Toast.makeText(FirstActivity.this, "Please input correect email address.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FirstActivity.this, "Please input correct email address.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -192,7 +192,7 @@ public class FirstActivity extends AppCompatActivity {
                         switch (validResult.getCode()) {
                             case 100:
                                 nextBTN.setClickable(true);
-                                nextBTN.setBackgroundColor(getResources().getColor(R.color.default_blue));
+                                nextBTN.setBackgroundColor(getResources().getColor(R.color.defaultBlue));
                                 countDownTimerTV.setVisibility(View.VISIBLE);
                                 BasicCountDownTimer basicCountDownTimer = BasicCountDownTimer.getInstance(FirstActivity.this);
                                 if (!basicCountDownTimer.isTimerRunning()) { // not running. initialize.
@@ -406,43 +406,33 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 
-//    패스워드 암호화
-        public String testSHA256(String str){
+    /**
+     * 패스워드 암호화
+     * @param str
+     * @return
+     */
+    public String testSHA256(String str) {
         String SHA = "";
-        try{
+        try {
             MessageDigest sh = MessageDigest.getInstance("SHA-256");
             sh.update(str.getBytes());
             byte byteData[] = sh.digest();
             StringBuffer sb = new StringBuffer();
-            for(int i = 0 ; i < byteData.length ; i++){
-                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
             }
             SHA = sb.toString();
-        }catch(NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             SHA = null;
         }
         return SHA;
     }
 
-
-    /**
-     * 임피 패스를 위한 메소드
-     */
-    public void tempPass() {
-        // 임시 패스
-        Intent intent = new Intent(FirstActivity.this, MainActivity.class);
-//        GlobalUser.getInstance().setMyId(username);
-        startActivity(intent);
-        finish();
-    }
-
-
     @Override
     public void onBackPressed() {
         backCount++;
 
-        // 수정해야할 부분.
         switch (backCount) {
             case 0:
                 initEmailValidView();
@@ -455,7 +445,6 @@ public class FirstActivity extends AppCompatActivity {
                 new Handler().postDelayed(() -> --backCount, 2000);
                 break;
             case 3:
-                super.onBackPressed();
                 finish();
                 break;
         }

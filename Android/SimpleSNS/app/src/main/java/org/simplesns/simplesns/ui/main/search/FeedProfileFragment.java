@@ -1,28 +1,25 @@
 package org.simplesns.simplesns.ui.main.search;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 
+import org.simplesns.simplesns.BuildConfig;
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
 import org.simplesns.simplesns.ui.main.BaseFragment;
-import org.simplesns.simplesns.ui.main.profile.ProfileChangeActivity;
-import org.simplesns.simplesns.ui.main.profile.fragment.ProfileBadukFragment;
-import org.simplesns.simplesns.ui.main.profile.fragment.ProfileLineFragment;
+import org.simplesns.simplesns.ui.main.profile.fragment.ProfileGridFragment;
+import org.simplesns.simplesns.ui.main.profile.fragment.ProfileListFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileTagFragment;
 import org.simplesns.simplesns.ui.main.search.adapter.FeedAdapter;
 import org.simplesns.simplesns.ui.main.search.model.FollowResult;
@@ -34,8 +31,7 @@ import androidx.fragment.app.FragmentManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.app.Activity.RESULT_OK;
+import timber.log.Timber;
 
 /**
  * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6657
@@ -44,14 +40,14 @@ public class FeedProfileFragment extends BaseFragment {
     private static final String TAG = FeedProfileFragment.class.getSimpleName();
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    TextView tvFollowButton;             // 프로필 내용 수정 관련
-    ImageView ivProfilePhoto;             // 프로필 이미지 수정 관련
+    TextView tvFollowButton;
+    ImageView ivProfilePhoto;
     ImageView ivGrid;
     ImageView ivList;
     ImageView ivTag;
 
-    ProfileBadukFragment profileGridFragment;
-    ProfileLineFragment profileListFragment;
+    ProfileGridFragment profileGridFragment;
+    ProfileListFragment profileListFragment;
     ProfileTagFragment profileTagFragment;
     FragmentManager fragmentManager;
 
@@ -62,6 +58,8 @@ public class FeedProfileFragment extends BaseFragment {
     PullRefreshLayout prlRefresh;
 
     String thisUsername = "no username";
+    boolean isFollowing = true;
+    boolean isHeFollowingMe = true;
 
     public static FeedProfileFragment newInstance(int instance) {
         Bundle args = new Bundle();
@@ -73,6 +71,9 @@ public class FeedProfileFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if(BuildConfig.DEBUG){
+            Timber.plant(new Timber.DebugTree());
+        }
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -94,24 +95,23 @@ public class FeedProfileFragment extends BaseFragment {
         tvPostCount = view.findViewById(R.id.tv_post_count);
         tvFollowerCount = view.findViewById(R.id.tv_follower_count);
         tvFollowingCount = view.findViewById(R.id.tv_following_count);
-        RelativeLayout relativeLayout = view.findViewById(R.id.rl_profile_photo_container);
+        tvUsername = view.findViewById(R.id.tv_username);
 
         prlRefresh.setOnRefreshListener(() -> prlRefresh.postDelayed(() -> prlRefresh.setRefreshing(false), 1000));
 
-        tvUsername = view.findViewById(R.id.tv_username);
-
         thisUsername = getArguments().getString(FeedAdapter.USERNAME);
+        checkFollow(GlobalUser.getInstance().getMyId(), thisUsername);
         tvUsername.setText(thisUsername);
 
-        profileGridFragment = new ProfileBadukFragment();
-        profileListFragment = new ProfileLineFragment();
+        profileGridFragment = new ProfileGridFragment();
+        profileListFragment = new ProfileListFragment();
         profileTagFragment = new ProfileTagFragment();
 
         fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileGridFragment).commit();
 
         ivGrid.setOnClickListener(v -> {
-            ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.default_blue)));
+            ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.defaultBlue)));
             ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
             ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
 
@@ -120,36 +120,77 @@ public class FeedProfileFragment extends BaseFragment {
 
         ivList.setOnClickListener(v -> {
             ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
-            ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.default_blue)));
+            ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.defaultBlue)));
             ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
 
             fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileListFragment).commit();
         });
 
         ivTag.setOnClickListener(v -> {
-
             ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
             ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
-            ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.default_blue)));
+            ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.defaultBlue)));
 
             fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileTagFragment).commit();
         });
 
-
         ivProfilePhoto = view.findViewById(R.id.civ_profile_photo);
-        RelativeLayout rlProfilePhotoContainer = view.findViewById(R.id.rl_profile_photo_container);
-        rlProfilePhotoContainer.setOnClickListener(v -> {
-            dispatchTakePictureIntent();
-        });
 
         tvFollowButton.setOnClickListener(v -> {
-            follow(GlobalUser.getInstance().getMyId(), thisUsername);
+            Timber.d("clicked!");
+            if(isFollowing){
+                unfollow(GlobalUser.getInstance().getMyId(), thisUsername);
+            }else{
+                follow(GlobalUser.getInstance().getMyId(), thisUsername);
+            }
         });
 
         return view;
     }
 
-    public void follow(String myUsername, String hisUsername){
+    public void checkFollow(String myUsername, String hisUsername) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+
+        Call<FollowResult> call = remoteService.checkFollow(myUsername, hisUsername);
+
+        call.enqueue(new Callback<FollowResult>() {
+            @Override
+            public void onResponse(Call<FollowResult> call, Response<FollowResult> response) {
+                FollowResult result = response.body();
+
+                Timber.d(result.toString());
+                switch (result.code){
+                    case 200:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        isFollowing = true;
+                        tvFollowButton.setBackground(getResources().getDrawable(R.drawable.border_rectangle));
+                        tvFollowButton.setTextColor(getResources().getColor(R.color.black));
+                        tvFollowButton.setText("메시지");
+                        break;
+                    case 201:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        isFollowing = false;
+                        break;
+                    case 202:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        tvFollowButton.setText("맞팔로우하기");
+                        isHeFollowingMe = true;
+                        break;
+                    case 403:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FollowResult> call, Throwable throwable) {
+                Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    public void follow(String myUsername, String hisUsername) {
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
         Call<FollowResult> call = remoteService.insertFollow(myUsername, hisUsername);
@@ -157,35 +198,59 @@ public class FeedProfileFragment extends BaseFragment {
         call.enqueue(new Callback<FollowResult>() {
             @Override
             public void onResponse(Call<FollowResult> call, Response<FollowResult> response) {
+                FollowResult result = response.body();
 
+                Timber.d(result.toString());
+                switch (result.code){
+                    case 200:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 201:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 403:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
 
             @Override
             public void onFailure(Call<FollowResult> call, Throwable throwable) {
-
+                Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
+                throwable.printStackTrace();
             }
         });
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void unfollow(String myUsername, String hisUsername) {
+        RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-    }
+        Call<FollowResult> call = remoteService.deleteFollow(myUsername, hisUsername);
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
+        call.enqueue(new Callback<FollowResult>() {
+            @Override
+            public void onResponse(Call<FollowResult> call, Response<FollowResult> response) {
+                FollowResult result = response.body();
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ivProfilePhoto.setImageBitmap(imageBitmap);
-        }
+                Timber.d(result.toString());
+                switch (result.code){
+                    case 200:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 201:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 403:
+                        Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FollowResult> call, Throwable throwable) {
+                Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
+                throwable.printStackTrace();
+            }
+        });
     }
 }

@@ -41,7 +41,7 @@
                 android:maxLength="32"
                 android:imeOptions="actionNext"
                 android:textAllCaps="false"
-                android:textColor="@color/default_blue"
+                android:textColor="@color/defaultBlue"
                 android:textColorHint="@color/grey2" />
 
             <EditText
@@ -58,7 +58,7 @@
                 android:maxLength="20"
                 android:imeOptions="actionNext"
                 android:textAllCaps="false"
-                android:textColor="@color/default_blue"
+                android:textColor="@color/defaultBlue"
                 android:textColorHint="@color/grey2" />
 
             <Button
@@ -68,7 +68,7 @@
                 android:layout_marginLeft="@dimen/default_side_margin"
                 android:layout_marginRight="@dimen/default_side_margin"
                 android:layout_marginBottom="30dp"
-                android:background="@color/default_blue"
+                android:background="@color/defaultBlue"
                 android:text="Continue and Sync Contacts"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Continue Without Syncing Contacts"
-                android:textColor="@color/default_blue" />
+                android:textColor="@color/defaultBlue" />
         </LinearLayout>
 
         <LinearLayout

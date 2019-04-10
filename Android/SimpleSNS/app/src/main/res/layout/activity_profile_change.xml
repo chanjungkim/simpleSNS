@@ -44,7 +44,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="사진 변경"
-                    android:textColor="@color/default_blue"
+                    android:textColor="@color/defaultBlue"
                     android:textSize="@dimen/header_size"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:text="로그아웃"
-                    android:textColor="@color/default_blue"
+                    android:textColor="@color/defaultBlue"
                     android:textSize="@dimen/body_text_size" />
 
                 <TextView
@@ -191,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="탈퇴하기"
-                    android:textColor="@color/default_blue"
+                    android:textColor="@color/defaultBlue"
                     android:textSize="@dimen/body_text_size" />
             </LinearLayout>
         </LinearLayout>

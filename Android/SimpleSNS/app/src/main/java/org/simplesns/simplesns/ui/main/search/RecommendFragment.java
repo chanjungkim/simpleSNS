@@ -134,7 +134,6 @@ public class RecommendFragment extends BaseFragment {
 
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
-        // 구현해야할 부분
         Call<GridRecommendResult> call = remoteService.getRecommendItemsFromServer(GlobalUser.getInstance().getMyId(), lastFeedNum);
 
         call.enqueue(new Callback<GridRecommendResult>() {

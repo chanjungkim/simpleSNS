@@ -12,7 +12,8 @@
     <color name="grey">#afafaf</color>
     <color name="white">#fff</color>
     <color name="black">#000000</color>
-    <color name="default_blue">#4d94ff</color>
+    <color name="defaultBlue">#4d94ff</color>
+    <color name="defaultRed">#F44</color>
     <color name="darkRed">#cc0000</color>
     <color name="colordarkRed">#cc0000</color>
 
