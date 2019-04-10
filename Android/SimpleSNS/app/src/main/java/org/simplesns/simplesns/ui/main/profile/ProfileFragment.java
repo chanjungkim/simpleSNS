@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,12 +24,11 @@ import com.baoyz.widget.PullRefreshLayout;
 import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.ui.main.BaseFragment;
-import org.simplesns.simplesns.ui.main.profile.fragment.ProfileBadukFragment;
-import org.simplesns.simplesns.ui.main.profile.fragment.ProfileLineFragment;
+import org.simplesns.simplesns.ui.main.profile.fragment.ProfileGridFragment;
+import org.simplesns.simplesns.ui.main.profile.fragment.ProfileListFragment;
 import org.simplesns.simplesns.ui.main.profile.fragment.ProfileTagFragment;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.CAMERA_SERVICE;
 
 /**
  * 1차 리뷰: https://youtu.be/3l3kQCNef28?t=6657
@@ -45,8 +43,8 @@ public class ProfileFragment extends BaseFragment {
     ImageView ivList;
     ImageView ivTag;
 
-    ProfileBadukFragment profileGridFragment;
-    ProfileLineFragment profileListFragment;
+    ProfileGridFragment profileGridFragment;
+    ProfileListFragment profileListFragment;
     ProfileTagFragment profileTagFragment;
     FragmentManager fragmentManager;
 
@@ -94,15 +92,15 @@ public class ProfileFragment extends BaseFragment {
         tvUsername = view.findViewById(R.id.tv_username);
         tvUsername.setText(GlobalUser.getInstance().getMyId());
 
-        profileGridFragment = new ProfileBadukFragment();
-        profileListFragment = new ProfileLineFragment();
+        profileGridFragment = new ProfileGridFragment();
+        profileListFragment = new ProfileListFragment();
         profileTagFragment = new ProfileTagFragment();
 
         fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileGridFragment).commit();
 
         ivGrid.setOnClickListener(v -> {
-            ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.default_blue)));
+            ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.defaultBlue)));
             ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
             ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
 
@@ -111,7 +109,7 @@ public class ProfileFragment extends BaseFragment {
 
         ivList.setOnClickListener(v -> {
             ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
-            ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.default_blue)));
+            ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.defaultBlue)));
             ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
 
             fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileListFragment).commit();
@@ -121,7 +119,7 @@ public class ProfileFragment extends BaseFragment {
 
             ViewCompat.setBackgroundTintList(ivGrid, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
             ViewCompat.setBackgroundTintList(ivList, ColorStateList.valueOf(getResources().getColor(R.color.grey2)));
-            ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.default_blue)));
+            ViewCompat.setBackgroundTintList(ivTag, ColorStateList.valueOf(getResources().getColor(R.color.defaultBlue)));
 
             fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.profile_container, profileTagFragment).commit();
         });

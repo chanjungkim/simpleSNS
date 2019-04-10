@@ -87,8 +87,8 @@ public interface RemoteService {
 
     // Camera
     @Multipart
-    @POST ("/image")
-    Call<ImagePostResult> uploadFeedImage (@Part MultipartBody.Part file);
+    @POST("/image")
+    Call<ImagePostResult> uploadFeedImage(@Part MultipartBody.Part file);
 
     // Feed
     @GET("/feed")
@@ -101,7 +101,12 @@ public interface RemoteService {
     @GET("/search/feed")
     Call<FeedRecommendResult> getFeedRecommendItems(@Query("fid") long fid, @Query("username") String username);
 
-    // 미구현
     @GET("/follow")
     Call<FollowResult> insertFollow(@Query("my_username") String myUsername, @Query("his_username") String hisUsername);
+
+    @GET("/follow/check")
+    Call<FollowResult> checkFollow(@Query("my_username") String myUsername, @Query("his_username") String hisUsername);
+
+    @DELETE("/follow")
+    Call<FollowResult> deleteFollow(@Query("my_username") String myUsername, @Query("his_username") String hisUsername);
 }
