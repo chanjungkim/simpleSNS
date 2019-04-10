@@ -93,8 +93,7 @@ Method: Git Flow
 - release: master로 보내기 전에 버그 수정 등 QA를 하는 브랜치. develop과 master 둘 다 적용시켜준다.
 - hotfixes: master에서 버그 등이 발생했을 때 잠시 만들어 버그 수정을 하고 master에 다시 합치는 작은 브랜치.
 - master: 프로젝트 최종본. merge 때마다 tag를 달아 버전을 하나씩 올리게 됨.
-
-* master와 development는 필수 브런치 *
+- master와 development는 필수 브런치
 
 <image src="http://woowabros.github.io/img/2017-10-30/git-flow_overall_graph.png" style="width:40%; height:auto;"/>
 
