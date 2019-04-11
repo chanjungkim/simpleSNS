@@ -4,8 +4,9 @@
     android:id="@+id/following_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
-    android:background="#CCC"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="15dp"
     >
 
     <!-- https://gun0912.tistory.com/66
@@ -16,9 +17,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_following_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_default_activity" />
+            tools:listitem="@layout/item_default_feed_activity" />
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

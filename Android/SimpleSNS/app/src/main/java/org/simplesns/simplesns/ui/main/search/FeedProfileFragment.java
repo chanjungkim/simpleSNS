@@ -211,6 +211,7 @@ public class FeedProfileFragment extends BaseFragment {
                         break;
                     case 201:
                         Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        // 채팅 화면
                         break;
                     case 403:
                         Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
