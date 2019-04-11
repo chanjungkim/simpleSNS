@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.simplesns.simplesns.BuildConfig;
+import org.simplesns.simplesns.GlobalUser;
 import org.simplesns.simplesns.MyApp;
 import org.simplesns.simplesns.R;
 import org.simplesns.simplesns.item.FeedItem;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import timber.log.Timber;
+
+import static org.simplesns.simplesns.ui.main.MainActivity.INDEX_PROFILE;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.HomeViewHolder> {
     private static final String TAG = FeedAdapter.class.getSimpleName();
@@ -102,11 +105,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.HomeViewHolder
 
         holder.tvUserName.setOnClickListener((v) -> {
             if (fragment.mFragmentNavigation != null) {
-                Bundle bundle = new Bundle();
-                bundle.putString(USERNAME, dataArrayList.get(i).getUsername());
-                FeedProfileFragment feedProfileFragment = FeedProfileFragment.newInstance(fragment.mInt + 1);
-                feedProfileFragment.setArguments(bundle);
-                fragment.mFragmentNavigation.pushFragment(feedProfileFragment);
+                if (dataArrayList.get(i).getUsername().equals(GlobalUser.getInstance().getMyId())) {
+                    MainActivity.bottomBar.selectTabAtPosition(4);
+                    MainActivity.mNavController.switchTab(INDEX_PROFILE);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(USERNAME, dataArrayList.get(i).getUsername());
+                    FeedProfileFragment feedProfileFragment = FeedProfileFragment.newInstance(fragment.mInt + 1);
+                    feedProfileFragment.setArguments(bundle);
+                    fragment.mFragmentNavigation.pushFragment(feedProfileFragment);
+                }
             }
         });
     }

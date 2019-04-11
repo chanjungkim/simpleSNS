@@ -204,6 +204,10 @@ public class FeedProfileFragment extends BaseFragment {
                 switch (result.code){
                     case 200:
                         Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();
+                        isFollowing = true;
+                        tvFollowButton.setBackground(getResources().getDrawable(R.drawable.border_rectangle));
+                        tvFollowButton.setTextColor(getResources().getColor(R.color.black));
+                        tvFollowButton.setText("메시지");
                         break;
                     case 201:
                         Toast.makeText(getActivity(), result.message, Toast.LENGTH_SHORT).show();

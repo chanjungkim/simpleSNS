@@ -31,14 +31,16 @@ import org.simplesns.simplesns.ui.main.search.RecommendFragment;
 public class MainActivity extends AppCompatActivity implements BaseFragment.FragmentNavigation, FragNavController.TransactionListener, FragNavController.RootFragmentListener {
     private static String TAG = MainActivity.class.getSimpleName();
     //Better convention to properly name the indices what they are in your app
-    private final int INDEX_HOME = FragNavController.TAB1;
-    private final int INDEX_SEARCH = FragNavController.TAB2;
+    private static final int INDEX_HOME = FragNavController.TAB1;
+    private static final int INDEX_SEARCH = FragNavController.TAB2;
     //    private final int INDEX_CAMERA = FragNavController.TAB3;
-    private final int INDEX_FAVORITE = FragNavController.TAB4;
-    private final int INDEX_PROFILE = FragNavController.TAB5;
-    private FragNavController mNavController;
+    private static final int INDEX_FAVORITE = FragNavController.TAB4;
+    public static final int INDEX_PROFILE = FragNavController.TAB5;
+    public static FragNavController mNavController;
 
     int backCount = 0;
+
+    public static BottomBar bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
 
         Toast.makeText(this, "Welcome, " + GlobalUser.getInstance().getMyId(), Toast.LENGTH_SHORT).show();
 
-        final BottomBar bottomBar = findViewById(R.id.bottombar);
+         bottomBar = findViewById(R.id.bottombar);
 
         boolean initial = savedInstanceState == null;
         if (initial) {
