@@ -2,10 +2,13 @@ package org.simplesns.simplesns.ui.main.favorite.sub_fragment.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -50,9 +53,6 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Foll
         View view = null;
 
         switch (viewType) {
-            case VIEW_FEED:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_default_feed_activity, parent, false);
-                break;
             case VIEW_COMMENT:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_default_comment_activity, parent, false);
                 break;
@@ -66,16 +66,25 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Foll
     @Override
     public void onBindViewHolder(@NonNull FollowingHolder holder, int position) {
         FollowingActivityItem item = datalist.get(position);
+
+        holder.rlFollowingHistoryItem.setOnTouchListener((view, motionEvent) -> {
+
+            return false;
+        });
+        holder.rlFollowingHistoryItem.setOnClickListener(v -> {
+            showFeed(item.getFid());
+        });
+
         switch (holder.getItemViewType()) {
             case VIEW_COMMENT:
                 Timber.d(item.toString());
                 Glide.with((MainActivity) context).load(BASE_URL + item.getPhoto_url()).into(holder.ivUserPhoto);
-                holder.tvLinkyfy.setText(item.getUsername() + "님께서 " + item.getWhom() + "의 글에 댓글을 달았습니다.: " + item.getContent() + " " + timeFromNow(item.getReg_time()));
+                holder.tvLinkyfy.setText(item.getUsername() + "님께서 " + item.getWhom() + "의 글에 댓글을 달았습니다: " + item.getContent() + " " + timeFromNow(item.getReg_time()));
                 break;
             case VIEW_REACTION:
                 Timber.d(item.toString());
                 Glide.with((MainActivity) context).load(BASE_URL + item.getPhoto_url()).into(holder.ivUserPhoto);
-                holder.tvLinkyfy.setText(item.getUsername() + "님께서 " + item.getWhom() + "의 게시물을 좋아합니다.: " + timeFromNow(item.getReg_time()));
+                holder.tvLinkyfy.setText(item.getUsername() + "님께서 " + item.getWhom() + "의 게시물을 좋아합니다: " + timeFromNow(item.getReg_time()));
                 break;
         }
     }
@@ -140,13 +149,20 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Foll
         return -1;
     }
 
+    void showFeed(Long fid) {
+        // 게시물 하나만 보여주는 Activity
+        Toast.makeText(context, String.valueOf(fid), Toast.LENGTH_SHORT).show();
+    }
+
     class FollowingHolder extends RecyclerView.ViewHolder {
         ImageView ivUserPhoto;
         TextView tvLinkyfy;
         ImageView ivFeed;
+        RelativeLayout rlFollowingHistoryItem;
 
         public FollowingHolder(@NonNull View itemView) {
             super(itemView);
+            rlFollowingHistoryItem = itemView.findViewById(R.id.rl_following_history_item);
             ivUserPhoto = itemView.findViewById(R.id.iv_user_photo);
             tvLinkyfy = itemView.findViewById(R.id.tv_linkify);
             ivFeed = itemView.findViewById(R.id.iv_feed);

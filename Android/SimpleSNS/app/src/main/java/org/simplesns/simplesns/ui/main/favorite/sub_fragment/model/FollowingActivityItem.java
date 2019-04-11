@@ -8,6 +8,7 @@ public class FollowingActivityItem {
     String photo_url;
     String type;
     String whom;
+    long fid;
 
     public long getUid() {
         return uid;
@@ -37,6 +38,10 @@ public class FollowingActivityItem {
         return whom;
     }
 
+    public long getFid() {
+        return fid;
+    }
+
     @Override
     public String toString() {
         return "FollowingActivityItem{" +
@@ -47,6 +52,7 @@ public class FollowingActivityItem {
                 ", photo_url='" + photo_url + '\'' +
                 ", type='" + type + '\'' +
                 ", whom='" + whom + '\'' +
+                ", fid=" + fid +
                 '}';
     }
 }
