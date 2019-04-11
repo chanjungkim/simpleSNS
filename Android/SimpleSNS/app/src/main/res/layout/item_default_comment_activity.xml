@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:paddingTop="15dp">
 
@@ -13,6 +13,7 @@
         android:src="@color/grey"
         app:civ_border_color="@color/colorAccent"
         app:civ_border_width="2dp" />
+
 
     <TextView
         android:id="@+id/tv_linkify"
@@ -25,11 +26,4 @@
         android:layout_toRightOf="@id/iv_user_photo"
         android:text="abcd님이 efg님의 댓글을 좋아합니다: 안녕하세요 ㅎㅎ"
         android:textColor="@color/black" />
-
-    <ImageView
-        android:id="@+id/iv_feed"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:background="@color/grey" />
 </RelativeLayout>

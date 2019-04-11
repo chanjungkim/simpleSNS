@@ -4,6 +4,7 @@ import org.simplesns.simplesns.item.ChangeProfileItem;
 import org.simplesns.simplesns.item.FeedResult;
 import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.ui.main.camera.model.ImagePostResult;
+import org.simplesns.simplesns.ui.main.favorite.sub_fragment.model.FollowingActivityResult;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
@@ -101,8 +102,15 @@ public interface RemoteService {
     @GET("/search/feed")
     Call<FeedRecommendResult> getFeedRecommendItems(@Query("fid") long fid, @Query("username") String username);
 
-    @GET("/follow")
-    Call<FollowResult> insertFollow(@Query("my_username") String myUsername, @Query("his_username") String hisUsername);
+    @FormUrlEncoded
+    @POST("/follow")
+    Call<FollowResult> insertFollow(@Field("my_username") String myUsername, @Field("his_username") String hisUsername);
+
+    @GET("/follow/activity")
+    Call<FollowingActivityResult> getFollowingActivitiesWithoutMe(@Query("username") String username);
+
+    @GET("/follow/mypost")
+    Call<FollowingActivityResult> getFollowingActivitiesWithMe(@Query("username") String username);
 
     @GET("/follow/check")
     Call<FollowResult> checkFollow(@Query("my_username") String myUsername, @Query("his_username") String hisUsername);

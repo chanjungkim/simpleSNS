@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <com.gigamole.navigationtabstrip.NavigationTabStrip
         android:id="@+id/nts"
         android:layout_width="match_parent"
@@ -26,4 +21,10 @@
         app:nts_titles="@array/favorite_titles"
         app:nts_type="line"
         app:nts_weight="1dp" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nts"/>
 </RelativeLayout>

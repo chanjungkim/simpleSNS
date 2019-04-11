@@ -100,21 +100,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return dataArrayList.size();
     }
 
-    class HomeViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUserName;
-        ImageView ivHomeProfilePhoto;
-        ImageView ivHomeFeedImg;
-        FrameLayout frameLayout;
-
-        HomeViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvUserName = itemView.findViewById(R.id.tv_user_name);
-            ivHomeProfilePhoto = itemView.findViewById(R.id.iv_home_profile_photo);
-            ivHomeFeedImg = itemView.findViewById(R.id.iv_feed_img);
-            frameLayout = itemView.findViewById(R.id.frame_imgs);
-        }
-    }
-
     public void setItemList(ArrayList<FeedItem> data) {
         this.dataArrayList = data;
         Timber.d("data: %s", data.toString());
@@ -130,4 +115,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return dataArrayList;
     }
 
+    class HomeViewHolder extends RecyclerView.ViewHolder {
+        TextView tvUserName;
+        ImageView ivHomeProfilePhoto;
+        ImageView ivHomeFeedImg;
+        FrameLayout frameLayout;
+
+        HomeViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvUserName = itemView.findViewById(R.id.tv_user_name);
+            ivHomeProfilePhoto = itemView.findViewById(R.id.iv_home_profile_photo);
+            ivHomeFeedImg = itemView.findViewById(R.id.iv_feed_img);
+            frameLayout = itemView.findViewById(R.id.frame_imgs);
+        }
+    }
 }
