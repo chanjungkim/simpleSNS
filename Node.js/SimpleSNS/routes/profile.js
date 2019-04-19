@@ -1,6 +1,8 @@
 var express = require('express');
 var db = require('../db');
+var formidable = require('formidable');
 var router = express.Router();
+var fs = require('fs');
 
 //profile
 router.put('/:username', function(req, res, next){
@@ -80,4 +82,27 @@ router.get('/newuser/:newUsername', function(req, res, next){
 	}
 });
 
+router.post('/photo', function (req, res, next) {
+
+	console.log("/photo");
+	var form = new formidable.IncomingForm();
+	form.multiples = true;
+
+	form.parse(req);
+
+	form.on('fileBegin', function (name, file){
+		console.log("fileBegin");
+		file.path = './public/img/profile/' + file.name;
+		console.log("fileBegin: file.path: " + file.path);
+	});
+
+	form.on('file', function(name, file){
+		console.log("file");
+		console.log('file: Uploaded ' + file.name);
+	});
+	res.status(200).send("1");
+
+});
+
 module.exports = router;
+

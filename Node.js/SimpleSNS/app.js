@@ -3,7 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var formidable = require('formidable');
 var logger = require('morgan');
+var helmet = require('helmet');
 var db = require('./db');
 
 //var passport = require('./passport');
@@ -23,6 +25,7 @@ db.connect(function(err){
 	}
 });
 
+app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,6 +41,7 @@ app.use('/facebook', require("./routes/facebook"));
 app.use('/feed', require("./routes/feed"));
 app.use('/profile', require("./routes/profile"));
 app.use('/search', require("./routes/search"));
+app.use('/follow', require("./routes/follow"));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

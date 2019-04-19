@@ -70,11 +70,8 @@ public interface RemoteService {
     Call<ProfileChangeResult> setUserProfile(@Body ChangeProfileItem changeProfileItem);
 
     @Multipart
-    @POST("images/upload_image.php")
-    Call<ServerResponse> upload(
-            @Header("Authorization") String authorization,
-            @PartMap Map<String, RequestBody> map
-    );
+    @POST("/profile/photo")
+    Call<Integer> uploadProfilePhoto(@Part MultipartBody.Part file);
 
     @PUT("/member")
     Call<String> updateMember(@Body MemberItem memberItem);

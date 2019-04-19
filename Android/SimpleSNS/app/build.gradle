@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
@@ -81,4 +83,9 @@ dependencies {
     implementation 'com.arasthel:spannedgridlayoutmanager:3.0.2'
 
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

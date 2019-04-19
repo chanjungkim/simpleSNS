@@ -112,6 +112,7 @@ public class ImagePostActivity extends AppCompatActivity implements LocationList
                 @Override
                 public void onResponse(Call<ImagePostResult> call, Response<ImagePostResult> response) {
                     ImagePostResult imagePostResult = response.body();
+
                     if (imagePostResult != null) {
                         switch (imagePostResult.code) {
                             case 100:   // 성공

@@ -8,10 +8,9 @@ router.get('/', function(req, res, next){
 	var username = req.query.username;
 	var lastFeedNum = req.query.lastFeedNum;
 
-	// Pating - No followings... 
-	var sql = "SELECT f.fid, u.username, m.url, m.width, m.height"
+	var sql = "SELECT DISTINCT f.fid, u.username, m.url, m.width, m.height"
 		+" FROM feed f, media m, member u"
-		+" WHERE f.fid = m.fid AND f.uid = u.uid LIMIT 12;"
+		+" WHERE f.fid = m.fid ORDER BY rand() LIMIT 12;"
 
 	var input = [];
 

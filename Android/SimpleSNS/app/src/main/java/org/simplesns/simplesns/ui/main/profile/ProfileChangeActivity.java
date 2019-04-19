@@ -31,10 +31,15 @@ import org.simplesns.simplesns.item.MemberItem;
 import org.simplesns.simplesns.lib.remote.RemoteService;
 import org.simplesns.simplesns.lib.remote.ServerResponse;
 import org.simplesns.simplesns.lib.remote.ServiceGenerator;
+import org.simplesns.simplesns.ui.main.MainActivity;
+import org.simplesns.simplesns.ui.main.camera.ImagePostActivity;
+import org.simplesns.simplesns.ui.main.camera.model.ImagePostResult;
+import org.simplesns.simplesns.ui.main.camera.utils.ImageUtil;
 import org.simplesns.simplesns.ui.main.profile.model.CheckUsernameResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileChangeResult;
 import org.simplesns.simplesns.ui.main.profile.model.ProfileResult;
 import org.simplesns.simplesns.ui.sign.FirstActivity;
+import org.w3c.dom.Node;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +54,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,39 +111,27 @@ public class ProfileChangeActivity extends AppCompatActivity {
         llProfilePhotoChange = findViewById(R.id.ll_profile_photo_change);
         llProfilePhotoChange.setOnClickListener(v -> {
 
-            new MaterialDialog.Builder(this)
+            new MaterialDialog.Builder(this)          //appdino
                     .title(R.string.uploadImages)
                     .items(R.array.uploadImages)
                     .itemsIds(R.array.itemIds)
-                    .itemsCallback(new MaterialDialog.ListCallback() {
-                        @Override
-                        public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                            switch (which) {
-                                case 0:
-                                    Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                    startActivityForResult(galleryIntent, REQUEST_IMAGE_CAPTURE);
+                    .itemsCallback((dialog, view, which, text) -> {
+                        switch (which) {
+                            case 0:
+                                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(galleryIntent, REQUEST_IMAGE_CAPTURE);
 
-                                    uploadFile();
-
-                                    break;
-                                case 1:
-                                    captureImage();
-                                    break;
-                                case 2:
-                                    ivProfilePhoto.setImageResource(R.drawable.ic_profile_samplephoto);
-                                    break;
-                            }
+                                break;
+                            case 1:
+                                captureImage();
+                                break;
+                            case 2:
+                                ivProfilePhoto.setImageResource(R.drawable.ic_profile_samplephoto);
+                                break;
                         }
                     })
                     .show();
-
-
-//            Intent intent = new Intent(Intent.ACTION_PICK);
-//            intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-//            intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-
         });
 
         etUsername = findViewById(R.id.et_username);
@@ -149,11 +143,6 @@ public class ProfileChangeActivity extends AppCompatActivity {
         tvLogout.setOnClickListener(v->{
             GlobalUser.getInstance().logOut(this, FirstActivity.class);
         });
-
-//        LinearLayout rlProfilePhotoContainer = findViewById(R.id.ll_profile_photo_change);
-//        rlProfilePhotoContainer.setOnClickListener(v -> {
-//            dispatchTakePictureIntent();
-//        });
 
         etUsername.addTextChangedListener(new TextWatcher() {
             @Override
@@ -192,7 +181,6 @@ public class ProfileChangeActivity extends AppCompatActivity {
                 toast.show();
             }
         });
-
     }
 
     private void getUserProfileFromServer(String username) {
@@ -213,6 +201,10 @@ public class ProfileChangeActivity extends AppCompatActivity {
                             etEmail.setText(memberItem.getEmail());
 
                             String profilePhotoUrl = "http://ec2-13-124-229-143.ap-northeast-2.compute.amazonaws.com:3000" + memberItem.getPhoto_url();
+
+                            Log.d("AAAAA", memberItem.getPhoto_url());
+                            Log.d("AAAAA", profilePhotoUrl);
+
                             Glide.with(getApplicationContext())
                                     .load(profilePhotoUrl)
                                     .into(ivProfilePhoto);
@@ -320,25 +312,34 @@ public class ProfileChangeActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {    // appdino
 
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-                // Get the Image from data
+                // data 로 부터 이미지 얻는 과정
 
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Uri selectedImage = data.getData();    // selectedImage => content://media/external/images/media/19052
 
+                String[] filePathColumn = {MediaStore.Images.Media.DATA}; // filePathColumn => [Ljava.lang.String;@9f41f5
+
+                // ContentResolver : query(uri, projection, selection, selectionArgs, sortOrder)
+                //- uri : content://scheme 방식의 원하는 데이터를 가져오기 위한 정해진 주소
+                //- projection : 가져올 컬럼 이름 목록, null이면 모든 컬럼
+                //- selection : where 절에 해당하는 내용
+                //- selectionArgs : selection에서 ?로 표시한 곳에 들어갈 데이터
+                //- sortOrder : 정렬을 위한 order by 구문
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 assert cursor != null;
                 cursor.moveToFirst();
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                mediaPath = cursor.getString(columnIndex);
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);  //  columnIndex => 0
+                mediaPath = cursor.getString(columnIndex);  //  mediaPath => /storage/emulated/0/DCIM/Camera/20190317_110012.jpg
+
                 // Set the Image in ImageView for Previewing the Media
-                ivProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(mediaPath));
+                ivProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(mediaPath)); // 압축되어 있는 jpg 파일을 풀고 bitmap 으로 변환
                 cursor.close();
 
-                postPath = mediaPath;   ///storage/emulated/0/DCIM/Camera/20190317_110012.jpg
+                postPath = mediaPath;
+                uploadFile();
 
         } else if (requestCode == CAMERA_PIC_REQUEST) {
             if (Build.VERSION.SDK_INT > 21) {
@@ -457,55 +458,53 @@ public class ProfileChangeActivity extends AppCompatActivity {
         return mediaFile;
     }
 
-//    protected void showpDialog() {
-//        if (!pDialog.isShowing()) pDialog.show();
-//        }
-//
-//    protected void hidepDialog() {
-//        if (pDialog.isShowing()) pDialog.dismiss();
-//    }
 
     // Uploading Image/Video
     private void uploadFile() {
+
         if (postPath == null || postPath.equals("")) {
             Toast.makeText(this, "please select an image ", Toast.LENGTH_LONG).show();
             return;
-        } else {
-//            showpDialog();
-
-            // Map is used to multipart the file using okhttp3.RequestBody
-            Map<String, RequestBody> map = new HashMap<>();
+        }else {
+            final RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
             File file = new File(postPath);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);   // Parsing any Media type
+            MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), requestBody);
 
-            // Parsing any Media type file
-            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-            map.put("file\"; filename=\"" + file.getName() + "\"", requestBody);
+            Log.d("AAAAA", file.getName());
+            Log.d("AAAAA", String.valueOf(body));
 
-            RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-
-            Call<ServerResponse> call = remoteService.upload("token", map);
-            call.enqueue(new Callback<ServerResponse>() {
-                @Override
-                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                    if (response.isSuccessful()){
-                        if (response.body() != null){
-//                            hidepDialog();
-                            ServerResponse serverResponse = response.body();
-                            Toast.makeText(getApplicationContext(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
-
+            Call<Integer> req;
+            try {
+                req = remoteService.uploadProfilePhoto(body);
+                req.enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+                        Integer result = response.body();
+                        if (response.isSuccessful() && result != null) {
+                            Log.d(TAG, result.toString());
+                            if (result == 1) {
+                                Log.d(TAG, "사진 저장 완료!");
+                            }
                         }
-                    }else {
-//                        hidepDialog();
-                        Toast.makeText(getApplicationContext(), "problem uploading image", Toast.LENGTH_SHORT).show();
                     }
-                }
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                goToMainActivity ();
+            }
 
-                @Override
-                public void onFailure(Call<ServerResponse> call, Throwable t) {
-//                    hidepDialog();
-                    Log.v("Response gotten is", t.getMessage());
-                }
-            });
         }
     }
+    private void goToMainActivity () {
+        Intent home_intent = new Intent(ProfileChangeActivity.this, MainActivity.class);
+        home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   // activity stack clear
+        startActivity(home_intent);
+    }
+
 }
