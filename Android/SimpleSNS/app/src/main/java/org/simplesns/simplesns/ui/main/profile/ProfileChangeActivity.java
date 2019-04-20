@@ -202,8 +202,8 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
                             String profilePhotoUrl = "http://ec2-13-124-229-143.ap-northeast-2.compute.amazonaws.com:3000" + memberItem.getPhoto_url();
 
-                            Log.d("AAAAA", memberItem.getPhoto_url());
-                            Log.d("AAAAA", profilePhotoUrl);
+                            Log.d("CCCCC", memberItem.getPhoto_url()); //  memberItem.getPhoto_url() =>   /img/profile/goni0211.jpg
+                            Log.d("CCCCC", profilePhotoUrl);  //  profilePhotoUrl => http://XXXX.XXXX.XXXX.XXXX:3000/img/profile/goni0211.jpg
 
                             Glide.with(getApplicationContext())
                                     .load(profilePhotoUrl)
@@ -458,7 +458,6 @@ public class ProfileChangeActivity extends AppCompatActivity {
         return mediaFile;
     }
 
-
     // Uploading Image/Video
     private void uploadFile() {
 
@@ -470,9 +469,6 @@ public class ProfileChangeActivity extends AppCompatActivity {
             File file = new File(postPath);
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);   // Parsing any Media type
             MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), requestBody);
-
-            Log.d("AAAAA", file.getName());
-            Log.d("AAAAA", String.valueOf(body));
 
             Call<Integer> req;
             try {
@@ -495,16 +491,8 @@ public class ProfileChangeActivity extends AppCompatActivity {
                 });
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                goToMainActivity ();
             }
 
         }
     }
-    private void goToMainActivity () {
-        Intent home_intent = new Intent(ProfileChangeActivity.this, MainActivity.class);
-        home_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   // activity stack clear
-        startActivity(home_intent);
-    }
-
 }
