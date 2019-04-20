@@ -9,10 +9,14 @@ public class ChangeProfileItem {
     public ChangeProfileItem() {
 
     }
-    public ChangeProfileItem(String username, String newUsername, String introduction, String photo_url) {
+
+    public ChangeProfileItem(String username, String newUsername, String introduction) {
+            this.username = username;
+            this.newUsername = newUsername;
+            this.introduction = introduction;
+    }
+    public ChangeProfileItem(String username, String photo_url) {
         this.username = username;
-        this.newUsername = newUsername;
-        this.introduction = introduction;
         this.photo_url = photo_url;
     }
 

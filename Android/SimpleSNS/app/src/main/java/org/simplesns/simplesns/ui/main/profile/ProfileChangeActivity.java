@@ -173,7 +173,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
                 newUsername = etUsername.getText().toString();
                 newIntroduction = etIntroduction.getText().toString();
 
-                setUserProfileFromServer(GlobalUser.getInstance().getMyId(), newUsername, newIntroduction, null);
+                setUserProfileFromServer(GlobalUser.getInstance().getMyId(), newUsername, newIntroduction);
                 finish();
             } else {
                 Toast toast = Toast.makeText(this, "사용할 수 없는 사용자 이름입니다.\n  다른 사용자 이름을 사용하세요", Toast.LENGTH_SHORT);
@@ -270,10 +270,10 @@ public class ProfileChangeActivity extends AppCompatActivity {
         }
     }
 
-    private void setUserProfileFromServer(String username, String newUsername, String introduction, String photo_url) {
+    private void setUserProfileFromServer(String username, String newUsername, String introduction) {
 
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
-        ChangeProfileItem changeProfileItem = new ChangeProfileItem(username, newUsername, introduction, photo_url);
+        ChangeProfileItem changeProfileItem = new ChangeProfileItem(username, newUsername, introduction);
         Call<ProfileChangeResult> call = remoteService.setUserProfile(changeProfileItem);
 
         try {
@@ -470,17 +470,50 @@ public class ProfileChangeActivity extends AppCompatActivity {
             RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);   // Parsing any Media type
             MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), requestBody);
 
-            Call<Integer> req;
+            Call<Integer> req1;
             try {
-                req = remoteService.uploadProfilePhoto(body);
-                req.enqueue(new Callback<Integer>() {
+                req1 = remoteService.uploadProfilePhoto(body);
+                req1.enqueue(new Callback<Integer>() {
                     @Override
                     public void onResponse(Call<Integer> call, Response<Integer> response) {
                         Integer result = response.body();
                         if (response.isSuccessful() && result != null) {
-                            Log.d(TAG, result.toString());
                             if (result == 1) {
-                                Log.d(TAG, "사진 저장 완료!");
+                                Toast.makeText(ProfileChangeActivity.this, "사진저장완료", Toast.LENGTH_SHORT).show();
+
+
+                                final RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
+                                Call<ProfileChangeResult> req2;
+                                try {
+                                    ChangeProfileItem changeProfileItem = new ChangeProfileItem(GlobalUser.getInstance().getMyId(), file.getName());
+                                    req2 = remoteService.setUserProfile(changeProfileItem);
+                                    req2.enqueue(new Callback<ProfileChangeResult>() {
+                                        @Override
+                                        public void onResponse(Call<ProfileChangeResult> call, Response<ProfileChangeResult> response) {
+                                            ProfileChangeResult profileChangeResult = response.body();
+
+                                            switch (profileChangeResult.code) {
+                                                case 200:
+                                                    Log.d(TAG, profileChangeResult.result);
+                                                    Toast.makeText(ProfileChangeActivity.this, "DB에 url반영", Toast.LENGTH_SHORT).show();
+                                                    break;
+                                                default:
+                                                    Log.d(TAG, profileChangeResult.code + "");
+                                                    break;
+                                            }
+                                        }
+                                        @Override
+                                        public void onFailure(Call<ProfileChangeResult> call, Throwable throwable) {
+                                            Toast.makeText(ProfileChangeActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
+                                            throwable.printStackTrace();
+                                        }
+                                    });
+
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }else{
+                                Log.d(TAG, "Failed");
                             }
                         }
                     }
