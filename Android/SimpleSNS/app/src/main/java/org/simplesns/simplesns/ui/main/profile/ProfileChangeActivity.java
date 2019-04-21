@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -60,6 +61,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.provider.MediaStore.ACTION_IMAGE_CAPTURE;
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 /*
@@ -89,7 +91,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
     private String postPath;
     private String mediaPath;
-    private static final int CAMERA_PIC_REQUEST = 1111;
+    private static final int CAMERA_PIC_REQUEST = 1;
     public static final String IMAGE_DIRECTORY_NAME = "Android File Upload";
     private String mImageFileLocation = "";
     private Uri fileUri;
@@ -305,7 +307,7 @@ public class ProfileChangeActivity extends AppCompatActivity {
 
 
     private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent takePictureIntent = new Intent(ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
@@ -315,9 +317,10 @@ public class ProfileChangeActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {    // appdino
 
         if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-                // data 로 부터 이미지 얻는 과정
 
                 Uri selectedImage = data.getData();    // selectedImage => content://media/external/images/media/19052
+
+               Log.d("GGGGG", String.valueOf(selectedImage));
 
                 String[] filePathColumn = {MediaStore.Images.Media.DATA}; // filePathColumn => [Ljava.lang.String;@9f41f5
 
@@ -338,8 +341,8 @@ public class ProfileChangeActivity extends AppCompatActivity {
                 ivProfilePhoto.setImageBitmap(BitmapFactory.decodeFile(mediaPath)); // 압축되어 있는 jpg 파일을 풀고 bitmap 으로 변환
                 cursor.close();
 
-                postPath = mediaPath;
-                uploadFile();
+//                postPath = mediaPath;
+                uploadFile(mediaPath);
 
         } else if (requestCode == CAMERA_PIC_REQUEST) {
             if (Build.VERSION.SDK_INT > 21) {
@@ -360,41 +363,36 @@ public class ProfileChangeActivity extends AppCompatActivity {
     private void captureImage() {
         if (Build.VERSION.SDK_INT > 21) { //use this if Lollipop_Mr1 (API 22) or above
             Intent callCameraApplicationIntent = new Intent();
-            callCameraApplicationIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+            callCameraApplicationIntent.setAction(ACTION_IMAGE_CAPTURE);  // ACTION_IMAGE_CAPTURE => android.media.action.IMAGE_CAPTURE
 
-            // We give some instruction to the intent to save the image
             File photoFile = null;
 
             try {
-                // If the createImageFile will be successful, the photo file will have the address of the file
                 photoFile = createImageFile();
-                // Here we call the function that will try to catch the exception made by the throw function
+
+                Log.d("AAAAA", String.valueOf(photoFile));
+
             } catch (IOException e) {
                 Logger.getAnonymousLogger().info("Exception error in generating the file");
                 e.printStackTrace();
             }
-            // Here we add an extra file to the intent to put the address on to. For this purpose we use the FileProvider, declared in the AndroidManifest.
             Uri outputUri = FileProvider.getUriForFile(
                     this,
                     BuildConfig.APPLICATION_ID + ".provider",
                     photoFile);
             callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-
-            // The following is a new line with a trying attempt
             callCameraApplicationIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             Logger.getAnonymousLogger().info("Calling the camera App by intent");
 
-            // The following strings calls the camera app and wait for his file in return.
             startActivityForResult(callCameraApplicationIntent, CAMERA_PIC_REQUEST);
         } else {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            Intent intent = new Intent(ACTION_IMAGE_CAPTURE);
 
             fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
 
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-
-            // start the image capture Intent
             startActivityForResult(intent, CAMERA_PIC_REQUEST);
         }
     }
@@ -459,9 +457,9 @@ public class ProfileChangeActivity extends AppCompatActivity {
     }
 
     // Uploading Image/Video
-    private void uploadFile() {
+    private void uploadFile(String postPath) {
 
-        if (postPath == null || postPath.equals("")) {
+        if (TextUtils.isEmpty(postPath)) {
             Toast.makeText(this, "please select an image ", Toast.LENGTH_LONG).show();
             return;
         }else {
@@ -482,7 +480,6 @@ public class ProfileChangeActivity extends AppCompatActivity {
                                 Toast.makeText(ProfileChangeActivity.this, "사진저장완료", Toast.LENGTH_SHORT).show();
 
 
-                                final RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
                                 Call<ProfileChangeResult> req2;
                                 try {
                                     ChangeProfileItem changeProfileItem = new ChangeProfileItem(GlobalUser.getInstance().getMyId(), file.getName());
