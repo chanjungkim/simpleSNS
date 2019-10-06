@@ -62,7 +62,7 @@ module.exports = router;
 |    |            -             |                      -                          |            -              | req.body.yyy           |
 | 6  | @PUT("/member/{xxx}")    | @Path("xxx") String abc                         | router.put('/:xxx', f)    | req.params.xxx         |
 | 7  | @Multipart               |                      -                          |            -              |           -            |
-|    | @PUT("/member/xxx")      | @Part("image") Img img, @Part("info") Info info | router.put('/xxx', f)     | [Multiparty Library](https://github.com/pillarjs/multiparty)               |
+|    | @PUT("/member/xxx")      | @Part("image") Img img, @Part("info") Info info | router.put('/xxx', f)     | [multer](https://github.com/expressjs/multer), [Multiparty Library](https://github.com/pillarjs/multiparty)               |
 | 8  | @PATCH("/member/{xxx}")  | @Path("xxx") String abc                         | router.patch('/:xxx', f)  | req.params.xxx         |
 | 9  | @PATCH("/member")        | @Body("member") MemberItem abc                  | router.patch('/', f)      | req.body.member.xxx    |
 |    |            -             |                      -                          |            -              | req.body.member.yyy    |     
